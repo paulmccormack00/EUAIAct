@@ -286,6 +286,24 @@ function RecitalCard({ recital, isExpanded, onToggle, onArticleClick, searchQuer
 }
 
 
+// Helper: detect if recital text is actually a footnote/OJ reference
+function isFootnoteEntry(text) {
+  if (!text) return true;
+  if (text.startsWith("OJ ")) return true;
+  if (text.length < 300 && /^(Regulation|Directive|Decision|European (Parliament|Council))/.test(text)) return true;
+  return false;
+}
+
+// Get best available text for a recital (prefer real text, fall back to summary)
+function getRecitalDisplayText(num) {
+  const recitalData = EU_AI_ACT_DATA.recitals[String(num)];
+  const fullText = recitalData ? recitalData.text : null;
+  const summary = RECITAL_SUMMARIES[num];
+  if (fullText && !isFootnoteEntry(fullText)) return { text: fullText, isFullText: true };
+  if (summary) return { text: summary, isFullText: false };
+  return { text: null, isFullText: false };
+}
+
 // ============================================================
 // INLINE RECITALS — Expandable accordion for article pages
 // ============================================================
@@ -337,9 +355,7 @@ function InlineRecitals({ articleNumber, onArticleClick }) {
         <div style={{ padding: "8px 16px 16px", display: "flex", flexDirection: "column", gap: 6 }}>
           {linkedRecitals.map((recitalNum) => {
             const isOpen = expandedRecitals[recitalNum];
-            const summary = RECITAL_SUMMARIES[recitalNum];
-            const recitalData = EU_AI_ACT_DATA.recitals[String(recitalNum)];
-            const fullText = recitalData ? recitalData.text : null;
+            const { text: displayText, isFullText } = getRecitalDisplayText(recitalNum);
             const linkedArticles = RECITAL_TO_ARTICLE_MAP[recitalNum] || [];
 
             return (
@@ -364,12 +380,13 @@ function InlineRecitals({ articleNumber, onArticleClick }) {
                   </div>
                 </button>
 
-                {isOpen && (fullText || summary) && (
+                {isOpen && displayText && (
                   <div style={{ padding: "0 12px 12px", fontSize: 13.5, lineHeight: 1.65, color: "#374151", fontFamily: SANS }}>
-                    {renderTextWithLinks(fullText || summary)}
+                    {renderTextWithLinks(displayText)}
+                    {!isFullText && <p style={{ fontSize: 11, color: "#8b7355", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
                   </div>
                 )}
-                {isOpen && !fullText && !summary && (
+                {isOpen && !displayText && (
                   <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: SANS }}>
                     Full text available in the official regulation (OJ L 2024/1689).
                   </div>
@@ -1026,11 +1043,26 @@ function SearchResults({ query, onArticleClick }) {
 // ============================================================
 // ENHANCED RECITALS TAB — Full browsing view
 // ============================================================
-function EnhancedRecitalsTab({ onArticleClick }) {
+function EnhancedRecitalsTab({ onArticleClick, initialRecital }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [articleFilter, setArticleFilter] = useState(null);
   const [expandedRecitals, setExpandedRecitals] = useState({});
   const [expandAll, setExpandAll] = useState(false);
+  const recitalRefs = useRef({});
+  const lastProcessedRecital = useRef(null);
+
+  // Auto-expand and scroll to initial recital (deferred to avoid sync setState in effect)
+  useEffect(() => {
+    if (initialRecital && initialRecital !== lastProcessedRecital.current && RECITAL_TO_ARTICLE_MAP[initialRecital]) {
+      lastProcessedRecital.current = initialRecital;
+      const timer = setTimeout(() => {
+        setExpandedRecitals((prev) => ({ ...prev, [initialRecital]: true }));
+        const el = recitalRefs.current[initialRecital];
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [initialRecital]);
 
   const allRecitals = useMemo(
     () => Object.keys(RECITAL_TO_ARTICLE_MAP).map(Number).sort((a, b) => a - b),
@@ -1052,8 +1084,8 @@ function EnhancedRecitalsTab({ onArticleClick }) {
       if (searchQuery.trim()) {
         const q = searchQuery.trim().toLowerCase();
         const numMatch = num.toString().includes(q);
-        const recitalData = EU_AI_ACT_DATA.recitals[String(num)];
-        const textMatch = recitalData ? recitalData.text.toLowerCase().includes(q) : false;
+        const { text: rText } = getRecitalDisplayText(num);
+        const textMatch = rText ? rText.toLowerCase().includes(q) : false;
         const summaryMatch = (RECITAL_SUMMARIES[num] || "").toLowerCase().includes(q);
         const artMatch = (RECITAL_TO_ARTICLE_MAP[num] || []).some((a) => `article ${a}`.includes(q));
         if (!numMatch && !textMatch && !summaryMatch && !artMatch) return false;
@@ -1143,13 +1175,12 @@ function EnhancedRecitalsTab({ onArticleClick }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {filteredRecitals.map((num) => {
           const isOpen = expandedRecitals[num];
-          const summary = RECITAL_SUMMARIES[num];
-          const recitalData = EU_AI_ACT_DATA.recitals[String(num)];
-          const fullText = recitalData ? recitalData.text : null;
+          const { text: displayText, isFullText } = getRecitalDisplayText(num);
+          const previewText = RECITAL_SUMMARIES[num] || (displayText ? displayText.substring(0, 120) + "..." : null);
           const linkedArticles = RECITAL_TO_ARTICLE_MAP[num] || [];
 
           return (
-            <div key={num}
+            <div key={num} ref={(el) => { recitalRefs.current[num] = el; }}
               style={{ border: `1px solid ${isOpen ? "#d4a574" : "#e8e0d8"}`, borderRadius: 10, background: "white", overflow: "hidden", transition: "all 0.15s", boxShadow: isOpen ? "0 1px 3px rgba(0,0,0,0.06)" : "none" }}>
               {/* Recital Header */}
               <button onClick={() => toggleRecital(num)}
@@ -1158,12 +1189,12 @@ function EnhancedRecitalsTab({ onArticleClick }) {
                   <span style={{ flexShrink: 0, width: 30, height: 30, borderRadius: "50%", background: "#f5ede3", color: "#8b6914", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700 }}>
                     {num}
                   </span>
-                  {!isOpen && (summary || fullText) && (
+                  {!isOpen && previewText && (
                     <span style={{ fontSize: 13, color: "#64748b", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }}>
-                      {(summary || (fullText ? fullText.substring(0, 120) + "..." : ""))}
+                      {previewText}
                     </span>
                   )}
-                  {!isOpen && !summary && !fullText && (
+                  {!isOpen && !previewText && (
                     <span style={{ fontSize: 13, color: "#cbd5e1", fontStyle: "italic", textAlign: "left" }}>Recital {num}</span>
                   )}
                 </div>
@@ -1194,9 +1225,10 @@ function EnhancedRecitalsTab({ onArticleClick }) {
               {/* Expanded Content */}
               {isOpen && (
                 <div style={{ padding: "0 16px 16px 58px" }}>
-                  {(fullText || summary) ? (
+                  {displayText ? (
                     <div style={{ fontSize: 14, lineHeight: 1.75, color: "#374151", fontFamily: SANS }}>
-                      {renderTextWithLinks(fullText || summary)}
+                      {renderTextWithLinks(displayText)}
+                      {!isFullText && <p style={{ fontSize: 11, color: "#8b7355", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
                     </div>
                   ) : (
                     <div style={{ fontSize: 14, color: "#94a3b8", fontStyle: "italic", fontFamily: SANS }}>
@@ -1578,7 +1610,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
 // ============================================================
 // SIDEBAR
 // ============================================================
-function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole }) {
+function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -1761,7 +1793,7 @@ function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArtic
             <div>
               <p style={{ fontSize: 10, fontWeight: 600, color: "#8b7355", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Recitals (1–180)</p>
               {Object.values(EU_AI_ACT_DATA.recitals).sort((a, b) => a.number - b.number).map((r) => (
-                <button key={r.number} onClick={() => { setView("recitals"); }}
+                <button key={r.number} onClick={() => { setSelectedRecital(r.number); setView("recitals"); }}
                   style={{ width: "100%", textAlign: "left", padding: "5px 10px", borderRadius: 6, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12, background: "transparent", color: "#4a5568" }}
                   onMouseEnter={(e) => e.currentTarget.style.background = "#f5ede3"}
                   onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
@@ -2137,6 +2169,7 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [activeRole, setActiveRole] = useState("all");
   const [chatOpen, setChatOpen] = useState(false);
+  const [selectedRecital, setSelectedRecital] = useState(null);
   const mainRef = useRef(null);
 
   useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme]);
@@ -2199,7 +2232,7 @@ export default function App() {
 
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
-        isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} />
+        isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
@@ -2336,7 +2369,7 @@ export default function App() {
           ) : view === "theme" && selectedTheme ? (
             <ThemeView themeId={selectedTheme} onArticleClick={handleArticleClick} />
           ) : view === "recitals" ? (
-            <EnhancedRecitalsTab onArticleClick={handleArticleClick} />
+            <EnhancedRecitalsTab onArticleClick={handleArticleClick} initialRecital={selectedRecital} />
           ) : (
             <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} />
           )}
