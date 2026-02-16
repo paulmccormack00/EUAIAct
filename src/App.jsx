@@ -1786,7 +1786,7 @@ function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArtic
 // ============================================================
 // AI CHAT PANEL
 // ============================================================
-function ChatPanel({ isOpen, onClose, onArticleClick, currentArticle }) {
+function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -1914,7 +1914,7 @@ function ChatPanel({ isOpen, onClose, onArticleClick, currentArticle }) {
 
     const renderInline = (str, keyPrefix) => {
       // Process bold, article refs, and inline code
-      const tokens = str.split(/(\*\*[^*]+\*\*|__[^_]+__|`[^`]+`|\[?Article \d+\]?(?:\(\d+\))?)/g);
+      const tokens = str.split(/(\*\*[^*]+\*\*|__[^_]+__|`[^`]+`|\[?Article \d+\]?(?:\(\d+\))?|\[?Recital \d+\]?)/g);
       return tokens.map((tok, ti) => {
         if (!tok) return null;
         // Bold
@@ -1931,6 +1931,19 @@ function ChatPanel({ isOpen, onClose, onArticleClick, currentArticle }) {
               <button key={`${keyPrefix}-${ti}`} onClick={() => onArticleClick(num)}
                 style={{ display: "inline", background: "none", border: "none", color: "#1e3a5f", cursor: "pointer", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#93b3d4", fontFamily: "inherit", fontSize: "inherit", padding: 0 }}>
                 Article {num}
+              </button>
+            );
+          }
+        }
+        // Recital reference
+        const recMatch = tok.match(/\[?Recital (\d+)\]?/);
+        if (recMatch) {
+          const num = parseInt(recMatch[1]);
+          if (RECITAL_TO_ARTICLE_MAP[num]) {
+            return (
+              <button key={`${keyPrefix}-${ti}`} onClick={() => onRecitalClick && onRecitalClick(num)}
+                style={{ display: "inline", background: "none", border: "none", color: "#8b6914", cursor: "pointer", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#d4c5a9", fontFamily: "inherit", fontSize: "inherit", padding: 0 }}>
+                Recital {num}
               </button>
             );
           }
@@ -2167,12 +2180,18 @@ export default function App() {
           .def-controls { flex-direction: column !important; }
           .def-search-wrap { min-width: 0 !important; }
           .footer-inner { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+          .recitals-controls { flex-direction: column !important; }
+          .recitals-controls select { min-width: 0 !important; width: 100% !important; }
+          .recital-chips { display: none !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .role-bar { flex-wrap: wrap !important; }
           .role-bar span:first-child { width: 100% !important; }
           .main-content { padding: 16px 12px 32px !important; }
+          .recitals-controls input { font-size: 13px !important; }
+          .recitals-controls select { font-size: 13px !important; }
+          .recitals-controls button { font-size: 12px !important; padding: 8px 12px !important; }
         }
       `}</style>
 
@@ -2350,7 +2369,7 @@ export default function App() {
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
       {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
-      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
+      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { setView("recitals"); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
     </div>
   );
 }
