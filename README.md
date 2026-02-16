@@ -1,2 +1,2 @@
 # EUAIAct
-Navigate the EU Act Act with ease
+Navigate the EU AI Act with ease
