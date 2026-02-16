@@ -596,7 +596,7 @@ const ROLES = {
   },
 };
 
-function ProhibitedPracticesView({ article, onRecitalClick, onThemeClick, onArticleClick, searchQuery }) {
+function ProhibitedPracticesView({ article, onThemeClick, onArticleClick }) {
   const [expandedItems, setExpandedItems] = useState(new Set());
 
   // Parse Article 5's prohibited practices into structured items
@@ -732,7 +732,7 @@ function ProhibitedPracticesView({ article, onRecitalClick, onThemeClick, onArti
   );
 }
 
-function ArticleDetail({ articleNum, article, onRecitalClick, onThemeClick, onArticleClick, searchQuery, activeRole }) {
+function ArticleDetail({ articleNum, article, onThemeClick, onArticleClick, searchQuery }) {
   const [showPlainLanguage, setShowPlainLanguage] = useState(false);
 
   const formattedText = formatArticleText(article.text);
@@ -2320,7 +2320,7 @@ export default function App() {
                 </div>
               )}
               <ProhibitedPracticesView article={EU_AI_ACT_DATA.articles["5"] || {}}
-                onRecitalClick={() => {}} onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} searchQuery={searchQuery} />
+                onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} />
             </>
           ) : view === "article" && selectedArticle ? (
             <>
@@ -2331,7 +2331,7 @@ export default function App() {
                 </div>
               )}
               <ArticleDetail articleNum={selectedArticle} article={EU_AI_ACT_DATA.articles[String(selectedArticle)] || {}}
-                onRecitalClick={() => {}} onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} searchQuery={searchQuery} activeRole={activeRole} />
+                onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} searchQuery={searchQuery} />
             </>
           ) : view === "theme" && selectedTheme ? (
             <ThemeView themeId={selectedTheme} onArticleClick={handleArticleClick} />
