@@ -285,6 +285,104 @@ function RecitalCard({ recital, isExpanded, onToggle, onArticleClick, searchQuer
   );
 }
 
+
+// ============================================================
+// INLINE RECITALS — Expandable accordion for article pages
+// ============================================================
+function InlineRecitals({ articleNumber, onArticleClick }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedRecitals, setExpandedRecitals] = useState({});
+
+  const linkedRecitals = ARTICLE_TO_RECITAL_MAP[articleNumber] || [];
+
+  const toggleRecital = (num) => {
+    setExpandedRecitals((prev) => ({ ...prev, [num]: !prev[num] }));
+  };
+
+  const renderTextWithLinks = (text) => {
+    if (!text) return null;
+    const parts = text.split(/(Article\s+\d+(?:\(\d+\))?(?:\([a-z]\))?)/gi);
+    return parts.map((part, i) => {
+      const match = part.match(/Article\s+(\d+)/i);
+      if (match) {
+        const artNum = parseInt(match[1]);
+        return (
+          <button key={i} onClick={() => onArticleClick && onArticleClick(artNum)}
+            style={{ color: "#1e3a5f", textDecoration: "underline", textDecorationColor: "#93b3d4", background: "none", border: "none", cursor: "pointer", font: "inherit", padding: 0, display: "inline", fontWeight: 500 }}
+            title={`Navigate to Article ${artNum}`}>
+            {part}
+          </button>
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
+  };
+
+  if (linkedRecitals.length === 0) return null;
+
+  return (
+    <div style={{ margin: "16px 0", border: `1px solid ${isExpanded ? "#d4a574" : "#e8e0d8"}`, borderRadius: 10, overflow: "hidden", background: "#fdfaf6", transition: "all 0.2s" }}>
+      <button onClick={() => setIsExpanded(!isExpanded)}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: isExpanded ? "#f5ede3" : "#fdfaf6", border: "none", cursor: "pointer", fontFamily: SANS, transition: "background 0.2s" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
+          Related Recitals ({linkedRecitals.length})
+        </span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b7355" strokeWidth="2" style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      {isExpanded && (
+        <div style={{ padding: "8px 16px 16px", display: "flex", flexDirection: "column", gap: 6 }}>
+          {linkedRecitals.map((recitalNum) => {
+            const isOpen = expandedRecitals[recitalNum];
+            const summary = RECITAL_SUMMARIES[recitalNum];
+            const recitalData = EU_AI_ACT_DATA.recitals[String(recitalNum)];
+            const fullText = recitalData ? recitalData.text : null;
+            const linkedArticles = RECITAL_TO_ARTICLE_MAP[recitalNum] || [];
+
+            return (
+              <div key={recitalNum} style={{ border: "1px solid #e8e0d8", borderRadius: 8, background: "white", overflow: "hidden" }}>
+                <button onClick={() => toggleRecital(recitalNum)}
+                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", background: "transparent", border: "none", cursor: "pointer", fontFamily: SANS }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>Recital {recitalNum}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                      {linkedArticles.filter((a) => a !== articleNumber).slice(0, 4).map((a) => (
+                        <span key={a} onClick={(e) => { e.stopPropagation(); onArticleClick && onArticleClick(a); }}
+                          style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec" }}
+                          title={`Also linked to Article ${a}`}>
+                          Art {a}
+                        </span>
+                      ))}
+                    </div>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2"
+                      style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s", flexShrink: 0 }}>
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </div>
+                </button>
+
+                {isOpen && (fullText || summary) && (
+                  <div style={{ padding: "0 12px 12px", fontSize: 13.5, lineHeight: 1.65, color: "#374151", fontFamily: SANS }}>
+                    {renderTextWithLinks(fullText || summary)}
+                  </div>
+                )}
+                {isOpen && !fullText && !summary && (
+                  <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: SANS }}>
+                    Full text available in the official regulation (OJ L 2024/1689).
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DefinitionsView({ onArticleClick, searchQuery: globalSearch }) {
   const [defSearch, setDefSearch] = useState("");
   const [expandedDefs, setExpandedDefs] = useState(new Set());
@@ -500,15 +598,6 @@ const ROLES = {
 
 function ProhibitedPracticesView({ article, onRecitalClick, onThemeClick, onArticleClick, searchQuery }) {
   const [expandedItems, setExpandedItems] = useState(new Set());
-  const [expandedRecitals, setExpandedRecitals] = useState(new Set());
-
-  const toggleRecital = (rnum) => {
-    setExpandedRecitals(prev => {
-      const next = new Set(prev);
-      next.has(rnum) ? next.delete(rnum) : next.add(rnum);
-      return next;
-    });
-  };
 
   // Parse Article 5's prohibited practices into structured items
   const practices = useMemo(() => {
@@ -561,8 +650,6 @@ function ProhibitedPracticesView({ article, onRecitalClick, onThemeClick, onArti
   const articleThemes = (article.themes || [])
     .map((tid) => EU_AI_ACT_DATA.themes.find((t) => t.id === tid))
     .filter(Boolean);
-
-  const relatedRecitals = article.relatedRecitals || [];
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -640,40 +727,13 @@ function ProhibitedPracticesView({ article, onRecitalClick, onThemeClick, onArti
       </div>
 
       {/* Related Recitals */}
-      {relatedRecitals.length > 0 && (
-        <div>
-          <h4 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: SANS, display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
-            Related Recitals ({relatedRecitals.length})
-          </h4>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {relatedRecitals.map((rnum) => {
-              const recital = EU_AI_ACT_DATA.recitals[String(rnum)];
-              if (!recital) return null;
-              return (
-                <RecitalCard key={rnum} recital={recital} isExpanded={expandedRecitals.has(rnum)}
-                  onToggle={() => toggleRecital(rnum)} onArticleClick={onArticleClick} searchQuery={searchQuery} />
-              );
-            })}
-          </div>
-        </div>
-      )}
+      <InlineRecitals articleNumber={5} onArticleClick={onArticleClick} />
     </div>
   );
 }
 
 function ArticleDetail({ articleNum, article, onRecitalClick, onThemeClick, onArticleClick, searchQuery, activeRole }) {
-  const [expandedRecitals, setExpandedRecitals] = useState(new Set());
   const [showPlainLanguage, setShowPlainLanguage] = useState(false);
-  const relatedRecitals = article.relatedRecitals || [];
-
-  const toggleRecital = (num) => {
-    setExpandedRecitals((prev) => {
-      const next = new Set(prev);
-      next.has(num) ? next.delete(num) : next.add(num);
-      return next;
-    });
-  };
 
   const formattedText = formatArticleText(article.text);
   const paragraphs = formattedText.split(/\n\n+/).filter(Boolean);
@@ -811,24 +871,7 @@ function ArticleDetail({ articleNum, article, onRecitalClick, onThemeClick, onAr
       )}
 
       {/* Related Recitals */}
-      {relatedRecitals.length > 0 && (
-        <div>
-          <h4 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: SANS, display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
-            Related Recitals ({relatedRecitals.length})
-          </h4>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {relatedRecitals.map((rnum) => {
-              const recital = EU_AI_ACT_DATA.recitals[String(rnum)];
-              if (!recital) return null;
-              return (
-                <RecitalCard key={rnum} recital={recital} isExpanded={expandedRecitals.has(rnum)}
-                  onToggle={() => toggleRecital(rnum)} onArticleClick={onArticleClick} searchQuery={searchQuery} />
-              );
-            })}
-          </div>
-        </div>
-      )}
+      <InlineRecitals articleNumber={articleNum} onArticleClick={onArticleClick} />
     </div>
   );
 }
