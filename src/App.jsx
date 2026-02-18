@@ -2156,10 +2156,10 @@ function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArt
   };
 
   const suggestedQuestions = [
-    "Is my AI system high-risk?",
-    "What are my obligations as a deployer?",
-    "When do the GPAI rules apply?",
-    "What's prohibited under Article 5?",
+    "Does my AI system count as high-risk?",
+    "What are my FRIA obligations under Article 27?",
+    "What's the difference between a provider and deployer?",
+    "When do the high-risk AI rules take effect?",
   ];
 
   return (
