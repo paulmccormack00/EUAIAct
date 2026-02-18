@@ -195,7 +195,7 @@ function SearchBar({ query, setQuery, resultCount }) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         ) : (
-          <kbd style={{ display: "inline-flex", padding: "2px 8px", fontSize: 11, color: "#94a3b8", background: "#f8fafc", borderRadius: 4, border: "1px solid #e2e8f0", fontFamily: SANS }}>⌘K</kbd>
+          <kbd className="kbd-shortcut" style={{ display: "inline-flex", padding: "2px 8px", fontSize: 11, color: "#94a3b8", background: "#f8fafc", borderRadius: 4, border: "1px solid #e2e8f0", fontFamily: SANS }}>⌘K</kbd>
         )}
       </div>
       {query && (
@@ -2236,6 +2236,7 @@ export default function App() {
           .chat-panel { width: 100vw !important; }
           .btn-label { display: none !important; }
           .site-logo-text { display: none !important; }
+          .kbd-shortcut { display: none !important; }
           .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 16px !important; }
           .persona-card { padding: 10px 14px !important; border-radius: 12px !important; flex: 1 !important; }
           .persona-icon { width: 32px !important; height: 32px !important; border-radius: 8px !important; font-size: 16px !important; margin-bottom: 0 !important; flex-shrink: 0 !important; }
@@ -2274,6 +2275,7 @@ export default function App() {
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
           .def-expanded { padding-left: 16px !important; }
           .about-btn { display: none !important; }
+          .site-logo-img { width: 26px !important; height: 26px !important; border-radius: 6px !important; }
           .sidebar-about-btn { display: block !important; }
         }
       `}</style>
@@ -2297,7 +2299,7 @@ export default function App() {
 
           {/* Site Logo */}
           <a onClick={() => { setView("home"); setSearchQuery(""); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
-            <img src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
+            <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
             <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
           </a>
 
