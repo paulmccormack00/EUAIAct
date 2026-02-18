@@ -1440,8 +1440,8 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       {/* Hero */}
-      <div style={{ textAlign: "center", padding: "48px 0 40px" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 500, marginBottom: 24, fontFamily: SANS }}>
+      <div className="hero-home" style={{ textAlign: "center", padding: "48px 0 40px" }}>
+        <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 500, marginBottom: 24, fontFamily: SANS }}>
           🇪🇺 In force since 1 August 2024
         </div>
         <h1 className="hero-title" style={{ fontSize: 42, fontWeight: 400, lineHeight: 1.15, color: "#1a1a1a", maxWidth: 660, margin: "0 auto 16px", fontFamily: SERIF }}>
@@ -1453,7 +1453,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
       </div>
 
       {/* Persona Cards */}
-      <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: activeRole !== "all" ? 0 : 48 }}>
+      <div className="key-articles-grid persona-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: activeRole !== "all" ? 0 : 48 }}>
         {personaCards.map((p) => {
           const isActive = activeRole === p.id;
           return (
@@ -1469,13 +1469,13 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
             onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = p.hover; }}}
             onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = p.border; }}}
           >
-            {isActive && <div style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: p.hover, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {isActive && <div className="persona-check" style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: p.hover, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
             </div>}
-            <div style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : p.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{p.icon}</div>
-            <h3 style={{ fontSize: 19, fontWeight: 600, margin: "0 0 8px", fontFamily: SANS, color: "#1a1a1a" }}>{p.title}</h3>
-            <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{p.desc}</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : p.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{p.icon}</div>
+            <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 8px", fontFamily: SANS, color: "#1a1a1a" }}>{p.title}</h3>
+            <p className="persona-desc" style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{p.desc}</p>
+            <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {personaThemes[p.id].map((t) => (
                 <button key={t.name} onClick={(e) => { e.stopPropagation(); onArticleClick(t.articleNum); }}
                   style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: isActive ? "white" : "#faf9f7", borderRadius: 10, fontSize: 13, color: "#374151", fontFamily: SANS, border: "none", cursor: "pointer", textAlign: "left", width: "100%", transition: "background 0.15s" }}
@@ -1488,7 +1488,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
                 </button>
               ))}
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: p.accent, fontFamily: SANS }}>
+            <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: p.accent, fontFamily: SANS }}>
               {isActive ? "✓ Viewing as " + p.title : "Explore as " + p.title + " →"}
             </div>
           </div>
@@ -1510,7 +1510,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
       )}
 
       {/* Divider */}
-      <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
+      <div className="home-divider" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
         <span style={{ fontSize: 12, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>The Act at a Glance</span>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
@@ -1532,7 +1532,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
       </div>
 
       {/* Theme Map */}
-      <div style={{ textAlign: "center", marginBottom: 44 }}>
+      <div className="themes-section" style={{ textAlign: "center", marginBottom: 44 }}>
         <h2 style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px", fontFamily: SERIF }}>Browse by Theme</h2>
         <p style={{ fontSize: 14, color: "#64748b", marginBottom: 24, fontFamily: SANS }}>19 thematic groupings across the full Regulation</p>
         <div className="themes-grid" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
@@ -1555,7 +1555,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
       </div>
 
       {/* Timeline */}
-      <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 0, marginBottom: 44, background: "white", borderRadius: 16, border: "1px solid #e8e4de", overflow: "hidden" }}>
+      <div className="key-articles-grid home-timeline" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 0, marginBottom: 44, background: "white", borderRadius: 16, border: "1px solid #e8e4de", overflow: "hidden" }}>
         {[
           { date: "1 Aug 2024", event: "Entry into force", status: "done" },
           { date: "2 Feb 2025", event: "Prohibited practices · AI literacy", status: "done" },
@@ -1580,7 +1580,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
 
       {/* AI Advisor CTA */}
       {onChatOpen && (
-        <div style={{ marginBottom: 16 }}>
+        <div className="advisor-cta" style={{ marginBottom: 16 }}>
           <div style={{
             background: "linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #1e3a5f 100%)",
             borderRadius: 20, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, color: "white",
@@ -1610,7 +1610,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
 // ============================================================
 // SIDEBAR
 // ============================================================
-function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital }) {
+function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -1806,6 +1806,12 @@ function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArtic
 
         {/* Footer */}
         <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4", background: "#faf9f7" }}>
+          {onAboutClick && (
+            <button className="sidebar-about-btn" onClick={() => { onAboutClick(); setIsMobileOpen(false); }}
+              style={{ display: "none", width: "100%", padding: "8px 12px", marginBottom: 8, background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 12, color: "#64748b", fontFamily: SANS, textAlign: "center" }}>
+              About this tool
+            </button>
+          )}
           <p style={{ fontSize: 11, color: "#94a3b8", textAlign: "center", margin: 0, fontFamily: SANS }}>
             OJ L, 2024/1689 · In force 1 Aug 2024
           </p>
@@ -2204,9 +2210,9 @@ export default function App() {
           .hero-astro { display: none !important; }
           .hero-title { font-size: 28px !important; }
           .hero-desc { font-size: 14px !important; }
-          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-          .stats-grid > div { padding: 14px 16px !important; }
-          .stats-grid .stat-value { font-size: 22px !important; }
+          .stats-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 20px !important; }
+          .stats-grid > div { padding: 10px 8px !important; }
+          .stats-grid .stat-value { font-size: 18px !important; }
           .key-articles-grid { grid-template-columns: 1fr !important; }
           .themes-grid { grid-template-columns: 1fr !important; }
           .nav-arrows { display: none !important; }
@@ -2220,13 +2226,31 @@ export default function App() {
           .view-subtitle { font-size: 16px !important; }
           .article-box { padding: 20px 16px !important; }
           .plain-panel { padding: 16px !important; }
-          .persona-card { padding: 20px 16px !important; }
           .modal-content { max-width: 95vw !important; padding: 24px 20px !important; margin: 16px !important; }
           .chat-panel { width: 100vw !important; }
           .btn-label { display: none !important; }
+          .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 16px !important; }
+          .persona-card { padding: 10px 14px !important; border-radius: 12px !important; flex: 1 !important; }
+          .persona-icon { width: 32px !important; height: 32px !important; border-radius: 8px !important; font-size: 16px !important; margin-bottom: 0 !important; flex-shrink: 0 !important; }
+          .persona-title { font-size: 12px !important; margin: 0 !important; white-space: nowrap !important; }
+          .persona-desc { display: none !important; }
+          .persona-themes { display: none !important; }
+          .persona-cta { display: none !important; }
+          .persona-check { position: static !important; width: 18px !important; height: 18px !important; margin-left: auto !important; }
+          .persona-check svg { width: 10px !important; height: 10px !important; }
+          .home-timeline { display: none !important; }
+          .advisor-cta { display: none !important; }
+          .hero-home { padding: 20px 0 16px !important; }
+          .hero-badge { margin-bottom: 12px !important; }
+          .hero-title { margin-bottom: 8px !important; }
+          .home-divider { margin-bottom: 16px !important; }
+          .themes-section { margin-bottom: 20px !important; }
+          .themes-section h2 { font-size: 20px !important; margin-bottom: 4px !important; }
+          .themes-section p { margin-bottom: 12px !important; }
         }
         @media (max-width: 480px) {
-          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .stats-grid .stat-value { font-size: 16px !important; }
           .role-bar { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
           .role-bar button { justify-content: center !important; }
           .main-content { padding: 16px 12px 32px !important; }
@@ -2236,13 +2260,14 @@ export default function App() {
           .hero-title { font-size: 22px !important; }
           .hero-desc { font-size: 13px !important; }
           .view-title { font-size: 20px !important; }
-          .stats-grid .stat-value { font-size: 20px !important; }
           .article-box { padding: 16px 12px !important; }
-          .persona-card { padding: 16px 12px !important; }
+          .persona-title { font-size: 11px !important; }
+          .persona-icon { width: 28px !important; height: 28px !important; font-size: 14px !important; }
           .theme-btn { font-size: 12px !important; padding: 8px 14px !important; }
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
           .def-expanded { padding-left: 16px !important; }
           .about-btn { display: none !important; }
+          .sidebar-about-btn { display: block !important; }
         }
       `}</style>
 
@@ -2250,7 +2275,8 @@ export default function App() {
 
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
-        isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital} />
+        isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
+        onAboutClick={() => setShowAbout(true)} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
