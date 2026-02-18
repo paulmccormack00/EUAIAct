@@ -1598,9 +1598,19 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
         marginBottom: 44, borderLeft: "4px solid #1e3a5f",
         boxShadow: "0 1px 4px rgba(0,0,0,0.04)", overflow: "hidden", boxSizing: "border-box",
       }}>
-        <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SERIF }}>
-          The FRIA Deadline is 2 August 2026
-        </h2>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
+          <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: "#1e3a5f", margin: 0, fontFamily: SERIF }}>
+            The FRIA Deadline is 2 August 2026
+          </h2>
+          <span className="fria-countdown" style={{
+            display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px",
+            background: "#1e3a5f", color: "#d4c5a9", borderRadius: 20, fontSize: 12, fontWeight: 600,
+            fontFamily: SANS, whiteSpace: "nowrap", letterSpacing: "0.02em",
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {Math.ceil((new Date("2026-08-02") - new Date()) / 86400000)} days to go
+          </span>
+        </div>
         <p className="fria-sub" style={{ fontSize: 14, color: "#64748b", margin: "0 0 20px", lineHeight: 1.6, fontFamily: SANS }}>
           No official template exists yet. Be the first to know when the EU AI Office publishes it.
         </p>
@@ -2382,6 +2392,7 @@ export default function App() {
           .sidebar-about-btn { display: block !important; }
           .fria-heading { font-size: 18px !important; }
           .fria-sub { font-size: 12px !important; }
+          .fria-countdown { font-size: 11px !important; padding: 3px 10px !important; }
         }
       `}</style>
 
