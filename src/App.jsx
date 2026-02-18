@@ -2155,12 +2155,20 @@ function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArt
     return elements;
   };
 
-  const suggestedQuestions = [
+  const defaultPrompts = [
     "Does my AI system count as high-risk?",
     "What are my FRIA obligations under Article 27?",
     "What's the difference between a provider and deployer?",
     "When do the high-risk AI rules take effect?",
   ];
+  const [suggestedQuestions, setSuggestedQuestions] = useState(defaultPrompts);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    fetch("/api/trending").then(r => r.json()).then(data => {
+      if (data.prompts && data.prompts.length === 4) setSuggestedQuestions(data.prompts);
+    }).catch(() => {});
+  }, [isOpen]);
 
   return (
     <>

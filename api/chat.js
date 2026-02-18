@@ -111,7 +111,8 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
     res.end();
 
     // Log to Supabase after stream completes
-    logToSupabase(question, fullResponse, sessionId, context).catch(e => {
+    const topic = classifyTopic(question);
+    logToSupabase(question, fullResponse, sessionId, context, topic).catch(e => {
       console.error("Supabase log error:", e.message || e);
     });
 
@@ -124,7 +125,28 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
   }
 }
 
-async function logToSupabase(question, response, sessionId, context) {
+const TOPIC_RULES = [
+  { topic: "high_risk", patterns: ["high.risk", "annex.i", "annex.iii", "article 6", "article 7", "classif"] },
+  { topic: "fria", patterns: ["fria", "fundamental.right", "impact.assessment", "article 27"] },
+  { topic: "roles", patterns: ["provider", "deployer", "importer", "distributor", "authorised.rep", "difference.between"] },
+  { topic: "timeline", patterns: ["timeline", "deadline", "when.do", "when.does", "entry.into.force", "application.date", "take.effect", "article 113"] },
+  { topic: "gpai", patterns: ["gpai", "general.purpose", "foundation.model", "article 51", "article 52", "article 53", "article 54", "article 55", "article 56", "systemic.risk"] },
+  { topic: "prohibited", patterns: ["prohibit", "banned", "article 5", "social.scor", "manipulat", "biometric.categori"] },
+  { topic: "penalties", patterns: ["penalt", "fine", "sanction", "enforce", "article 99", "article 100", "article 101"] },
+  { topic: "conformity", patterns: ["conformity", "notified.bod", "ce.mark", "self.assess", "article 43"] },
+  { topic: "transparency", patterns: ["transparen", "disclos", "label", "deepfake", "ai.generated", "article 50"] },
+  { topic: "governance", patterns: ["governance", "ai.office", "national.authority", "competent.authority", "article 64", "article 65"] },
+];
+
+function classifyTopic(question) {
+  const q = question.toLowerCase();
+  for (const { topic, patterns } of TOPIC_RULES) {
+    if (patterns.some(p => new RegExp(p, "i").test(q))) return topic;
+  }
+  return null;
+}
+
+async function logToSupabase(question, response, sessionId, context, topic) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
   if (!supabaseUrl || !supabaseKey) return;
@@ -142,6 +164,7 @@ async function logToSupabase(question, response, sessionId, context) {
       response: response.substring(0, 5000),
       session_id: sessionId || null,
       context: context || null,
+      topic: topic || null,
       created_at: new Date().toISOString(),
     }),
   });
