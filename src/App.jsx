@@ -2235,6 +2235,7 @@ export default function App() {
           .modal-content { max-width: 95vw !important; padding: 24px 20px !important; margin: 16px !important; }
           .chat-panel { width: 100vw !important; }
           .btn-label { display: none !important; }
+          .site-logo-text { display: none !important; }
           .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 16px !important; }
           .persona-card { padding: 10px 14px !important; border-radius: 12px !important; flex: 1 !important; }
           .persona-icon { width: 32px !important; height: 32px !important; border-radius: 8px !important; font-size: 16px !important; margin-bottom: 0 !important; flex-shrink: 0 !important; }
@@ -2293,6 +2294,12 @@ export default function App() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
           <style>{`@media (max-width: 1023px) { .mobile-menu-btn { display: block !important; } }`}</style>
+
+          {/* Site Logo */}
+          <a onClick={() => { setView("home"); setSearchQuery(""); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
+            <img src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
+            <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
+          </a>
 
           {/* Breadcrumb */}
           <div className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#94a3b8", marginRight: 16, flexShrink: 0 }}>
