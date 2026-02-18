@@ -1596,7 +1596,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
       <div className="fria-card" style={{
         background: "white", borderRadius: 16, border: "1px solid #e8e4de", padding: "32px 36px",
         marginBottom: 44, borderLeft: "4px solid #1e3a5f",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.04)", overflow: "hidden", boxSizing: "border-box",
       }}>
         <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SERIF }}>
           The FRIA Deadline is 2 August 2026
@@ -1632,8 +1632,8 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
                 value={subscribeEmail}
                 onChange={e => { setSubscribeEmail(e.target.value); if (subscribeStatus === "error") setSubscribeStatus(null); }}
                 style={{
-                  flex: 1, padding: "12px 16px", border: subscribeStatus === "error" ? "1.5px solid #ef4444" : "1px solid #d1d5db",
-                  borderRadius: 10, fontSize: 14, fontFamily: SANS, outline: "none", transition: "border-color 0.15s",
+                  flex: 1, minWidth: 0, padding: "12px 16px", border: subscribeStatus === "error" ? "1.5px solid #ef4444" : "1px solid #d1d5db",
+                  borderRadius: 10, fontSize: 14, fontFamily: SANS, outline: "none", transition: "border-color 0.15s", boxSizing: "border-box",
                 }}
               />
               <button
@@ -2584,7 +2584,7 @@ export default function App() {
           onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(30,58,95,0.45)"; }}
           onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(30,58,95,0.35)"; }}
         >
-          <img src="/apple-touch-icon.png" alt="AI Advisor" style={{ width: 34, height: 34, borderRadius: "50%" }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
         </button>
       )}
       <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { setView("recitals"); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
