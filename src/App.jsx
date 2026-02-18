@@ -2223,11 +2223,12 @@ export default function App() {
           .persona-card { padding: 20px 16px !important; }
           .modal-content { max-width: 95vw !important; padding: 24px 20px !important; margin: 16px !important; }
           .chat-panel { width: 100vw !important; }
+          .btn-label { display: none !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .role-bar { flex-wrap: wrap !important; }
-          .role-bar span:first-child { width: 100% !important; }
+          .role-bar { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
+          .role-bar button { justify-content: center !important; }
           .main-content { padding: 16px 12px 32px !important; }
           .recitals-controls input { font-size: 13px !important; }
           .recitals-controls select { font-size: 13px !important; }
@@ -2241,6 +2242,7 @@ export default function App() {
           .theme-btn { font-size: 12px !important; padding: 8px 14px !important; }
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
           .def-expanded { padding-left: 16px !important; }
+          .about-btn { display: none !important; }
         }
       `}</style>
 
@@ -2291,17 +2293,17 @@ export default function App() {
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-            AI Advisor
+            <span className="btn-label">AI Advisor</span>
           </button>
 
           {/* About button */}
-          <button onClick={() => setShowAbout(true)}
+          <button className="about-btn" onClick={() => setShowAbout(true)}
             style={{ flexShrink: 0, padding: "8px 14px", background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 13, color: "#64748b", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "#93b3d4"; e.currentTarget.style.color = "#1e3a5f"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e0dc"; e.currentTarget.style.color = "#64748b"; }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
-            About
+            <span className="btn-label">About</span>
           </button>
 
           {/* Nav arrows */}
