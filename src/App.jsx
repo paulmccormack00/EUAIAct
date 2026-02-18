@@ -1412,6 +1412,38 @@ function PrivacyModal({ onClose }) {
 }
 
 function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen }) {
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState(null);
+  const [subscribeError, setSubscribeError] = useState("");
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!subscribeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscribeEmail)) {
+      setSubscribeStatus("error");
+      setSubscribeError("Please enter a valid email address.");
+      return;
+    }
+    setSubscribeStatus("loading");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subscribeEmail }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubscribeStatus("success");
+      } else if (res.status === 409 || data.error === "duplicate") {
+        setSubscribeStatus("duplicate");
+      } else {
+        setSubscribeStatus("error");
+        setSubscribeError(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setSubscribeStatus("error");
+      setSubscribeError("Network error. Please try again.");
+    }
+  };
 
   const personaThemes = {
     provider: [
@@ -1558,6 +1590,73 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
             );
           })}
         </div>
+      </div>
+
+      {/* FRIA Email Capture */}
+      <div className="fria-card" style={{
+        background: "white", borderRadius: 16, border: "1px solid #e8e4de", padding: "32px 36px",
+        marginBottom: 44, borderLeft: "4px solid #1e3a5f",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+      }}>
+        <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SERIF }}>
+          The FRIA Deadline is 2 August 2026
+        </h2>
+        <p className="fria-sub" style={{ fontSize: 14, color: "#64748b", margin: "0 0 20px", lineHeight: 1.6, fontFamily: SANS }}>
+          No official template exists yet. Be the first to know when the EU AI Office publishes it.
+        </p>
+        {subscribeStatus === "success" ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0" }}>
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <p style={{ fontSize: 14, color: "#16a34a", fontWeight: 500, margin: 0, fontFamily: SANS }}>
+              You're in. We'll notify you when the FRIA template drops.
+            </p>
+          </div>
+        ) : subscribeStatus === "duplicate" ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0" }}>
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <p style={{ fontSize: 14, color: "#2563eb", fontWeight: 500, margin: 0, fontFamily: SANS }}>
+              You're already subscribed! We'll be in touch.
+            </p>
+          </div>
+        ) : (
+          <>
+            <form className="fria-form" onSubmit={handleSubscribe} style={{ display: "flex", gap: 10, alignItems: "stretch" }}>
+              <input
+                className="fria-input"
+                type="email"
+                placeholder="you@company.com"
+                value={subscribeEmail}
+                onChange={e => { setSubscribeEmail(e.target.value); if (subscribeStatus === "error") setSubscribeStatus(null); }}
+                style={{
+                  flex: 1, padding: "12px 16px", border: subscribeStatus === "error" ? "1.5px solid #ef4444" : "1px solid #d1d5db",
+                  borderRadius: 10, fontSize: 14, fontFamily: SANS, outline: "none", transition: "border-color 0.15s",
+                }}
+              />
+              <button
+                className="fria-btn"
+                type="submit"
+                disabled={subscribeStatus === "loading"}
+                style={{
+                  padding: "12px 24px", background: "#1e3a5f", color: "white", border: "none", borderRadius: 10,
+                  fontSize: 14, fontWeight: 600, cursor: subscribeStatus === "loading" ? "wait" : "pointer",
+                  fontFamily: SANS, whiteSpace: "nowrap", transition: "all 0.15s", opacity: subscribeStatus === "loading" ? 0.7 : 1,
+                }}
+                onMouseEnter={e => { if (subscribeStatus !== "loading") { e.currentTarget.style.background = "#2d5a8e"; } }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#1e3a5f"; }}
+              >
+                {subscribeStatus === "loading" ? "Submitting…" : "Get FRIA Updates"}
+              </button>
+            </form>
+            {subscribeStatus === "error" && subscribeError && (
+              <p style={{ fontSize: 12, color: "#ef4444", margin: "8px 0 0", fontFamily: SANS }}>{subscribeError}</p>
+            )}
+            <p style={{ fontSize: 11, color: "#94a3b8", margin: "10px 0 0", fontFamily: SANS }}>No spam. Unsubscribe anytime.</p>
+          </>
+        )}
       </div>
 
       {/* Timeline */}
@@ -2255,6 +2354,10 @@ export default function App() {
           .themes-section { margin-bottom: 20px !important; }
           .themes-section h2 { font-size: 20px !important; margin-bottom: 4px !important; }
           .themes-section p { margin-bottom: 12px !important; }
+          .fria-card { padding: 24px 20px !important; }
+          .fria-form { flex-direction: column !important; }
+          .fria-input { width: 100% !important; }
+          .fria-btn { width: 100% !important; padding: 14px !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
@@ -2277,6 +2380,8 @@ export default function App() {
           .about-btn { display: none !important; }
           .site-logo-img { width: 26px !important; height: 26px !important; border-radius: 6px !important; }
           .sidebar-about-btn { display: block !important; }
+          .fria-heading { font-size: 18px !important; }
+          .fria-sub { font-size: 12px !important; }
         }
       `}</style>
 
