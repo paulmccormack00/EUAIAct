@@ -2569,6 +2569,24 @@ export default function App() {
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
       {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {/* Floating AI Advisor Button */}
+      {!chatOpen && (
+        <button
+          className="fab-advisor"
+          onClick={() => setChatOpen(true)}
+          title="Ask the AI Advisor"
+          style={{
+            position: "fixed", bottom: 24, right: 24, zIndex: 15,
+            width: 56, height: 56, borderRadius: "50%", border: "none", cursor: "pointer",
+            background: "#1e3a5f", padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 16px rgba(30,58,95,0.35)", transition: "all 0.2s",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(30,58,95,0.45)"; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(30,58,95,0.35)"; }}
+        >
+          <img src="/apple-touch-icon.png" alt="AI Advisor" style={{ width: 34, height: 34, borderRadius: "50%" }} />
+        </button>
+      )}
       <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { setView("recitals"); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
     </div>
   );
