@@ -2435,6 +2435,9 @@ export default function App() {
 
           {/* Footer */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: "1px solid #e8e4de" }}>
+            <p style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
+              Built by Paul McCormack — dual-qualified lawyer (England &amp; Wales / New York Bar), Product Leader, and founder of Kormoon (acquired by Privitar/Informatica). An independent resource to help organisations prepare for the EU AI Act.
+            </p>
             <div className="footer-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, fontFamily: SANS }}>
                 © 2026 Paul McCormack. All rights reserved.
