@@ -1753,7 +1753,7 @@ function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onC
 // ============================================================
 // SIDEBAR
 // ============================================================
-function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick }) {
+function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -1762,8 +1762,8 @@ function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArtic
   const toggleChapter = (id) => setExpandedChapters((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleSection = (id) => setExpandedSections((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
-  const handleArticleClick = (num) => { setSelectedArticle(num); setView("article"); setIsMobileOpen(false); };
-  const handleThemeClick = (tid) => { setSelectedTheme(tid); setView("theme"); setIsMobileOpen(false); };
+  const handleArticleClick = (num) => { onArticleClick(num); setIsMobileOpen(false); };
+  const handleThemeClick = (tid) => { onThemeClick(tid); setIsMobileOpen(false); };
 
   const sidebarStyle = {
     position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 30,
@@ -1798,7 +1798,7 @@ function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArtic
               const isActive = (view === id || (view === "theme" && id === "themes") || (view === "article" && id === "chapters") || (view === "home" && id === "chapters"));
               return (
                 <button key={id}
-                  onClick={() => setView(id === "themes" ? "theme" : id)}
+                  onClick={() => { if (id === "recitals") { onRecitalsClick(); } else { setView(id === "themes" ? "theme" : id); } }}
                   style={{
                     flex: 1, padding: "8px 6px", fontSize: 12, fontWeight: isActive ? 600 : 500,
                     borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS,
@@ -2315,10 +2315,28 @@ function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArt
 // ============================================================
 // MAIN APP
 // ============================================================
+// Parse initial URL to determine starting view
+function parseRoute(pathname) {
+  const p = pathname || "/";
+  const articleMatch = p.match(/^\/article\/(\d+)$/);
+  if (articleMatch) {
+    const num = Number(articleMatch[1]);
+    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null };
+  }
+  const themeMatch = p.match(/^\/theme\/([a-z-]+)$/);
+  if (themeMatch) {
+    const tid = themeMatch[1];
+    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid };
+  }
+  if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null };
+  return { view: "home", selectedArticle: null, selectedTheme: null };
+}
+
 export default function App() {
-  const [view, setView] = useState("home");
-  const [selectedArticle, setSelectedArticle] = useState(null);
-  const [selectedTheme, setSelectedTheme] = useState(null);
+  const initRoute = useMemo(() => parseRoute(window.location.pathname), []);
+  const [view, setView] = useState(initRoute.view);
+  const [selectedArticle, setSelectedArticle] = useState(initRoute.selectedArticle);
+  const [selectedTheme, setSelectedTheme] = useState(initRoute.selectedTheme);
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -2331,8 +2349,126 @@ export default function App() {
 
   useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme]);
 
-  const handleArticleClick = useCallback((num) => { setSelectedArticle(num); setView("article"); setSearchQuery(""); }, []);
-  const handleThemeClick = useCallback((tid) => { setSelectedTheme(tid); setView("theme"); }, []);
+  // --- URL Routing ---
+  const navigateTo = useCallback((path, state) => {
+    window.history.pushState(state, "", path);
+  }, []);
+
+  const handleArticleClick = useCallback((num) => {
+    setSelectedArticle(num); setView("article"); setSearchQuery("");
+    navigateTo(`/article/${num}`, { view: "article", selectedArticle: num });
+  }, [navigateTo]);
+
+  const handleThemeClick = useCallback((tid) => {
+    setSelectedTheme(tid); setView("theme");
+    navigateTo(`/theme/${tid}`, { view: "theme", selectedTheme: tid });
+  }, [navigateTo]);
+
+  const handleHomeClick = useCallback(() => {
+    setView("home"); setSearchQuery("");
+    navigateTo("/", { view: "home" });
+  }, [navigateTo]);
+
+  const handleRecitalsClick = useCallback(() => {
+    setView("recitals");
+    navigateTo("/recitals", { view: "recitals" });
+  }, [navigateTo]);
+
+  // Browser back/forward
+  useEffect(() => {
+    const onPopState = () => {
+      const route = parseRoute(window.location.pathname);
+      setView(route.view);
+      setSelectedArticle(route.selectedArticle);
+      setSelectedTheme(route.selectedTheme);
+      setSearchQuery("");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  // --- Dynamic document.title, meta description, canonical, JSON-LD ---
+  useEffect(() => {
+    const BASE_URL = "https://euai.app";
+    let title, description, path;
+
+    if (view === "article" && selectedArticle) {
+      const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
+      const artTitle = art?.title || `Article ${selectedArticle}`;
+      title = `Article ${selectedArticle}: ${artTitle} — EU AI Act Navigator`;
+      description = art ? `Read Article ${selectedArticle} (${artTitle}) of the EU AI Act (Regulation (EU) 2024/1689). Full text, plain English summary, related recitals, and cross-references.` : "";
+      path = `/article/${selectedArticle}`;
+    } else if (view === "theme" && selectedTheme) {
+      const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
+      const themeName = theme?.name || selectedTheme;
+      title = `${themeName} — EU AI Act Navigator`;
+      description = theme ? `${themeName}: ${theme.articles.length} articles from the EU AI Act (Regulation (EU) 2024/1689). Browse articles grouped by theme.` : "";
+      path = `/theme/${selectedTheme}`;
+    } else if (view === "recitals") {
+      title = "Recitals — EU AI Act Navigator";
+      description = "All 180 recitals of the EU AI Act (Regulation (EU) 2024/1689). Searchable, cross-referenced with articles.";
+      path = "/recitals";
+    } else {
+      title = "EU AI Act Navigator — Interactive Guide to Regulation (EU) 2024/1689";
+      description = "Navigate the EU AI Act — 113 articles, 180 recitals, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
+      path = "/";
+    }
+
+    document.title = title;
+
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", description);
+
+    // Update canonical
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", BASE_URL + path);
+
+    // Update og:url
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", BASE_URL + path);
+
+    // Update og:title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", title);
+
+    // Update og:description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", description);
+
+    // --- Dynamic JSON-LD ---
+    let jsonLdEl = document.getElementById("dynamic-jsonld");
+    if (!jsonLdEl) {
+      jsonLdEl = document.createElement("script");
+      jsonLdEl.type = "application/ld+json";
+      jsonLdEl.id = "dynamic-jsonld";
+      document.head.appendChild(jsonLdEl);
+    }
+
+    const breadcrumbItems = [{ "@type": "ListItem", position: 1, name: "Home", item: BASE_URL + "/" }];
+    const jsonLd = { "@context": "https://schema.org" };
+
+    if (view === "article" && selectedArticle) {
+      const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: `Article ${selectedArticle}: ${art?.title || ""}`, item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": art ? art.text.substring(0, 300).replace(/\n/g, " ") : "", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+      ]);
+    } else if (view === "theme" && selectedTheme) {
+      const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: theme?.name || selectedTheme, item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "CollectionPage", "name": theme?.name || selectedTheme, "description": `${theme?.articles.length || 0} articles from the EU AI Act`, "url": BASE_URL + path },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+      ]);
+    } else if (view === "recitals") {
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Recitals", item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+    } else {
+      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+    }
+  }, [view, selectedArticle, selectedTheme]);
 
   const isSearching = searchQuery.length >= 2;
   const searchResultCount = useMemo(() => {
@@ -2436,7 +2572,7 @@ export default function App() {
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
         isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
-        onAboutClick={() => setShowAbout(true)} />
+        onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
@@ -2449,14 +2585,14 @@ export default function App() {
           <style>{`@media (max-width: 1023px) { .mobile-menu-btn { display: block !important; } }`}</style>
 
           {/* Site Logo */}
-          <a onClick={() => { setView("home"); setSearchQuery(""); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
+          <a onClick={handleHomeClick} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
             <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
             <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
           </a>
 
           {/* Breadcrumb */}
           <div className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#94a3b8", marginRight: 16, flexShrink: 0 }}>
-            <button onClick={() => { setView("home"); setSearchQuery(""); }} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontFamily: SANS, fontSize: 14 }}
+            <button onClick={handleHomeClick} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontFamily: SANS, fontSize: 14 }}
               onMouseEnter={e => e.currentTarget.style.color = "#374151"} onMouseLeave={e => e.currentTarget.style.color = "#94a3b8"}>
               Home
             </button>
@@ -2633,7 +2769,7 @@ export default function App() {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
         </button>
       )}
-      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { setView("recitals"); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
+      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { handleRecitalsClick(); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
     </div>
   );
 }
