@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from "fs";
 
-// Extract EU_AI_ACT_DATA from App.jsx
-const appSource = readFileSync("src/App.jsx", "utf8");
-const match = appSource.match(/const EU_AI_ACT_DATA = (\{[\s\S]*?\});\s*\n\s*const PLAIN/);
+// Read EU_AI_ACT_DATA from its dedicated module
+const dataSource = readFileSync("src/data/eu-ai-act-data.js", "utf8");
+const match = dataSource.match(/export const EU_AI_ACT_DATA = (\{.*\});?\s*$/s);
 if (!match) {
-  console.error("Could not extract EU_AI_ACT_DATA from App.jsx");
+  console.error("Could not extract EU_AI_ACT_DATA from src/data/eu-ai-act-data.js");
   process.exit(1);
 }
 const data = JSON.parse(match[1]);
