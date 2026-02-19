@@ -72,7 +72,7 @@ async function sendConfirmationEmail(email, unsubscribeToken) {
     },
     body: JSON.stringify({
       from: "Paul McCormack <updates@euai.app>",
-      reply_to: "paul@kormoon.ai",
+      reply_to: "paul@siriconsult.com",
       to: email,
       subject: "You're in — tracking the FRIA deadline for you",
       headers: {
