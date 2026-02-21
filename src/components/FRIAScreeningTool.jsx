@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 
 const ANNEX_III_CATEGORIES = [
   { id: "biometrics", label: "Biometric identification & categorisation", description: "Real-time or post remote biometric identification systems, emotion recognition, biometric categorisation", examples: "Facial recognition, fingerprint scanners, emotion detection in workplaces", articles: "Annex III, 1" },
@@ -200,7 +200,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   .heatmap-item.clear { background: #f8fafc; border: 1px solid #e5e7eb; color: #9ca3af; }
   .heatmap-item.impacted .dot { background: #dc2626; }
   .heatmap-item.clear .dot { background: #cbd5e1; }
-  .next-steps { background: #f0f4ff; border: 1px solid #c7d6ec; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+  .next-steps { background: #f0f4ff; border: 1px solid #c7d6ec; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; page-break-before: always; }
   .next-steps ol { padding-left: 20px; font-size: 13px; color: #374151; }
   .next-steps li { margin-bottom: 4px; }
   .deadline-badge { background: #fdf6e3; border-left: 4px solid #d4a843; border-radius: 0 8px 8px 0; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
@@ -292,20 +292,20 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   const progressPercent = Math.round(((step + 1) / STEPS.length) * 100);
 
   const cardStyle = {
-    background: "white",
-    borderRadius: 16,
-    border: "1px solid #e8e4de",
+    background: COLORS.white,
+    borderRadius: RADIUS.xxl,
+    border: `1px solid ${COLORS.borderDefault}`,
     padding: "32px",
     marginBottom: 24,
-    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+    boxShadow: SHADOWS.sm,
   };
 
   const btnPrimary = {
     padding: "12px 28px",
-    background: "#1e3a5f",
+    background: COLORS.primary,
     color: "white",
     border: "none",
-    borderRadius: 10,
+    borderRadius: RADIUS.lg,
     fontSize: 14,
     fontWeight: 600,
     cursor: "pointer",
@@ -315,10 +315,10 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const btnSecondary = {
     padding: "12px 28px",
-    background: "white",
-    color: "#1e3a5f",
-    border: "1px solid #c7d6ec",
-    borderRadius: 10,
+    background: COLORS.white,
+    color: COLORS.primary,
+    border: `1px solid ${COLORS.primaryLightBorder}`,
+    borderRadius: RADIUS.lg,
     fontSize: 14,
     fontWeight: 500,
     cursor: "pointer",

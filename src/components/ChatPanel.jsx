@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP } from "../data/recital-maps.js";
 
@@ -232,18 +232,18 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         onKeyDown={e => { if (e.key === "Escape") onClose(); }}
         style={{
         position: "fixed", top: 0, right: 0, bottom: 0, width: 420, maxWidth: "100vw",
-        background: "white", zIndex: 50, display: "flex", flexDirection: "column",
-        boxShadow: "-4px 0 24px rgba(0,0,0,0.12)",
+        background: COLORS.white, zIndex: 50, display: "flex", flexDirection: "column",
+        boxShadow: SHADOWS.modal,
         transform: isOpen ? "translateX(0)" : "translateX(100%)",
         transition: "transform 0.3s ease",
       }}>
         {/* Header */}
-        <div style={{ flexShrink: 0, padding: "16px 20px", borderBottom: "1px solid #e8e4de", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ flexShrink: 0, padding: "16px 20px", borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 10, background: "linear-gradient(135deg, #1e3a5f, #2d5a8e)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }}>⚖</div>
+            <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }}>⚖</div>
             <div>
-              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS }}>AI Act Advisor</h3>
-              <p style={{ margin: 0, fontSize: 11, color: "#8b7355", fontFamily: SANS }}>Powered by Claude</p>
+              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>AI Act Advisor</h3>
+              <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Claude</p>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -267,7 +267,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         <div aria-live="polite" aria-relevant="additions" style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
-              <div style={{ width: 48, height: 48, borderRadius: 14, background: "#f0f4ff", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
+              <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: COLORS.primaryLight, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
               <h4 style={{ margin: "0 0 6px", fontSize: 16, color: "#1a1a1a", fontFamily: SANS }}>Ask about the EU AI Act</h4>
               <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b", fontFamily: SANS, lineHeight: 1.5 }}>
                 Get plain-English answers about obligations, classifications, timelines, and compliance requirements.
@@ -275,9 +275,9 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {suggestedQuestions.map((sq) => (
                   <button key={sq} onClick={() => { setInput(sq); }}
-                    style={{ padding: "10px 14px", background: "#f7f5f2", border: "1px solid #e8e4de", borderRadius: 10, cursor: "pointer", textAlign: "left", fontSize: 13, color: "#4a5568", fontFamily: SANS, transition: "all 0.15s" }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = "#93b3d4"; e.currentTarget.style.background = "#f0f4ff"; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = "#e8e4de"; e.currentTarget.style.background = "#f7f5f2"; }}>
+                    style={{ padding: "10px 14px", background: COLORS.pageBg, border: `1px solid ${COLORS.borderDefault}`, borderRadius: RADIUS.lg, cursor: "pointer", textAlign: "left", fontSize: 13, color: COLORS.textSecondary, fontFamily: SANS, transition: "all 0.15s" }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline; e.currentTarget.style.background = COLORS.primaryLight; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderDefault; e.currentTarget.style.background = COLORS.pageBg; }}>
                     {sq}
                   </button>
                 ))}
@@ -288,12 +288,12 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           {messages.map((msg, i) => (
             <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
               <div style={{
-                maxWidth: "88%", padding: "12px 16px", borderRadius: 14,
-                background: msg.role === "user" ? "#1e3a5f" : "#f7f5f2",
-                color: msg.role === "user" ? "white" : "#1a1a1a",
+                maxWidth: "88%", padding: "12px 16px", borderRadius: RADIUS.xl,
+                background: msg.role === "user" ? COLORS.primary : COLORS.pageBg,
+                color: msg.role === "user" ? "white" : COLORS.textPrimary,
                 fontSize: 14, lineHeight: 1.65, fontFamily: SANS,
-                borderBottomRightRadius: msg.role === "user" ? 4 : 14,
-                borderBottomLeftRadius: msg.role === "user" ? 14 : 4,
+                borderBottomRightRadius: msg.role === "user" ? RADIUS.xs : RADIUS.xl,
+                borderBottomLeftRadius: msg.role === "user" ? RADIUS.xl : RADIUS.xs,
               }}>
                 {msg.role === "assistant" ? renderMessage(msg.content) : msg.content}
               </div>
@@ -315,7 +315,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         </div>
 
         {/* Input */}
-        <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #e8e4de", background: "white" }}>
+        <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: `1px solid ${COLORS.borderDefault}`, background: COLORS.white }}>
           <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
             <textarea
               ref={inputRef}
@@ -326,17 +326,17 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               placeholder="Ask about the EU AI Act…"
               rows={1}
               style={{
-                flex: 1, padding: "10px 14px", border: "1.5px solid #e2e0dc", borderRadius: 12, fontSize: 14, fontFamily: SANS,
+                flex: 1, padding: "10px 14px", border: `1.5px solid ${COLORS.borderLight}`, borderRadius: RADIUS.xl, fontSize: 14, fontFamily: SANS,
                 resize: "none", outline: "none", lineHeight: 1.5, maxHeight: 120, minHeight: 40,
                 transition: "border-color 0.15s",
               }}
-              onFocus={e => e.currentTarget.style.borderColor = "#93b3d4"}
-              onBlur={e => e.currentTarget.style.borderColor = "#e2e0dc"}
+              onFocus={e => e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline}
+              onBlur={e => e.currentTarget.style.borderColor = COLORS.borderLight}
             />
             <button onClick={sendMessage} disabled={!input.trim() || loading} aria-label="Send message"
               style={{
-                padding: "10px 14px", borderRadius: 12, border: "none", cursor: input.trim() && !loading ? "pointer" : "default",
-                background: input.trim() && !loading ? "#1e3a5f" : "#e2e0dc", color: "white", flexShrink: 0,
+                padding: "10px 14px", borderRadius: RADIUS.xl, border: "none", cursor: input.trim() && !loading ? "pointer" : "default",
+                background: input.trim() && !loading ? COLORS.primary : COLORS.borderLight, color: "white", flexShrink: 0,
                 transition: "background 0.15s",
               }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>

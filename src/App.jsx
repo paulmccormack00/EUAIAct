@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { FONT_FACE_CSS, SANS } from "./constants.js";
+import { FONT_FACE_CSS, SANS, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
 import { EU_AI_ACT_DATA } from "./data/eu-ai-act-data.js";
 import { ROLES } from "./data/roles.js";
 import SearchBar from "./components/SearchBar.jsx";
@@ -229,8 +229,9 @@ export default function App() {
   }, [searchQuery, isSearching]);
 
   return (
-    <div style={{ height: "100vh", display: "flex", background: "#f7f5f2", fontFamily: SANS }}>
+    <div style={{ height: "100vh", display: "flex", background: COLORS.pageBg, fontFamily: SANS }}>
       <style>{FONT_FACE_CSS}</style>
+      <style>{FOCUS_CSS}</style>
       {/* Skip navigation link */}
       <a href="#main-content" style={{ position: "absolute", left: "-9999px", top: "auto", width: "1px", height: "1px", overflow: "hidden", zIndex: 1000 }}
         onFocus={e => { e.currentTarget.style.position = "fixed"; e.currentTarget.style.left = "16px"; e.currentTarget.style.top = "16px"; e.currentTarget.style.width = "auto"; e.currentTarget.style.height = "auto"; e.currentTarget.style.overflow = "visible"; e.currentTarget.style.background = "#1e3a5f"; e.currentTarget.style.color = "white"; e.currentTarget.style.padding = "12px 24px"; e.currentTarget.style.borderRadius = "8px"; e.currentTarget.style.fontSize = "14px"; e.currentTarget.style.fontWeight = "600"; e.currentTarget.style.textDecoration = "none"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)"; }}
@@ -334,10 +335,10 @@ export default function App() {
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
-        <header className="top-bar" style={{ flexShrink: 0, background: "white", borderBottom: "1px solid #e8e4de", padding: "10px 24px", display: "flex", alignItems: "center", gap: 12 }}>
+        <header className="top-bar" style={{ flexShrink: 0, background: COLORS.white, borderBottom: `1px solid ${COLORS.borderDefault}`, padding: "10px 24px", display: "flex", alignItems: "center", gap: 12 }}>
           <button onClick={() => setIsMobileOpen(true)}
             aria-label="Open navigation menu"
-            style={{ display: "none", padding: 8, border: "none", background: "none", cursor: "pointer", color: "#64748b" }}
+            style={{ display: "none", padding: 8, border: "none", background: "none", cursor: "pointer", color: COLORS.textMuted }}
             className="mobile-menu-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
@@ -346,13 +347,13 @@ export default function App() {
           {/* Site Logo */}
           <a href="/" onClick={(e) => { e.preventDefault(); handleHomeClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
             <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
-            <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
+            <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
           </a>
 
           {/* Breadcrumb */}
-          <div className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#94a3b8", marginRight: 16, flexShrink: 0 }}>
-            <button onClick={handleHomeClick} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontFamily: SANS, fontSize: 14 }}
-              onMouseEnter={e => e.currentTarget.style.color = "#374151"} onMouseLeave={e => e.currentTarget.style.color = "#94a3b8"}>
+          <div className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: COLORS.textPlaceholder, marginRight: 16, flexShrink: 0 }}>
+            <button onClick={handleHomeClick} style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, fontFamily: SANS, fontSize: 14 }}
+              onMouseEnter={e => e.currentTarget.style.color = COLORS.textBody} onMouseLeave={e => e.currentTarget.style.color = COLORS.textPlaceholder}>
               Home
             </button>
             {view === "article" && selectedArticle && <>
@@ -391,7 +392,7 @@ export default function App() {
 
           {/* AI Advisor button */}
           <button onClick={() => setChatOpen(true)}
-            style={{ flexShrink: 0, padding: "8px 14px", background: "linear-gradient(135deg, #1e3a5f, #2d5a8e)", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, color: "white", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6, fontWeight: 500, transition: "all 0.15s" }}
+            style={{ flexShrink: 0, padding: "8px 14px", background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, border: "none", borderRadius: RADIUS.md, cursor: "pointer", fontSize: 13, color: "white", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6, fontWeight: 500, transition: "all 0.15s" }}
             onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}
           >
@@ -401,9 +402,9 @@ export default function App() {
 
           {/* About button */}
           <button className="about-btn" onClick={() => setShowAbout(true)}
-            style={{ flexShrink: 0, padding: "8px 14px", background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 13, color: "#64748b", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#93b3d4"; e.currentTarget.style.color = "#1e3a5f"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e0dc"; e.currentTarget.style.color = "#64748b"; }}
+            style={{ flexShrink: 0, padding: "8px 14px", background: "none", border: `1px solid ${COLORS.borderLight}`, borderRadius: RADIUS.md, cursor: "pointer", fontSize: 13, color: COLORS.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline; e.currentTarget.style.color = COLORS.primary; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderLight; e.currentTarget.style.color = COLORS.textMuted; }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
             <span className="btn-label">About</span>
@@ -429,8 +430,8 @@ export default function App() {
         </header>
 
         {/* Role Filter Bar */}
-        <div className="role-bar" style={{ flexShrink: 0, background: "white", borderBottom: "1px solid #e8e4de", padding: "8px 24px", display: "flex", alignItems: "center", gap: 8, overflowX: "auto" }}>
-          <span className="role-label" style={{ fontSize: 12, color: "#8b7355", fontWeight: 600, fontFamily: SANS, flexShrink: 0, marginRight: 4 }}>View as:</span>
+        <div className="role-bar" style={{ flexShrink: 0, background: COLORS.white, borderBottom: `1px solid ${COLORS.borderDefault}`, padding: "8px 24px", display: "flex", alignItems: "center", gap: 8, overflowX: "auto" }}>
+          <span className="role-label" style={{ fontSize: 12, color: COLORS.warmText, fontWeight: 600, fontFamily: SANS, flexShrink: 0, marginRight: 4 }}>View as:</span>
           {Object.values(ROLES).map(role => {
             const isActive = activeRole === role.id;
             return (
@@ -439,9 +440,9 @@ export default function App() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 5,
                   padding: "6px 14px", fontSize: 13, fontFamily: SANS, fontWeight: isActive ? 600 : 500,
-                  borderRadius: 20, border: `1.5px solid ${isActive ? "#1e3a5f" : "#e2e0dc"}`,
-                  background: isActive ? "#1e3a5f" : "white",
-                  color: isActive ? "white" : "#4a5568",
+                  borderRadius: RADIUS.round, border: `1.5px solid ${isActive ? COLORS.primary : COLORS.borderLight}`,
+                  background: isActive ? COLORS.primary : COLORS.white,
+                  color: isActive ? "white" : COLORS.textSecondary,
                   cursor: "pointer", transition: "all 0.15s", flexShrink: 0,
                 }}>
                 <span>{role.icon}</span> {role.label}
@@ -452,11 +453,11 @@ export default function App() {
 
         {/* Role description */}
         {activeRole !== "all" && (
-          <div className="role-desc" style={{ flexShrink: 0, background: "#f0f4ff", borderBottom: "1px solid #c7d6ec", padding: "8px 24px", display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
-            <p style={{ fontSize: 13, color: "#1e3a5f", margin: 0, fontFamily: SANS }}>
+          <div className="role-desc" style={{ flexShrink: 0, background: COLORS.primaryLight, borderBottom: `1px solid ${COLORS.primaryLightBorder}`, padding: "8px 24px", display: "flex", alignItems: "center", gap: 8 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+            <p style={{ fontSize: 13, color: COLORS.primary, margin: 0, fontFamily: SANS }}>
               Showing articles relevant to <strong>{ROLES[activeRole].label.toLowerCase()}s</strong>. {ROLES[activeRole].description}.
-              <button onClick={() => setActiveRole("all")} style={{ marginLeft: 8, fontSize: 12, color: "#1e3a5f", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: SANS }}>Show all</button>
+              <button onClick={() => setActiveRole("all")} style={{ marginLeft: 8, fontSize: 12, color: COLORS.primary, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: SANS }}>Show all</button>
             </p>
           </div>
         )}
@@ -506,25 +507,25 @@ export default function App() {
           )}
 
           {/* Footer */}
-          <footer style={{ marginTop: 48, paddingTop: 24, borderTop: "1px solid #e8e4de" }}>
-            <p style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
+          <footer style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${COLORS.borderDefault}` }}>
+            <p style={{ fontSize: 11, color: COLORS.textPlaceholder, lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
               Built by Paul McCormack — dual-qualified lawyer (England &amp; Wales / New York Bar), Product Leader, and founder of Kormoon (acquired by Privitar/Informatica). An independent resource to help organisations prepare for the EU AI Act.
             </p>
             <div className="footer-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, fontFamily: SANS }}>
+              <p style={{ fontSize: 12, color: COLORS.textPlaceholder, margin: 0, fontFamily: SANS }}>
                 © 2026 Paul McCormack. All rights reserved.
               </p>
               <div style={{ display: "flex", gap: 16 }}>
                 <button onClick={() => setShowTerms(true)}
-                  style={{ fontSize: 12, color: "#8b7355", background: "none", border: "none", cursor: "pointer", fontFamily: SANS, textDecoration: "underline", textDecorationColor: "#d4c5a9" }}>
+                  style={{ fontSize: 12, color: COLORS.warmText, background: "none", border: "none", cursor: "pointer", fontFamily: SANS, textDecoration: "underline", textDecorationColor: COLORS.warmGold }}>
                   Terms of Use
                 </button>
                 <button onClick={() => setShowPrivacy(true)}
-                  style={{ fontSize: 12, color: "#8b7355", background: "none", border: "none", cursor: "pointer", fontFamily: SANS, textDecoration: "underline", textDecorationColor: "#d4c5a9" }}>
+                  style={{ fontSize: 12, color: COLORS.warmText, background: "none", border: "none", cursor: "pointer", fontFamily: SANS, textDecoration: "underline", textDecorationColor: COLORS.warmGold }}>
                   Privacy Notice
                 </button>
                 <a href="https://kormoon.ai/" target="_blank" rel="noopener noreferrer"
-                  style={{ fontSize: 12, color: "#8b7355", fontFamily: SANS, textDecoration: "underline", textDecorationColor: "#d4c5a9" }}>
+                  style={{ fontSize: 12, color: COLORS.warmText, fontFamily: SANS, textDecoration: "underline", textDecorationColor: COLORS.warmGold }}>
                   kormoon.ai
                 </a>
               </div>
@@ -545,12 +546,12 @@ export default function App() {
           title="Ask the AI Advisor"
           style={{
             position: "fixed", bottom: 24, right: 24, zIndex: 15,
-            width: 56, height: 56, borderRadius: "50%", border: "none", cursor: "pointer",
-            background: "#1e3a5f", padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 4px 16px rgba(30,58,95,0.35)", transition: "all 0.2s",
+            width: 56, height: 56, borderRadius: RADIUS.full, border: "none", cursor: "pointer",
+            background: COLORS.primary, padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: SHADOWS.fab, transition: "all 0.2s",
           }}
-          onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(30,58,95,0.45)"; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(30,58,95,0.35)"; }}
+          onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = SHADOWS.fabHover; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = SHADOWS.fab; }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
         </button>

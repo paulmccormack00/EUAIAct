@@ -1,4 +1,4 @@
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { BLOG_POSTS } from "../data/blog-posts.js";
 
 export default function BlogView({ onBlogPostClick }) {
@@ -6,7 +6,7 @@ export default function BlogView({ onBlogPostClick }) {
     <div style={{ maxWidth: 820, margin: "0 auto", padding: "40px 0" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: COLORS.primaryLight, border: `1px solid ${COLORS.primaryLightBorder}`, borderRadius: RADIUS.round, fontSize: 12, color: COLORS.primary, fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
           Practitioner Commentary
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
@@ -23,8 +23,8 @@ export default function BlogView({ onBlogPostClick }) {
           onClick={() => onBlogPostClick(BLOG_POSTS[0].slug)}
           style={{
             width: "100%", textAlign: "left", padding: "32px",
-            background: "linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)",
-            borderRadius: 20, border: "none", cursor: "pointer", color: "white",
+            background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 100%)`,
+            borderRadius: RADIUS.round, border: "none", cursor: "pointer", color: "white",
             marginBottom: 24, transition: "transform 0.15s",
           }}
           onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
@@ -60,12 +60,12 @@ export default function BlogView({ onBlogPostClick }) {
             onClick={() => onBlogPostClick(post.slug)}
             style={{
               width: "100%", textAlign: "left", padding: "24px",
-              background: "white", borderRadius: 16,
-              border: "1px solid #e8e4de", cursor: "pointer",
+              background: COLORS.white, borderRadius: RADIUS.xxl,
+              border: `1px solid ${COLORS.borderDefault}`, cursor: "pointer",
               transition: "all 0.15s", fontFamily: SANS,
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#c7d6ec"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "#e8e4de"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLightBorder; e.currentTarget.style.boxShadow = SHADOWS.lg; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderDefault; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
               <span style={{ padding: "3px 10px", background: "#f0f4ff", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1e3a5f" }}>

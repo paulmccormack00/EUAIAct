@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
+import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
 const DEADLINES = [
   {
@@ -156,38 +157,6 @@ function getStatusLabel(status) {
 
 export default function DeadlineTracker({ onArticleClick }) {
   const [expandedIdx, setExpandedIdx] = useState(null);
-  const [subscribeEmail, setSubscribeEmail] = useState("");
-  const [subscribeStatus, setSubscribeStatus] = useState(null);
-  const [subscribeError, setSubscribeError] = useState("");
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    if (!subscribeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscribeEmail)) {
-      setSubscribeStatus("error");
-      setSubscribeError("Please enter a valid email address.");
-      return;
-    }
-    setSubscribeStatus("loading");
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: subscribeEmail }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSubscribeStatus("success");
-      } else if (res.status === 409 || data.error === "duplicate") {
-        setSubscribeStatus("success");
-      } else {
-        setSubscribeStatus("error");
-        setSubscribeError(data.error || "Something went wrong.");
-      }
-    } catch {
-      setSubscribeStatus("error");
-      setSubscribeError("Network error. Please try again.");
-    }
-  };
 
   const friaDeadline = DEADLINES.find(d => d.highlight);
   const daysToFria = friaDeadline ? daysUntil(friaDeadline.isoDate) : 0;
@@ -210,8 +179,8 @@ export default function DeadlineTracker({ onArticleClick }) {
 
       {/* Countdown hero */}
       <div style={{
-        background: "linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #1e3a5f 100%)",
-        borderRadius: 20, padding: "32px 40px", marginBottom: 36, color: "white",
+        background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 50%, ${COLORS.primary} 100%)`,
+        borderRadius: RADIUS.round, padding: "32px 40px", marginBottom: 36, color: "white",
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap",
       }}>
         <div>
@@ -220,7 +189,7 @@ export default function DeadlineTracker({ onArticleClick }) {
           <p style={{ fontSize: 14, opacity: 0.8, margin: 0, fontFamily: SANS }}>Article 27 — Fundamental Rights Impact Assessment</p>
         </div>
         <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: 48, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#d4c5a9" }}>{daysToFria}</p>
+          <p style={{ fontSize: 48, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: COLORS.warmGold }}>{daysToFria}</p>
           <p style={{ fontSize: 13, opacity: 0.7, margin: 0, fontFamily: SANS }}>days remaining</p>
         </div>
       </div>
@@ -343,47 +312,17 @@ export default function DeadlineTracker({ onArticleClick }) {
 
       {/* Email alerts */}
       <div style={{
-        marginTop: 36, padding: "28px 32px", background: "white", borderRadius: 16,
-        border: "1px solid #e8e4de", borderLeft: "4px solid #1e3a5f",
+        marginTop: 36, padding: "28px 32px", background: COLORS.white, borderRadius: RADIUS.xxl,
+        border: `1px solid ${COLORS.borderDefault}`, borderLeft: `4px solid ${COLORS.primary}`,
       }}>
-        <h3 style={{ fontSize: 18, fontWeight: 500, color: "#1e3a5f", margin: "0 0 6px", fontFamily: SERIF }}>
-          Get Deadline Alerts
-        </h3>
-        <p style={{ fontSize: 14, color: "#64748b", margin: "0 0 16px", fontFamily: SANS }}>
-          Be notified when key deadlines approach and when the official FRIA template is published.
-        </p>
-        {subscribeStatus === "success" ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
-            <span style={{ fontSize: 14, color: "#16a34a", fontWeight: 500, fontFamily: SANS }}>You're subscribed to deadline alerts.</span>
-          </div>
-        ) : (
-          <>
-            <form onSubmit={handleSubscribe} style={{ display: "flex", gap: 10 }}>
-              <input
-                type="email"
-                placeholder="you@company.com"
-                value={subscribeEmail}
-                onChange={e => { setSubscribeEmail(e.target.value); if (subscribeStatus === "error") setSubscribeStatus(null); }}
-                style={{
-                  flex: 1, padding: "12px 16px", border: subscribeStatus === "error" ? "1.5px solid #ef4444" : "1px solid #d1d5db",
-                  borderRadius: 10, fontSize: 14, fontFamily: SANS, outline: "none",
-                }}
-              />
-              <button type="submit" disabled={subscribeStatus === "loading"} style={{
-                padding: "12px 24px", background: "#1e3a5f", color: "white", border: "none", borderRadius: 10,
-                fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: SANS,
-                opacity: subscribeStatus === "loading" ? 0.7 : 1,
-              }}>
-                {subscribeStatus === "loading" ? "Subscribing…" : "Subscribe"}
-              </button>
-            </form>
-            {subscribeStatus === "error" && subscribeError && (
-              <p style={{ fontSize: 12, color: "#ef4444", margin: "8px 0 0", fontFamily: SANS }}>{subscribeError}</p>
-            )}
-            <p style={{ fontSize: 11, color: "#94a3b8", margin: "10px 0 0", fontFamily: SANS }}>No spam. Unsubscribe anytime.</p>
-          </>
-        )}
+        <EmailSubscribeForm
+          heading="Get Deadline Alerts"
+          description="Be notified when key deadlines approach and when the official FRIA template is published."
+          submitLabel="Subscribe"
+          loadingLabel="Subscribing…"
+          successMessage="You're subscribed to deadline alerts."
+          compact
+        />
       </div>
 
       {/* Digital Omnibus Note */}

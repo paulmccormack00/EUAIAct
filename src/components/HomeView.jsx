@@ -1,43 +1,9 @@
-import { useState } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
-import { ASTRO_FLAG } from "../assets.js";
+import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
 export default function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen, onFRIAClick, onTimelineClick, onBlogClick }) {
-  const [subscribeEmail, setSubscribeEmail] = useState("");
-  const [subscribeStatus, setSubscribeStatus] = useState(null);
-  const [subscribeError, setSubscribeError] = useState("");
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    if (!subscribeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscribeEmail)) {
-      setSubscribeStatus("error");
-      setSubscribeError("Please enter a valid email address.");
-      return;
-    }
-    setSubscribeStatus("loading");
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: subscribeEmail }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSubscribeStatus("success");
-      } else if (res.status === 409 || data.error === "duplicate") {
-        setSubscribeStatus("duplicate");
-      } else {
-        setSubscribeStatus("error");
-        setSubscribeError(data.error || "Something went wrong. Please try again.");
-      }
-    } catch {
-      setSubscribeStatus("error");
-      setSubscribeError("Network error. Please try again.");
-    }
-  };
-
   const personaThemes = {
     provider: [
       { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
@@ -72,13 +38,13 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       {/* Hero */}
       <div className="hero-home" style={{ textAlign: "center", padding: "48px 0 40px" }}>
-        <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 500, marginBottom: 24, fontFamily: SANS }}>
+        <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: COLORS.primaryLight, border: `1px solid ${COLORS.primaryLightBorder}`, borderRadius: RADIUS.round, fontSize: 12, color: COLORS.primary, fontWeight: 500, marginBottom: 24, fontFamily: SANS }}>
           🇪🇺 In force since 1 August 2024
         </div>
-        <h1 className="hero-title" style={{ fontSize: 42, fontWeight: 400, lineHeight: 1.15, color: "#1a1a1a", maxWidth: 660, margin: "0 auto 16px", fontFamily: SERIF }}>
+        <h1 className="hero-title" style={{ fontSize: 42, fontWeight: 400, lineHeight: 1.15, color: COLORS.textPrimary, maxWidth: 660, margin: "0 auto 16px", fontFamily: SERIF }}>
           Navigate the EU AI Act by what matters to you
         </h1>
-        <p className="hero-desc" style={{ fontSize: 16, color: "#64748b", lineHeight: 1.7, maxWidth: 580, margin: "0 auto", fontFamily: SANS }}>
+        <p className="hero-desc" style={{ fontSize: 16, color: COLORS.textMuted, lineHeight: 1.7, maxWidth: 580, margin: "0 auto", fontFamily: SANS }}>
           The world's first comprehensive AI regulation — 113 articles, 180 recitals, one interactive reference. Select your role to see the provisions that apply to you.
         </p>
       </div>
@@ -146,7 +112,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1e3a5f", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
           </div>
-          <h2 style={{ fontSize: 18, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>Tools &amp; Resources</h2>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: COLORS.textPrimary, margin: 0, fontFamily: SANS }}>Tools &amp; Resources</h2>
         </div>
         <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {onFRIAClick && (
@@ -244,80 +210,31 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
 
       {/* FRIA Email Capture */}
       <div className="fria-card" style={{
-        background: "white", borderRadius: 16, border: "1px solid #e8e4de", padding: "32px 36px",
-        marginBottom: 44, borderLeft: "4px solid #1e3a5f",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.04)", overflow: "hidden", boxSizing: "border-box",
+        background: COLORS.white, borderRadius: RADIUS.xxl, border: `1px solid ${COLORS.borderDefault}`, padding: "32px 36px",
+        marginBottom: 44, borderLeft: `4px solid ${COLORS.primary}`,
+        boxShadow: SHADOWS.sm, overflow: "hidden", boxSizing: "border-box",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
-          <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: "#1e3a5f", margin: 0, fontFamily: SERIF }}>
-            The FRIA Deadline is 2 August 2026
-          </h2>
-          <span className="fria-countdown" style={{
-            display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px",
-            background: "#1e3a5f", color: "#d4c5a9", borderRadius: 20, fontSize: 12, fontWeight: 600,
-            fontFamily: SANS, whiteSpace: "nowrap", letterSpacing: "0.02em",
-          }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {Math.ceil((new Date("2026-08-02") - new Date()) / 86400000)} days to go
-          </span>
-        </div>
-        <p className="fria-sub" style={{ fontSize: 14, color: "#64748b", margin: "0 0 20px", lineHeight: 1.6, fontFamily: SANS }}>
-          No official template exists yet. Be the first to know when the EU AI Office publishes it.
-        </p>
-        {subscribeStatus === "success" ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0" }}>
-            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+        <EmailSubscribeForm
+          submitLabel="Get FRIA Updates"
+          loadingLabel="Submitting…"
+          successMessage="You're in. We'll notify you when the FRIA template drops."
+          description="No official template exists yet. Be the first to know when the EU AI Office publishes it."
+          headerSlot={
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
+              <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: COLORS.primary, margin: 0, fontFamily: SERIF }}>
+                The FRIA Deadline is 2 August 2026
+              </h2>
+              <span className="fria-countdown" style={{
+                display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px",
+                background: COLORS.primary, color: COLORS.warmGold, borderRadius: RADIUS.round, fontSize: 12, fontWeight: 600,
+                fontFamily: SANS, whiteSpace: "nowrap", letterSpacing: "0.02em",
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {Math.ceil((new Date("2026-08-02") - new Date()) / 86400000)} days to go
+              </span>
             </div>
-            <p style={{ fontSize: 14, color: "#16a34a", fontWeight: 500, margin: 0, fontFamily: SANS }}>
-              You're in. We'll notify you when the FRIA template drops.
-            </p>
-          </div>
-        ) : subscribeStatus === "duplicate" ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0" }}>
-            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-            </div>
-            <p style={{ fontSize: 14, color: "#2563eb", fontWeight: 500, margin: 0, fontFamily: SANS }}>
-              You're already subscribed! We'll be in touch.
-            </p>
-          </div>
-        ) : (
-          <>
-            <form className="fria-form" onSubmit={handleSubscribe} style={{ display: "flex", gap: 10, alignItems: "stretch" }}>
-              <input
-                className="fria-input"
-                type="email"
-                aria-label="Email address for FRIA updates"
-                placeholder="you@company.com"
-                value={subscribeEmail}
-                onChange={e => { setSubscribeEmail(e.target.value); if (subscribeStatus === "error") setSubscribeStatus(null); }}
-                style={{
-                  flex: 1, minWidth: 0, padding: "12px 16px", border: subscribeStatus === "error" ? "1.5px solid #ef4444" : "1px solid #d1d5db",
-                  borderRadius: 10, fontSize: 14, fontFamily: SANS, outline: "none", transition: "border-color 0.15s", boxSizing: "border-box",
-                }}
-              />
-              <button
-                className="fria-btn"
-                type="submit"
-                disabled={subscribeStatus === "loading"}
-                style={{
-                  padding: "12px 24px", background: "#1e3a5f", color: "white", border: "none", borderRadius: 10,
-                  fontSize: 14, fontWeight: 600, cursor: subscribeStatus === "loading" ? "wait" : "pointer",
-                  fontFamily: SANS, whiteSpace: "nowrap", transition: "all 0.15s", opacity: subscribeStatus === "loading" ? 0.7 : 1,
-                }}
-                onMouseEnter={e => { if (subscribeStatus !== "loading") { e.currentTarget.style.background = "#2d5a8e"; } }}
-                onMouseLeave={e => { e.currentTarget.style.background = "#1e3a5f"; }}
-              >
-                {subscribeStatus === "loading" ? "Submitting…" : "Get FRIA Updates"}
-              </button>
-            </form>
-            {subscribeStatus === "error" && subscribeError && (
-              <p style={{ fontSize: 12, color: "#ef4444", margin: "8px 0 0", fontFamily: SANS }}>{subscribeError}</p>
-            )}
-            <p style={{ fontSize: 11, color: "#94a3b8", margin: "10px 0 0", fontFamily: SANS }}>No spam. Unsubscribe anytime.</p>
-          </>
-        )}
+          }
+        />
       </div>
 
       {/* Timeline */}
@@ -356,8 +273,8 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {onChatOpen && (
         <div className="advisor-cta" style={{ marginBottom: 16 }}>
           <div style={{
-            background: "linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #1e3a5f 100%)",
-            borderRadius: 20, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, color: "white",
+            background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 50%, ${COLORS.primary} 100%)`,
+            borderRadius: RADIUS.round, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, color: "white",
           }}
             className="hero-section"
           >
@@ -368,7 +285,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               </p>
             </div>
             <button onClick={onChatOpen}
-              style={{ padding: "14px 28px", background: "white", color: "#1e3a5f", border: "none", borderRadius: 12, fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: SANS, whiteSpace: "nowrap", transition: "all 0.15s", flexShrink: 0 }}
+              style={{ padding: "14px 28px", background: "white", color: COLORS.primary, border: "none", borderRadius: RADIUS.xl, fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: SANS, whiteSpace: "nowrap", transition: "all 0.15s", flexShrink: 0 }}
               onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.2)"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}
             >

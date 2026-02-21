@@ -20,7 +20,7 @@ export const renderHighlightedParts = (str) => {
   const parts = str.split(/§HL_START§|§HL_END§/);
   return parts.map((part, i) =>
     i % 2 === 1
-      ? <mark key={i} style={{ backgroundColor: "#fef08a", borderRadius: 2, padding: "0 2px" }}>{part}</mark>
+      ? <mark key={i} style={{ backgroundColor: "#fef08a", borderRadius: 2, padding: "0 2px" }}>{part}</mark>  // COLORS.highlight
       : <span key={i}>{part}</span>
   );
 };

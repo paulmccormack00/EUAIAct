@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { truncateText } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
@@ -18,7 +18,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
   const sidebarStyle = {
     position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 30,
-    width: 310, background: "white", borderRight: "1px solid #e8e4de",
+    width: 310, background: COLORS.white, borderRight: `1px solid ${COLORS.borderDefault}`,
     display: "flex", flexDirection: "column",
     transform: isMobileOpen ? "translateX(0)" : "translateX(-100%)",
     transition: "transform 0.3s ease",
@@ -29,11 +29,11 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
       <style>{`@media (min-width: 1024px) { .sidebar-container { transform: translateX(0) !important; position: relative !important; } }`}</style>
       <nav className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
         {/* Title */}
-        <div style={{ flexShrink: 0, padding: "20px 20px 16px", borderBottom: "1px solid #f0ebe4" }}>
+        <div style={{ flexShrink: 0, padding: "20px 20px 16px", borderBottom: `1px solid ${COLORS.warmBorder}` }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
-              <h2 style={{ fontSize: 20, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>EU AI Act</h2>
-              <p style={{ fontSize: 11, color: "#8b7355", margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
+              <h2 style={{ fontSize: 20, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF }}>EU AI Act</h2>
+              <p style={{ fontSize: 11, color: COLORS.warmText, margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
             </div>
           </div>
         </div>

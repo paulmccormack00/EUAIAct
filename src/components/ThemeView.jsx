@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { truncateText } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import RecitalCard from "./RecitalCard.jsx";

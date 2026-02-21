@@ -1,4 +1,4 @@
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { BLOG_POSTS } from "../data/blog-posts.js";
 
 export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
@@ -80,6 +80,56 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
                 ))}
               </tbody>
             </table>
+          </div>
+        );
+      case "numbered-action":
+        return (
+          <div key={idx} style={{ margin: "24px 0", display: "flex", flexDirection: "column", gap: 12 }}>
+            {block.items.map((item, i) => (
+              <div key={i} style={{
+                display: "flex", gap: 16, padding: "18px 20px",
+                background: COLORS.white, borderRadius: RADIUS.xl, border: `1px solid ${COLORS.borderDefault}`,
+                transition: "all 0.15s",
+              }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: RADIUS.md, background: COLORS.primaryLight,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 14, fontWeight: 700, color: COLORS.primary, fontFamily: SANS,
+                  flexShrink: 0,
+                }}>
+                  {i + 1}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, margin: "0 0 4px", fontFamily: SANS }}>
+                    {item.action}
+                  </p>
+                  <p style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6, margin: 0, fontFamily: SANS }}>
+                    {parseInlineRefs(item.detail, onArticleClick)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      case "takeaways":
+        return (
+          <div key={idx} style={{
+            margin: "24px 0", padding: "24px 28px",
+            background: COLORS.primaryLight, borderRadius: RADIUS.xl,
+            borderLeft: `4px solid ${COLORS.primary}`,
+          }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {block.items.map((item, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2.5" style={{ flexShrink: 0, marginTop: 2 }}>
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                  <p style={{ fontSize: 14, color: COLORS.primary, lineHeight: 1.6, margin: 0, fontFamily: SANS, fontWeight: 500 }}>
+                    {parseInlineRefs(item, onArticleClick)}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         );
       case "diagram":

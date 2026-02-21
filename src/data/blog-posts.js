@@ -57,18 +57,18 @@ export const BLOG_POSTS = [
       { type: "paragraph", text: "The notification must be submitted to the authority designated under Article 70. For most EU member states, this is the national data protection authority or a dedicated AI authority." },
 
       { type: "heading", text: "Practical Preparation Steps" },
-      { type: "list", items: [
-        "Inventory your AI systems: Identify all AI systems in use and classify them against Annex III",
-        "Determine your deployer type: Confirm whether you fall under Article 27(1) obligations",
-        "Audit existing DPIAs: Map which DPIAs can be leveraged under Article 27(4)",
-        "Identify affected rights: Map each AI system to the Charter rights it could impact",
-        "Build your assessment team: Involve legal, technical, DPO, and affected stakeholder representatives",
-        "Start documenting: Begin recording processes, oversight measures, and risk mitigation strategies",
-        "Monitor for the official template: Track the EU AI Office for the Article 27(5) template publication"
+      { type: "numbered-action", items: [
+        { action: "Inventory your AI systems", detail: "Identify all AI systems in use and classify them against Annex III categories to determine which are high-risk." },
+        { action: "Determine your deployer type", detail: "Confirm whether you fall under Article 27(1) obligations as a public body, public service provider, or credit/insurance deployer." },
+        { action: "Audit existing DPIAs", detail: "Map which DPIAs can be leveraged under Article 27(4) to reduce the effort required for your FRIA." },
+        { action: "Identify affected rights", detail: "Map each AI system to the EU Charter rights it could impact — covering all seven title areas." },
+        { action: "Build your assessment team", detail: "Involve legal, technical, DPO, and affected stakeholder representatives from the outset." },
+        { action: "Start documenting", detail: "Begin recording processes, human oversight measures, and risk mitigation strategies before the template is published." },
+        { action: "Monitor for the official template", detail: "Track the EU AI Office for the Article 27(5) template publication — but don't wait for it to begin preparation." },
       ]},
 
       { type: "heading", text: "Key Takeaways" },
-      { type: "list", items: [
+      { type: "takeaways", items: [
         "The FRIA is mandatory for public bodies, public service providers, and credit/insurance deployers of high-risk AI",
         "It must be conducted before the AI system is put into use",
         "Existing DPIAs can be reused under Article 27(4) to reduce effort",

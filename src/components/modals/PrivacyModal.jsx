@@ -1,4 +1,4 @@
-import { SANS, SERIF } from "../../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../../constants.js";
 
 export default function PrivacyModal({ onClose, onKeyDown }) {
   return (
@@ -6,10 +6,10 @@ export default function PrivacyModal({ onClose, onKeyDown }) {
       style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
-      <div className="modal-content" style={{ position: "relative", background: "white", borderRadius: 20, maxWidth: 620, width: "100%", padding: "36px 40px", boxShadow: "0 25px 50px rgba(0,0,0,0.15)", maxHeight: "90vh", overflowY: "auto" }}
+      <div className="modal-content" style={{ position: "relative", background: COLORS.white, borderRadius: RADIUS.round, maxWidth: 620, width: "100%", padding: "36px 40px", boxShadow: "0 25px 50px rgba(0,0,0,0.15)", maxHeight: "90vh", overflowY: "auto" }}
         onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} aria-label="Close dialog"
-          style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 8 }}>
+          style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 8 }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
         </button>
 

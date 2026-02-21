@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { formatArticleText, highlightText, renderHighlightedParts } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { PLAIN_SUMMARIES } from "../data/plain-summaries.js";

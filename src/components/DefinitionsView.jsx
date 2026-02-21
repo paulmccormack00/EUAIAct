@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { highlightText, renderHighlightedParts } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ASTRO_LOST } from "../assets.js";

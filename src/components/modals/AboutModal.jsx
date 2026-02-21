@@ -1,4 +1,4 @@
-import { SANS, SERIF } from "../../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../../constants.js";
 import { ASTRO_THUMBS } from "../../assets.js";
 
 export default function AboutModal({ onClose, onKeyDown }) {
@@ -7,18 +7,18 @@ export default function AboutModal({ onClose, onKeyDown }) {
       style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
-      <div className="modal-content" style={{ position: "relative", background: "white", borderRadius: 20, maxWidth: 560, width: "100%", padding: "36px 40px", boxShadow: "0 25px 50px rgba(0,0,0,0.15)", maxHeight: "90vh", overflowY: "auto" }}
+      <div className="modal-content" style={{ position: "relative", background: COLORS.white, borderRadius: RADIUS.round, maxWidth: 560, width: "100%", padding: "36px 40px", boxShadow: "0 25px 50px rgba(0,0,0,0.15)", maxHeight: "90vh", overflowY: "auto" }}
         onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} aria-label="Close dialog"
-          style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 8 }}>
+          style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 8 }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 14, background: "linear-gradient(135deg, #1e3a5f, #2d5a8e)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 22 }}>⚖</div>
+          <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 22 }}>⚖</div>
           <div>
-            <h2 id="about-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: 0, fontFamily: SERIF, color: "#1a1a1a" }}>EU AI Act Navigator</h2>
-            <p style={{ fontSize: 13, color: "#8b7355", margin: 0, fontFamily: SANS }}>Interactive Reference Tool</p>
+            <h2 id="about-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.textPrimary }}>EU AI Act Navigator</h2>
+            <p style={{ fontSize: 13, color: COLORS.warmText, margin: 0, fontFamily: SANS }}>Interactive Reference Tool</p>
           </div>
         </div>
 

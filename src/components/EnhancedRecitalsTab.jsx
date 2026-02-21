@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { SANS, SERIF } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP, ARTICLE_TO_RECITAL_MAP, RECITAL_SUMMARIES, getRecitalDisplayText } from "../data/recital-maps.js";
 
