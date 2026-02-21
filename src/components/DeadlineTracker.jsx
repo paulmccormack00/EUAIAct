@@ -6,7 +6,6 @@ const DEADLINES = [
     date: "1 August 2024",
     isoDate: "2024-08-01",
     title: "Entry into Force",
-    status: "passed",
     description: "The EU AI Act (Regulation (EU) 2024/1689) entered into force, starting the phased implementation timeline.",
     articles: ["Article 113"],
     details: [
@@ -19,7 +18,6 @@ const DEADLINES = [
     date: "2 February 2025",
     isoDate: "2025-02-02",
     title: "Prohibited AI Practices & AI Literacy",
-    status: "passed",
     description: "Prohibitions on unacceptable-risk AI practices take effect. AI literacy obligations begin for providers and deployers.",
     articles: ["Article 5", "Article 4"],
     details: [
@@ -31,14 +29,15 @@ const DEADLINES = [
   {
     date: "2 August 2025",
     isoDate: "2025-08-02",
-    title: "GPAI Obligations, Governance & Penalties",
-    status: "current",
-    description: "General-purpose AI model rules apply. EU AI governance structure becomes operational. Penalty framework is enforceable.",
-    articles: ["Articles 51-56", "Articles 64-65", "Article 99"],
+    title: "GPAI, Governance, Notified Bodies & Penalties",
+    description: "General-purpose AI model rules apply. EU AI governance structure and notified bodies framework become operational. Penalty framework is enforceable.",
+    articles: ["Articles 28-39", "Articles 51-56", "Articles 64-65", "Article 99"],
     details: [
       "GPAI providers must comply with transparency, documentation, and copyright obligations",
       "Systemic risk GPAI models face additional requirements (adversarial testing, incident reporting)",
       "EU AI Office, AI Board, and national competent authorities fully operational",
+      "Notified bodies framework operational — Member States must designate notifying authorities (Chapter III, Section 4)",
+      "Notified bodies perform third-party conformity assessments for certain high-risk AI systems",
       "Penalties: up to EUR 35M / 7% turnover for prohibited practices; EUR 15M / 3% for other violations",
       "12-month transition from entry into force",
     ],
@@ -46,13 +45,13 @@ const DEADLINES = [
   {
     date: "2 February 2026",
     isoDate: "2026-02-02",
-    title: "Notified Bodies Designation",
-    status: "upcoming",
-    description: "Member States must have designated notified bodies for conformity assessment of high-risk AI systems.",
-    articles: ["Articles 28-39"],
+    title: "Commission Guidelines & Templates",
+    description: "The European Commission must publish guidelines on high-risk AI classification rules and the template for post-market monitoring plans.",
+    articles: ["Article 6", "Article 72"],
     details: [
-      "Notified bodies perform third-party conformity assessments for certain high-risk systems",
-      "Required for biometric AI systems under Annex III",
+      "Commission guidelines on the practical implementation of Article 6 classification rules for high-risk AI",
+      "Template for post-market monitoring plans to be published",
+      "These support providers preparing for the August 2026 full application deadline",
       "18-month transition from entry into force",
     ],
   },
@@ -60,7 +59,6 @@ const DEADLINES = [
     date: "2 August 2026",
     isoDate: "2026-08-02",
     title: "Full Application — High-Risk AI Systems",
-    status: "critical",
     description: "All remaining provisions apply, including high-risk AI system obligations, FRIA requirements, conformity assessments, and the full deployer/provider obligation framework.",
     articles: ["Article 6-7", "Articles 8-15", "Article 26-27", "Article 43", "Article 50"],
     details: [
@@ -69,6 +67,7 @@ const DEADLINES = [
       "Provider obligations: quality management, conformity assessment, CE marking, registration",
       "Deployer obligations: human oversight, monitoring, incident reporting",
       "Transparency obligations for limited-risk AI (deepfakes, chatbots, emotion recognition)",
+      "At least one AI regulatory sandbox per Member State must be operational",
       "24-month transition from entry into force",
     ],
     highlight: true,
@@ -77,12 +76,12 @@ const DEADLINES = [
     date: "2 August 2027",
     isoDate: "2027-08-02",
     title: "Annex I Products — EU Safety Legislation",
-    status: "future",
-    description: "High-risk AI systems embedded in products covered by EU harmonised safety legislation (Annex I) must comply.",
+    description: "High-risk AI systems embedded in products covered by EU harmonised safety legislation (Annex I) must comply. GPAI models placed on the market before 2 August 2025 must also comply by this date.",
     articles: ["Article 6(1)", "Annex I"],
     details: [
       "Covers AI in: machinery, toys, lifts, medical devices, civil aviation, motor vehicles, marine equipment, rail systems",
       "These AI systems follow the Article 6(1) route — classified as high-risk through existing product safety frameworks",
+      "GPAI models placed on market before 2 August 2025 must have completed compliance steps",
       "36-month transition from entry into force",
     ],
   },
@@ -90,7 +89,7 @@ const DEADLINES = [
     date: "31 December 2027",
     isoDate: "2027-12-31",
     title: "Digital Omnibus Proposal — Potential Long-Stop",
-    status: "tentative",
+    tentative: true,
     description: "The European Commission's Digital Omnibus proposal may extend certain deadlines. This is under legislative negotiation and not yet confirmed.",
     articles: ["Digital Omnibus Regulation (proposed)"],
     details: [
@@ -101,6 +100,23 @@ const DEADLINES = [
     ],
   },
 ];
+
+// Compute status dynamically based on current date
+function getDeadlineStatus(deadline, allDeadlines) {
+  if (deadline.tentative) return "tentative";
+  const now = new Date();
+  const target = new Date(deadline.isoDate);
+  const days = Math.ceil((target - now) / 86400000);
+  if (days < 0) return "passed";
+  // Find the next upcoming non-tentative deadline
+  const upcoming = allDeadlines
+    .filter(d => !d.tentative && new Date(d.isoDate) > now)
+    .sort((a, b) => new Date(a.isoDate) - new Date(b.isoDate));
+  if (upcoming.length > 0 && deadline.isoDate === upcoming[0].isoDate) {
+    return deadline.highlight ? "critical" : "current";
+  }
+  return "future";
+}
 
 function daysUntil(isoDate) {
   const target = new Date(isoDate);
@@ -167,7 +183,7 @@ export default function DeadlineTracker({ onArticleClick }) {
     }
   };
 
-  const friaDeadline = DEADLINES.find(d => d.status === "critical");
+  const friaDeadline = DEADLINES.find(d => d.highlight);
   const daysToFria = friaDeadline ? daysUntil(friaDeadline.isoDate) : 0;
 
   return (
@@ -209,7 +225,8 @@ export default function DeadlineTracker({ onArticleClick }) {
         <div style={{ position: "absolute", left: 11, top: 8, bottom: 8, width: 2, background: "#e8e4de" }} />
 
         {DEADLINES.map((deadline, idx) => {
-          const colors = getStatusColor(deadline.status);
+          const status = getDeadlineStatus(deadline, DEADLINES);
+          const colors = getStatusColor(status);
           const expanded = expandedIdx === idx;
           const days = daysUntil(deadline.isoDate);
           const isPast = days < 0;
@@ -244,9 +261,9 @@ export default function DeadlineTracker({ onArticleClick }) {
                         fontSize: 11, fontWeight: 600, padding: "2px 10px", borderRadius: 20,
                         background: colors.bg, color: colors.text, border: `1px solid ${colors.border}`,
                       }}>
-                        {getStatusLabel(deadline.status)}
+                        {getStatusLabel(status)}
                       </span>
-                      {!isPast && deadline.status !== "passed" && (
+                      {!isPast && status !== "passed" && (
                         <span style={{ fontSize: 11, color: "#94a3b8" }}>
                           {days} days
                         </span>
