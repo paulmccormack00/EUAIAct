@@ -232,6 +232,7 @@ export default function App() {
     <div style={{ height: "100vh", display: "flex", background: COLORS.pageBg, fontFamily: SANS }}>
       <style>{FONT_FACE_CSS}</style>
       <style>{FOCUS_CSS}</style>
+      <style>{`body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }`}</style>
       {/* Skip navigation link */}
       <a href="#main-content" style={{ position: "absolute", left: "-9999px", top: "auto", width: "1px", height: "1px", overflow: "hidden", zIndex: 1000 }}
         onFocus={e => { e.currentTarget.style.position = "fixed"; e.currentTarget.style.left = "16px"; e.currentTarget.style.top = "16px"; e.currentTarget.style.width = "auto"; e.currentTarget.style.height = "auto"; e.currentTarget.style.overflow = "visible"; e.currentTarget.style.background = "#1e3a5f"; e.currentTarget.style.color = "white"; e.currentTarget.style.padding = "12px 24px"; e.currentTarget.style.borderRadius = "8px"; e.currentTarget.style.fontSize = "14px"; e.currentTarget.style.fontWeight = "600"; e.currentTarget.style.textDecoration = "none"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)"; }}
@@ -297,6 +298,14 @@ export default function App() {
           .fria-form { flex-direction: column !important; }
           .fria-input { width: 100% !important; }
           .fria-btn { width: 100% !important; padding: 14px !important; }
+          .fria-step-tabs { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+          .fria-step-tabs button { min-width: 80px !important; flex-shrink: 0 !important; }
+          .fria-results-grid { grid-template-columns: 1fr !important; }
+          .fria-email-form { flex-direction: column !important; }
+          .fria-email-form input { width: 100% !important; }
+          .fria-email-form button { width: 100% !important; }
+          .fria-card-inner { padding: 24px 16px !important; }
+          .fria-heatmap { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
@@ -322,6 +331,9 @@ export default function App() {
           .fria-heading { font-size: 18px !important; }
           .fria-sub { font-size: 12px !important; }
           .fria-countdown { font-size: 11px !important; padding: 3px 10px !important; }
+          .fria-step-tabs button { min-width: 70px !important; font-size: 10px !important; padding: 6px 2px !important; }
+          .fria-card-inner { padding: 20px 12px !important; }
+          .fria-results-title { font-size: 18px !important; }
         }
       `}</style>
 

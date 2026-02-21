@@ -1,0 +1,14 @@
+{
+  "appId": "app.euai.navigator",
+  "appName": "EU AI Act Navigator",
+  "webDir": "dist",
+  "server": {
+    "url": "https://euai.app",
+    "cleartext": false
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "backgroundColor": "#f7f5f2",
+    "preferredContentMode": "mobile"
+  }
+}

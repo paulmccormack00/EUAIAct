@@ -28,3 +28,8 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# iOS build artifacts
+ios/App/Pods/
+ios/App/build/
+ios/App/DerivedData/

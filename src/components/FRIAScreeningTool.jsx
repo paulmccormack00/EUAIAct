@@ -683,7 +683,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
             )}
           </div>
-          <h3 style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
+          <h3 className="fria-results-title" style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
             {friaRequired ? "FRIA is Required" : "FRIA is Not Required"}
           </h3>
           <p style={{ fontSize: 14, color: "#64748b", fontFamily: SANS }}>
@@ -695,7 +695,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
         </div>
 
         {/* Summary Cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16, marginBottom: 24 }}>
+        <div className="fria-results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16, marginBottom: 24 }}>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Classification</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{answers.isHighRisk ? "High-Risk" : "Not High-Risk"}</p>
@@ -723,7 +723,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
         {/* Rights Heatmap */}
         <div style={{ marginBottom: 24 }}>
           <h4 style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SANS }}>Fundamental Rights Impact Heatmap</h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
+          <div className="fria-heatmap" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
             {FUNDAMENTAL_RIGHTS.map((right) => {
               const impacted = answers.selectedRights.includes(right.id);
               return (
@@ -775,7 +775,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleEmailSubmit} style={{ display: "flex", gap: 10 }}>
+            <form onSubmit={handleEmailSubmit} className="fria-email-form" style={{ display: "flex", gap: 10 }}>
               <input
                 type="email"
                 aria-label="Email address to save screening results"
@@ -850,7 +850,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <div style={{ height: "100%", width: `${progressPercent}%`, background: "#1e3a5f", borderRadius: 3, transition: "width 0.3s ease" }} />
         </div>
         {/* Step labels */}
-        <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+        <div className="fria-step-tabs" style={{ display: "flex", gap: 4, marginTop: 12 }}>
           {STEPS.map((s, i) => (
             <button
               key={s.id}
@@ -871,7 +871,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
       </div>
 
       {/* Current step card */}
-      <div style={cardStyle}>
+      <div className="fria-card-inner" style={cardStyle}>
         <div style={{ marginBottom: 24 }}>
           <h2 style={{ fontSize: 20, fontWeight: 500, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>
             {STEPS[step].title}
