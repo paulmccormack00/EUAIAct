@@ -140,8 +140,14 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         </div>
       )}
 
-      {/* Tools & Resources — prominent placement */}
-      <div style={{ marginBottom: 36 }}>
+      {/* Tools & Resources — prominent placement with contrast background */}
+      <div style={{ margin: "0 -40px 36px", padding: "32px 40px", background: "#f7f5f2", borderTop: "1px solid #e8e4de", borderBottom: "1px solid #e8e4de" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1e3a5f", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
+          </div>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>Tools &amp; Resources</h2>
+        </div>
         <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {onFRIAClick && (
             <button
@@ -282,6 +288,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <input
                 className="fria-input"
                 type="email"
+                aria-label="Email address for FRIA updates"
                 placeholder="you@company.com"
                 value={subscribeEmail}
                 onChange={e => { setSubscribeEmail(e.target.value); if (subscribeStatus === "error") setSubscribeStatus(null); }}
@@ -316,13 +323,20 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Timeline */}
       <div className="key-articles-grid home-timeline" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 0, marginBottom: 44, background: "white", borderRadius: 16, border: "1px solid #e8e4de", overflow: "hidden" }}>
         {[
-          { date: "1 Aug 2024", event: "Entry into force", status: "done" },
-          { date: "2 Feb 2025", event: "Prohibited practices · AI literacy", status: "done" },
-          { date: "2 Aug 2025", event: "GPAI obligations · Governance · Penalties", status: "current" },
-          { date: "2 Aug 2026", event: "Full application — all remaining provisions", status: "future" },
-          { date: "2 Aug 2027", event: "Annex I products — EU safety legislation", status: "future" },
-        ].map(({ date, event, status }, i) => (
-          <div key={date} style={{
+          { date: "1 Aug 2024", event: "Entry into force", isoDate: "2024-08-01" },
+          { date: "2 Feb 2025", event: "Prohibited practices · AI literacy", isoDate: "2025-02-02" },
+          { date: "2 Aug 2025", event: "GPAI · Governance · Notified Bodies", isoDate: "2025-08-02" },
+          { date: "2 Aug 2026", event: "Full application — high-risk & FRIA", isoDate: "2026-08-02", highlight: true },
+          { date: "2 Aug 2027", event: "Annex I products — EU safety legislation", isoDate: "2027-08-02" },
+        ].map((item, i, arr) => {
+          const now = new Date();
+          const target = new Date(item.isoDate);
+          const isPast = target < now;
+          const futureDates = arr.filter(d => new Date(d.isoDate) > now).sort((a, b) => new Date(a.isoDate) - new Date(b.isoDate));
+          const isNext = futureDates.length > 0 && item.isoDate === futureDates[0].isoDate;
+          const status = isPast ? "done" : isNext ? "current" : "future";
+          return (
+          <div key={item.date} style={{
             padding: "24px 16px", textAlign: "center", borderRight: i < 4 ? "1px solid #e8e4de" : "none",
             background: status === "done" ? "#f0fdf4" : status === "current" ? "#f0f4ff" : "white",
           }}>
@@ -331,10 +345,11 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               background: status === "done" ? "#16a34a" : status === "current" ? "#1e3a5f" : "#cbd5e1",
               boxShadow: status === "current" ? "0 0 0 4px rgba(30,58,95,0.15)" : "none",
             }} />
-            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#94a3b8" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{date}</p>
-            <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, fontFamily: SANS }}>{event}</p>
+            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#94a3b8" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
+            <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* AI Advisor CTA */}

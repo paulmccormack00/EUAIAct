@@ -231,6 +231,12 @@ export default function App() {
   return (
     <div style={{ height: "100vh", display: "flex", background: "#f7f5f2", fontFamily: SANS }}>
       <style>{FONT_FACE_CSS}</style>
+      {/* Skip navigation link */}
+      <a href="#main-content" style={{ position: "absolute", left: "-9999px", top: "auto", width: "1px", height: "1px", overflow: "hidden", zIndex: 1000 }}
+        onFocus={e => { e.currentTarget.style.position = "fixed"; e.currentTarget.style.left = "16px"; e.currentTarget.style.top = "16px"; e.currentTarget.style.width = "auto"; e.currentTarget.style.height = "auto"; e.currentTarget.style.overflow = "visible"; e.currentTarget.style.background = "#1e3a5f"; e.currentTarget.style.color = "white"; e.currentTarget.style.padding = "12px 24px"; e.currentTarget.style.borderRadius = "8px"; e.currentTarget.style.fontSize = "14px"; e.currentTarget.style.fontWeight = "600"; e.currentTarget.style.textDecoration = "none"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)"; }}
+        onBlur={e => { e.currentTarget.style.position = "absolute"; e.currentTarget.style.left = "-9999px"; e.currentTarget.style.width = "1px"; e.currentTarget.style.height = "1px"; e.currentTarget.style.overflow = "hidden"; }}>
+        Skip to main content
+      </a>
       <style>{`
         @media (max-width: 1023px) {
           .mobile-menu-btn { display: block !important; }
@@ -318,7 +324,7 @@ export default function App() {
         }
       `}</style>
 
-      {isMobileOpen && <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 20 }} onClick={() => setIsMobileOpen(false)} />}
+      {isMobileOpen && <div role="presentation" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 20 }} onClick={() => setIsMobileOpen(false)} />}
 
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
@@ -330,6 +336,7 @@ export default function App() {
         {/* Top Bar */}
         <header className="top-bar" style={{ flexShrink: 0, background: "white", borderBottom: "1px solid #e8e4de", padding: "10px 24px", display: "flex", alignItems: "center", gap: 12 }}>
           <button onClick={() => setIsMobileOpen(true)}
+            aria-label="Open navigation menu"
             style={{ display: "none", padding: 8, border: "none", background: "none", cursor: "pointer", color: "#64748b" }}
             className="mobile-menu-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -337,7 +344,7 @@ export default function App() {
           <style>{`@media (max-width: 1023px) { .mobile-menu-btn { display: block !important; } }`}</style>
 
           {/* Site Logo */}
-          <a onClick={handleHomeClick} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
+          <a href="/" onClick={(e) => { e.preventDefault(); handleHomeClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
             <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
             <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
           </a>
@@ -407,11 +414,13 @@ export default function App() {
             <div className="nav-arrows" style={{ display: "flex", gap: 4, flexShrink: 0 }}>
               <button onClick={() => { const p = selectedArticle - 1; if (EU_AI_ACT_DATA.articles[String(p)]) handleArticleClick(p); }}
                 disabled={!EU_AI_ACT_DATA.articles[String(selectedArticle - 1)]}
+                aria-label="Previous article"
                 style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: EU_AI_ACT_DATA.articles[String(selectedArticle - 1)] ? 1 : 0.3 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
               </button>
               <button onClick={() => { const n = selectedArticle + 1; if (EU_AI_ACT_DATA.articles[String(n)]) handleArticleClick(n); }}
                 disabled={!EU_AI_ACT_DATA.articles[String(selectedArticle + 1)]}
+                aria-label="Next article"
                 style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: EU_AI_ACT_DATA.articles[String(selectedArticle + 1)] ? 1 : 0.3 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
               </button>
@@ -453,7 +462,7 @@ export default function App() {
         )}
 
         {/* Content */}
-        <main ref={mainRef} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px" }}>
+        <main id="main-content" ref={mainRef} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px" }}>
           {isSearching ? (
             <SearchResults query={searchQuery} onArticleClick={handleArticleClick} />
           ) : view === "article" && selectedArticle === 3 ? (
@@ -524,14 +533,15 @@ export default function App() {
         </main>
       </div>
 
-      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
-      {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
-      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} onKeyDown={e => { if (e.key === "Escape") setShowAbout(false); }} />}
+      {showTerms && <TermsModal onClose={() => setShowTerms(false)} onKeyDown={e => { if (e.key === "Escape") setShowTerms(false); }} />}
+      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} onKeyDown={e => { if (e.key === "Escape") setShowPrivacy(false); }} />}
       {/* Floating AI Advisor Button */}
       {!chatOpen && (
         <button
           className="fab-advisor"
           onClick={() => setChatOpen(true)}
+          aria-label="Open AI Advisor chat"
           title="Ask the AI Advisor"
           style={{
             position: "fixed", bottom: 24, right: 24, zIndex: 15,

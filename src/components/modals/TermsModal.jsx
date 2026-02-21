@@ -1,18 +1,19 @@
 import { SANS, SERIF } from "../../constants.js";
 
-export default function TermsModal({ onClose }) {
+export default function TermsModal({ onClose, onKeyDown }) {
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+    <div role="dialog" aria-modal="true" aria-labelledby="terms-modal-title" onKeyDown={onKeyDown}
+      style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
       <div className="modal-content" style={{ position: "relative", background: "white", borderRadius: 20, maxWidth: 620, width: "100%", padding: "36px 40px", boxShadow: "0 25px 50px rgba(0,0,0,0.15)", maxHeight: "90vh", overflowY: "auto" }}
         onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose}
+        <button onClick={onClose} aria-label="Close dialog"
           style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 8 }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
         </button>
 
-        <h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Terms of Use</h2>
+        <h2 id="terms-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Terms of Use</h2>
         <p style={{ fontSize: 13, color: "#8b7355", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
 
         {[

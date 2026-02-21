@@ -46,13 +46,19 @@ const DEADLINES = [
     date: "2 February 2026",
     isoDate: "2026-02-02",
     title: "Commission Guidelines & Templates",
-    description: "The European Commission must publish guidelines on high-risk AI classification rules and the template for post-market monitoring plans.",
+    description: "The European Commission was required to publish guidelines on high-risk AI classification rules (Article 6) and the post-market monitoring plan template (Article 72). Both deadlines were missed — final adoption expected March/April 2026.",
     articles: ["Article 6", "Article 72"],
     details: [
-      "Commission guidelines on the practical implementation of Article 6 classification rules for high-risk AI",
-      "Template for post-market monitoring plans to be published",
+      "Commission guidelines on Article 6 classification rules for high-risk AI — deadline missed, draft expected late Feb 2026, final adoption Mar/Apr 2026",
+      "Post-market monitoring plan template (Article 72 implementing act) — not yet published as of deadline",
       "These support providers preparing for the August 2026 full application deadline",
       "18-month transition from entry into force",
+    ],
+    links: [
+      { label: "IAPP: Commission misses deadline", url: "https://iapp.org/news/a/european-commission-misses-deadline-for-ai-act-guidance-on-high-risk-systems" },
+      { label: "Commission AI Act guidance page", url: "https://digital-strategy.ec.europa.eu/en/news/supporting-implementation-ai-act-clear-guidelines" },
+      { label: "Article 6 — AI Act Service Desk", url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-6" },
+      { label: "Article 72 — AI Act Service Desk", url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-72" },
     ],
   },
   {
@@ -306,6 +312,25 @@ export default function DeadlineTracker({ onArticleClick }) {
                             </button>
                           );
                         })}
+                      </div>
+                    )}
+                    {deadline.links && deadline.links.length > 0 && (
+                      <div style={{ marginTop: 12 }}>
+                        <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                          {deadline.links.map((link) => (
+                            <a
+                              key={link.url}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              style={{ fontSize: 12, color: "#1e3a5f", textDecoration: "underline", fontFamily: SANS }}
+                            >
+                              {link.label} ↗
+                            </a>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>

@@ -162,7 +162,131 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   };
 
   const handlePrint = () => {
-    window.print();
+    const friaRequired = getFriaRequired();
+    const risk = getRiskLevel();
+    const categories = answers.useCases.map(id => ANNEX_III_CATEGORIES.find(c => c.id === id)).filter(Boolean);
+    const deployer = DEPLOYER_TYPES.find(d => d.id === answers.deployerType);
+    const dpiaReuse = getDpiaReusePercent();
+    const impactedRights = FUNDAMENTAL_RIGHTS.filter(r => answers.selectedRights.includes(r.id));
+    const today = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+    const printHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FRIA Screening Report — EU AI Act Navigator</title>
+<style>
+  @page { margin: 24mm 20mm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; line-height: 1.6; background: white; }
+  .header { background: #0a1e5c; color: white; padding: 32px 40px 28px; }
+  .header-row { display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 20px; font-weight: 700; font-family: Georgia, serif; letter-spacing: -0.3px; }
+  .header .badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #8a94b8; }
+  .hero { background: #0d2470; color: white; padding: 28px 40px; text-align: center; }
+  .hero .result { font-size: 28px; font-weight: 700; font-family: Georgia, serif; margin: 0 0 6px; }
+  .hero .sub { font-size: 14px; color: #b0b8d4; }
+  .content { padding: 28px 40px; }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .summary-card { padding: 16px 20px; border-radius: 8px; border: 1px solid #e5e7eb; }
+  .summary-card .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: #9ca3af; font-weight: 700; margin-bottom: 6px; }
+  .summary-card .value { font-size: 16px; font-weight: 700; }
+  .summary-card .detail { font-size: 12px; color: #6b7280; margin-top: 3px; }
+  .section-title { font-size: 14px; font-weight: 700; color: #0a1e5c; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid #0a1e5c; padding-bottom: 6px; }
+  .heatmap { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 20px; }
+  .heatmap-item { padding: 8px 12px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+  .heatmap-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .heatmap-item.impacted { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-weight: 600; }
+  .heatmap-item.clear { background: #f8fafc; border: 1px solid #e5e7eb; color: #9ca3af; }
+  .heatmap-item.impacted .dot { background: #dc2626; }
+  .heatmap-item.clear .dot { background: #cbd5e1; }
+  .next-steps { background: #f0f4ff; border: 1px solid #c7d6ec; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+  .next-steps ol { padding-left: 20px; font-size: 13px; color: #374151; }
+  .next-steps li { margin-bottom: 4px; }
+  .deadline-badge { background: #fdf6e3; border-left: 4px solid #d4a843; border-radius: 0 8px 8px 0; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .deadline-badge .date { font-size: 22px; font-weight: 700; color: #0a1e5c; font-family: Georgia, serif; }
+  .deadline-badge .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: #9a8340; font-weight: 700; }
+  .footer { padding: 20px 40px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; text-align: center; }
+  .footer a { color: #0a1e5c; text-decoration: none; font-weight: 600; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-row">
+      <h1>EU AI Act Navigator</h1>
+      <span class="badge">FRIA Screening Report</span>
+    </div>
+  </div>
+  <div class="hero">
+    <p class="result">${friaRequired ? "FRIA is Required" : "FRIA is Not Required"}</p>
+    <p class="sub">${friaRequired ? "Under Article 27, a Fundamental Rights Impact Assessment must be completed before deploying this AI system." : "Based on your deployer type, a FRIA is not legally required — though a voluntary assessment is recommended."}</p>
+  </div>
+  <div class="content">
+    <div class="deadline-badge">
+      <div>
+        <p class="label">FRIA Deadline</p>
+        <p class="date">2 August 2026</p>
+      </div>
+      <span style="font-size:12px;color:#6b7280;">Article 27</span>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <p class="label">Classification</p>
+        <p class="value">${answers.isHighRisk ? "High-Risk" : "Not High-Risk"}</p>
+        <p class="detail">${categories.map(c => c.label).join(", ") || "—"}</p>
+      </div>
+      <div class="summary-card">
+        <p class="label">Deployer Type</p>
+        <p class="value">${deployer?.label || "—"}</p>
+        <p class="detail" style="color:${friaRequired ? "#ea580c" : "#16a34a"};font-weight:600">${friaRequired ? "FRIA Obligated" : "FRIA Optional"}</p>
+      </div>
+      <div class="summary-card">
+        <p class="label">Rights Impact</p>
+        <p class="value" style="color:${risk.color}">${risk.level} Risk</p>
+        <p class="detail">${answers.selectedRights.length} of 7 right categories impacted</p>
+      </div>
+      <div class="summary-card">
+        <p class="label">DPIA Reuse</p>
+        <p class="value">${dpiaReuse}% Reusable</p>
+        <p class="detail">${answers.hasDPIA ? "Under Article 27(4)" : "No existing DPIA"}</p>
+      </div>
+    </div>
+    <p class="section-title">Fundamental Rights Impact Heatmap</p>
+    <div class="heatmap">
+      ${FUNDAMENTAL_RIGHTS.map(r => {
+        const impacted = answers.selectedRights.includes(r.id);
+        return `<div class="heatmap-item ${impacted ? "impacted" : "clear"}"><span class="dot"></span>${r.label}</div>`;
+      }).join("")}
+    </div>
+    <p class="section-title">Next Steps</p>
+    <div class="next-steps">
+      <ol>
+        ${friaRequired ? "<li>Conduct a full FRIA covering all 10 sections (90 questions)</li>" : ""}
+        ${friaRequired ? "<li>Document your assessment per Article 27(1) requirements</li>" : ""}
+        ${answers.hasDPIA ? "<li>Leverage your existing DPIA under Article 27(4) to pre-populate applicable sections</li>" : ""}
+        <li>Review AI system compliance with ${answers.isHighRisk ? "Articles 8-15 (high-risk requirements)" : "Article 50 (transparency obligations)"}</li>
+        ${friaRequired ? "<li>Notify the relevant market surveillance authority per Article 27(1)</li>" : ""}
+        <li>Establish ongoing monitoring and periodic review processes</li>
+        ${answers.isHighRisk ? "<li>Ensure conformity assessment under Article 43 before market placement</li>" : ""}
+      </ol>
+    </div>
+    ${deployer?.note ? `<p style="font-size:12px;color:#6b7280;font-style:italic;margin-top:16px;padding:12px 16px;background:#f8fafc;border-radius:6px;border:1px solid #e5e7eb;">${deployer.note}</p>` : ""}
+  </div>
+  <div class="footer">
+    <p>Generated on ${today} by <a href="https://euai.app">EU AI Act Navigator</a> — euai.app</p>
+    <p style="margin-top:4px;">This screening is for guidance only and does not constitute legal advice.</p>
+  </div>
+</body>
+</html>`;
+
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(printHtml);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => printWindow.print(), 300);
+    }
   };
 
   const progressPercent = Math.round(((step + 1) / STEPS.length) * 100);
@@ -654,6 +778,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
             <form onSubmit={handleEmailSubmit} style={{ display: "flex", gap: 10 }}>
               <input
                 type="email"
+                aria-label="Email address to save screening results"
                 placeholder="you@company.com"
                 value={answers.email}
                 onChange={e => { setAnswers(prev => ({ ...prev, email: e.target.value })); if (emailStatus === "error") setEmailStatus(null); }}

@@ -27,12 +27,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
   return (
     <>
       <style>{`@media (min-width: 1024px) { .sidebar-container { transform: translateX(0) !important; position: relative !important; } }`}</style>
-      <div className="sidebar-container" style={sidebarStyle}>
+      <nav className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
         {/* Title */}
         <div style={{ flexShrink: 0, padding: "20px 20px 16px", borderBottom: "1px solid #f0ebe4" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
-              <h1 style={{ fontSize: 20, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>EU AI Act</h1>
+              <h2 style={{ fontSize: 20, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>EU AI Act</h2>
               <p style={{ fontSize: 11, color: "#8b7355", margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
             OJ L, 2024/1689 · In force 1 Aug 2024
           </p>
         </div>
-      </div>
+      </nav>
     </>
   );
 }

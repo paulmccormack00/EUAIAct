@@ -1,4 +1,9 @@
 export default async function handler(req, res) {
+  const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
+  const origin = req.headers.origin || "";
+  const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", isAllowed ? origin : allowedOrigins[0]);
+  if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -17,8 +22,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Service unavailable." });
   }
 
+  const { randomBytes } = await import("crypto");
   const cleanEmail = email.toLowerCase().trim();
-  const unsubscribeToken = Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+  const unsubscribeToken = randomBytes(32).toString("hex");
 
   try {
     const resp = await fetch(supabaseUrl + "/rest/v1/subscribers", {
@@ -44,7 +50,8 @@ export default async function handler(req, res) {
     const errBody = await resp.text();
 
     if (resp.status === 409 || errBody.includes("duplicate") || errBody.includes("23505")) {
-      return res.status(409).json({ error: "duplicate" });
+      // Return same success response to prevent email enumeration
+      return res.status(200).json({ success: true });
     }
 
     console.error("Supabase insert failed:", resp.status, errBody);

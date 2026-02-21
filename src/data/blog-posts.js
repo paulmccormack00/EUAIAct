@@ -14,6 +14,14 @@ export const BLOG_POSTS = [
     content: [
       { type: "lead", text: "Article 27 of the EU AI Act introduces the fundamental rights impact assessment (FRIA) — a mandatory obligation for certain deployers of high-risk AI systems. With the 2 August 2026 deadline approaching, this article explains exactly who must comply, what a FRIA involves, and how to prepare." },
 
+      { type: "diagram", title: "FRIA Decision Flow — Am I Required to Do a FRIA?", caption: "Simplified decision tree based on Article 27(1) and Annex III. Use the FRIA Screening Tool for a full interactive assessment.", steps: [
+        { type: "start", text: "Is your system an AI system under Article 3(1)?" },
+        { type: "diamond", text: "Does it fall under a high-risk use case in Annex III?", ref: "Article 6(2)" },
+        { type: "diamond", text: "Are you a public body, public service provider, or credit/insurance deployer?", ref: "Article 27(1)" },
+        { type: "yes", text: "FRIA is required before putting the system into use", badge: "YES", ref: "Deadline: 2 August 2026" },
+        { type: "no", text: "FRIA not legally required — but voluntary assessment recommended", badge: "NO", ref: "Best practice under Article 27" },
+      ]},
+
       { type: "heading", text: "Who Must Conduct a FRIA?" },
       { type: "paragraph", text: "Not every organisation that uses AI is obligated to conduct a FRIA. Article 27(1) specifies three categories of deployers who must perform this assessment before putting a high-risk AI system into use:" },
       { type: "list", items: [
@@ -84,6 +92,13 @@ export const BLOG_POSTS = [
     metaKeywords: "FRIA vs DPIA, Article 27(4), DPIA AI Act, fundamental rights impact assessment vs data protection impact assessment",
     content: [
       { type: "lead", text: "If you're a DPO or compliance officer preparing for the EU AI Act, you've likely asked: how does the new FRIA relate to the DPIA I already do under GDPR? This article breaks down the differences, overlaps, and the critical Article 27(4) bridge provision." },
+
+      { type: "diagram", title: "FRIA vs DPIA — Scope Comparison", caption: "The FRIA encompasses all EU Charter rights. The DPIA focuses on data protection. Article 27(4) bridges them.", steps: [
+        { type: "start", text: "DPIA — Data Protection Impact Assessment", ref: "GDPR Article 35" },
+        { type: "diamond", text: "Privacy (Art. 7) + Data Protection (Art. 8) — Shared overlap zone reusable under Article 27(4)", ref: "~30-40% of FRIA pre-populated" },
+        { type: "start", text: "FRIA — Fundamental Rights Impact Assessment", ref: "AI Act Article 27" },
+        { type: "yes", text: "Dignity · Freedoms · Equality · Non-Discrimination · Solidarity · Workers' Rights · Children's Rights · Justice · Effective Remedy", badge: "FRIA-ONLY", ref: "EU Charter Titles I-VII" },
+      ]},
 
       { type: "heading", text: "At a Glance: FRIA vs DPIA" },
       { type: "table", headers: ["Dimension", "DPIA (GDPR Art. 35)", "FRIA (AI Act Art. 27)"], rows: [

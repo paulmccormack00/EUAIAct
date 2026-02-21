@@ -82,6 +82,41 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
             </table>
           </div>
         );
+      case "diagram":
+        return (
+          <div key={idx} style={{ margin: "32px 0", padding: "28px 24px", background: "#f8fafc", borderRadius: 16, border: "1px solid #e2e8f0" }}>
+            {block.title && (
+              <p style={{ fontSize: 13, fontWeight: 700, color: "#1e3a5f", textTransform: "uppercase", letterSpacing: "0.08em", margin: "0 0 20px", textAlign: "center", fontFamily: SANS }}>
+                {block.title}
+              </p>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+              {block.steps.map((step, i) => (
+                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: 480 }}>
+                  <div style={{
+                    width: "100%", padding: "14px 20px", borderRadius: step.type === "diamond" ? 0 : 10,
+                    background: step.type === "start" ? "#0a1e5c" : step.type === "diamond" ? "#fffbeb" : step.type === "yes" ? "#f0fdf4" : step.type === "no" ? "#fef2f2" : "white",
+                    color: step.type === "start" ? "white" : "#1a1a1a",
+                    border: step.type === "diamond" ? "2px solid #d97706" : step.type === "yes" ? "2px solid #16a34a" : step.type === "no" ? "2px solid #dc2626" : "1px solid #e2e8f0",
+                    textAlign: "center", fontSize: 13, fontFamily: SANS, fontWeight: step.type === "start" ? 600 : 500, lineHeight: 1.5,
+                    transform: step.type === "diamond" ? "rotate(0deg)" : "none",
+                    position: "relative",
+                  }}>
+                    {step.badge && <span style={{ position: "absolute", top: -10, left: 16, padding: "2px 8px", background: step.type === "yes" ? "#16a34a" : "#dc2626", color: "white", borderRadius: 4, fontSize: 10, fontWeight: 700 }}>{step.badge}</span>}
+                    {step.text}
+                    {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#94a3b8", marginTop: 2 }}>{step.ref}</span>}
+                  </div>
+                  {i < block.steps.length - 1 && (
+                    <div style={{ width: 2, height: 20, background: "#cbd5e1" }} />
+                  )}
+                </div>
+              ))}
+            </div>
+            {block.caption && (
+              <p style={{ fontSize: 11, color: "#94a3b8", textAlign: "center", margin: "16px 0 0", fontStyle: "italic", fontFamily: SANS }}>{block.caption}</p>
+            )}
+          </div>
+        );
       default:
         return null;
     }

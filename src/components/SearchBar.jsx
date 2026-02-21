@@ -35,6 +35,8 @@ export default function SearchBar({ query, setQuery, resultCount }) {
         <input
           ref={inputRef}
           type="text"
+          role="searchbox"
+          aria-label="Search articles, recitals, or keywords"
           placeholder="Search articles, recitals, or keywords…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -44,7 +46,7 @@ export default function SearchBar({ query, setQuery, resultCount }) {
           }}
         />
         {query ? (
-          <button onClick={() => setQuery("")} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 4 }}>
+          <button onClick={() => setQuery("")} aria-label="Clear search" style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 4 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         ) : (

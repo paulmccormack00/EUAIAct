@@ -60,7 +60,10 @@ const DEFAULT_PROMPTS = [
 ];
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
+  const origin = req.headers.origin || "";
+  const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", isAllowed ? origin : allowedOrigins[0]);
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 

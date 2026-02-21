@@ -228,7 +228,9 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       {isOpen && <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.15)", zIndex: 40 }} />}
 
       {/* Panel */}
-      <div className="chat-panel" style={{
+      <div className="chat-panel" role="dialog" aria-modal="true" aria-label="AI Act Advisor chat"
+        onKeyDown={e => { if (e.key === "Escape") onClose(); }}
+        style={{
         position: "fixed", top: 0, right: 0, bottom: 0, width: 420, maxWidth: "100vw",
         background: "white", zIndex: 50, display: "flex", flexDirection: "column",
         boxShadow: "-4px 0 24px rgba(0,0,0,0.12)",
@@ -250,7 +252,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
                 {questionCount}/{FREE_LIMIT}
               </span>
             )}
-          <button onClick={onClose} style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#94a3b8" }}>
+          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#94a3b8" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
           </div>
@@ -262,7 +264,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         </div>
 
         {/* Messages */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
+        <div aria-live="polite" aria-relevant="additions" style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
               <div style={{ width: 48, height: 48, borderRadius: 14, background: "#f0f4ff", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
@@ -320,6 +322,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+              aria-label="Ask a question about the EU AI Act"
               placeholder="Ask about the EU AI Act…"
               rows={1}
               style={{
@@ -330,7 +333,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               onFocus={e => e.currentTarget.style.borderColor = "#93b3d4"}
               onBlur={e => e.currentTarget.style.borderColor = "#e2e0dc"}
             />
-            <button onClick={sendMessage} disabled={!input.trim() || loading}
+            <button onClick={sendMessage} disabled={!input.trim() || loading} aria-label="Send message"
               style={{
                 padding: "10px 14px", borderRadius: 12, border: "none", cursor: input.trim() && !loading ? "pointer" : "default",
                 background: input.trim() && !loading ? "#1e3a5f" : "#e2e0dc", color: "white", flexShrink: 0,
