@@ -30,6 +30,26 @@ for (const theme of data.themes) {
 // Recitals
 urls.push({ loc: "/recitals", priority: "0.5", changefreq: "monthly" });
 
+// FRIA Screening Tool
+urls.push({ loc: "/fria", priority: "0.9", changefreq: "weekly" });
+
+// Compliance Timeline
+urls.push({ loc: "/timeline", priority: "0.8", changefreq: "weekly" });
+
+// Blog
+urls.push({ loc: "/blog", priority: "0.7", changefreq: "weekly" });
+
+// Blog posts - read from blog-posts.js
+try {
+  const blogSource = readFileSync("src/data/blog-posts.js", "utf8");
+  const slugMatches = blogSource.matchAll(/slug:\s*"([^"]+)"/g);
+  for (const m of slugMatches) {
+    urls.push({ loc: `/blog/${m[1]}`, priority: "0.7", changefreq: "monthly" });
+  }
+} catch (e) {
+  console.warn("Could not read blog posts for sitemap:", e.message);
+}
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls

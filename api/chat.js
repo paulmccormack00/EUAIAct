@@ -2,7 +2,11 @@
 // Streams responses from Anthropic API and logs questions to Supabase
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
+  const origin = req.headers.origin || "";
+  // Allow Vercel preview deployments and known origins
+  const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", isAllowed ? origin : allowedOrigins[0]);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -12,6 +16,16 @@ export default async function handler(req, res) {
   const { messages, context, sessionId, question } = req.body || {};
   if (!messages || !question) return res.status(400).json({ error: "Missing required fields" });
   if (!process.env.ANTHROPIC_API_KEY) return res.status(500).json({ error: "API key not configured" });
+
+  // Input validation: limit message count and length
+  if (!Array.isArray(messages) || messages.length > 20) return res.status(400).json({ error: "Too many messages" });
+  if (typeof question !== "string" || question.length > 2000) return res.status(400).json({ error: "Question too long" });
+  if (context && typeof context !== "string") return res.status(400).json({ error: "Invalid context" });
+  if (context && context.length > 10000) return res.status(400).json({ error: "Context too long" });
+  for (const m of messages) {
+    if (!m || typeof m.content !== "string" || m.content.length > 5000) return res.status(400).json({ error: "Invalid message" });
+    if (!["user", "assistant"].includes(m.role)) return res.status(400).json({ error: "Invalid message role" });
+  }
 
   const systemPrompt = `You are the AI Act Advisor, an expert legal AI assistant embedded in the EU AI Act Navigator. You help compliance professionals, lawyers, DPOs, and business leaders understand and apply the EU AI Act (Regulation (EU) 2024/1689).
 

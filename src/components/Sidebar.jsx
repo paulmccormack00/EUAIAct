@@ -4,7 +4,7 @@ import { truncateText } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
 
-export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick }) {
+export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onFRIAClick, onTimelineClick, onBlogClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -196,6 +196,41 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               ))}
             </div>
           )}
+        </div>
+
+        {/* Tools Section */}
+        <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4" }}>
+          <p style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            {[
+              { label: "FRIA Screening", icon: "clipboard-check", viewId: "fria", onClick: () => { onFRIAClick?.(); setIsMobileOpen(false); }, color: "#ea580c" },
+              { label: "Compliance Timeline", icon: "clock", viewId: "timeline", onClick: () => { onTimelineClick?.(); setIsMobileOpen(false); }, color: "#dc2626" },
+              { label: "Practitioner Insights", icon: "book", viewId: "blog", onClick: () => { onBlogClick?.(); setIsMobileOpen(false); }, color: "#1e3a5f" },
+            ].map(({ label, viewId, onClick, color }) => {
+              const isActive = view === viewId || (viewId === "blog" && view === "blogpost");
+              return (
+                <button key={viewId} onClick={onClick}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8, padding: "8px 10px",
+                    background: isActive ? "#f0f4ff" : "transparent",
+                    border: "none", borderRadius: 8, cursor: "pointer",
+                    fontSize: 13, fontWeight: isActive ? 600 : 500,
+                    color: isActive ? "#1e3a5f" : "#64748b",
+                    fontFamily: SANS, textAlign: "left", width: "100%",
+                    transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f7f5f2"; }}
+                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+                >
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: isActive ? color : "#cbd5e1", flexShrink: 0 }} />
+                  {label}
+                  {viewId === "fria" && (
+                    <span style={{ marginLeft: "auto", padding: "1px 6px", background: "#fff7ed", borderRadius: 4, fontSize: 10, fontWeight: 700, color: "#ea580c" }}>New</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Footer */}

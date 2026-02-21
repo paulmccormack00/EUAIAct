@@ -15,6 +15,11 @@ import ChatPanel from "./components/ChatPanel.jsx";
 import AboutModal from "./components/modals/AboutModal.jsx";
 import TermsModal from "./components/modals/TermsModal.jsx";
 import PrivacyModal from "./components/modals/PrivacyModal.jsx";
+import FRIAScreeningTool from "./components/FRIAScreeningTool.jsx";
+import DeadlineTracker from "./components/DeadlineTracker.jsx";
+import BlogView from "./components/BlogView.jsx";
+import BlogPost from "./components/BlogPost.jsx";
+import { BLOG_POSTS } from "./data/blog-posts.js";
 
 // Parse initial URL to determine starting view
 function parseRoute(pathname) {
@@ -22,15 +27,20 @@ function parseRoute(pathname) {
   const articleMatch = p.match(/^\/article\/(\d+)$/);
   if (articleMatch) {
     const num = Number(articleMatch[1]);
-    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null };
+    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null };
   }
   const themeMatch = p.match(/^\/theme\/([a-z-]+)$/);
   if (themeMatch) {
     const tid = themeMatch[1];
-    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid };
+    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null };
   }
-  if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null };
-  return { view: "home", selectedArticle: null, selectedTheme: null };
+  if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  if (p === "/timeline") return { view: "timeline", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  if (p === "/blog") return { view: "blog", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  const blogMatch = p.match(/^\/blog\/([a-z0-9-]+)$/);
+  if (blogMatch) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: blogMatch[1] };
+  return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null };
 }
 
 export default function App() {
@@ -46,9 +56,10 @@ export default function App() {
   const [activeRole, setActiveRole] = useState("all");
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedRecital, setSelectedRecital] = useState(null);
+  const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
   const mainRef = useRef(null);
 
-  useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme]);
+  useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme, blogSlug]);
 
   // --- URL Routing ---
   const navigateTo = useCallback((path, state) => {
@@ -75,6 +86,26 @@ export default function App() {
     navigateTo("/recitals", { view: "recitals" });
   }, [navigateTo]);
 
+  const handleFRIAClick = useCallback(() => {
+    setView("fria");
+    navigateTo("/fria", { view: "fria" });
+  }, [navigateTo]);
+
+  const handleTimelineClick = useCallback(() => {
+    setView("timeline");
+    navigateTo("/timeline", { view: "timeline" });
+  }, [navigateTo]);
+
+  const handleBlogClick = useCallback(() => {
+    setView("blog"); setBlogSlug(null);
+    navigateTo("/blog", { view: "blog" });
+  }, [navigateTo]);
+
+  const handleBlogPostClick = useCallback((slug) => {
+    setView("blogpost"); setBlogSlug(slug);
+    navigateTo(`/blog/${slug}`, { view: "blogpost", blogSlug: slug });
+  }, [navigateTo]);
+
   // Browser back/forward
   useEffect(() => {
     const onPopState = () => {
@@ -82,6 +113,7 @@ export default function App() {
       setView(route.view);
       setSelectedArticle(route.selectedArticle);
       setSelectedTheme(route.selectedTheme);
+      setBlogSlug(route.blogSlug);
       setSearchQuery("");
     };
     window.addEventListener("popstate", onPopState);
@@ -109,6 +141,23 @@ export default function App() {
       title = "Recitals — EU AI Act Navigator";
       description = "All 180 recitals of the EU AI Act (Regulation (EU) 2024/1689). Searchable, cross-referenced with articles.";
       path = "/recitals";
+    } else if (view === "fria") {
+      title = "FRIA Screening Tool — Am I Required to Do a FRIA? | EU AI Act Navigator";
+      description = "Free interactive screening tool to determine if you need a Fundamental Rights Impact Assessment (FRIA) under Article 27 of the EU AI Act. Answer 7 questions to find out.";
+      path = "/fria";
+    } else if (view === "timeline") {
+      title = "EU AI Act Compliance Timeline — Every Deadline You Need to Know";
+      description = "Interactive timeline of all EU AI Act deadlines from February 2025 to August 2027. Track the FRIA deadline, GPAI obligations, and Digital Omnibus updates.";
+      path = "/timeline";
+    } else if (view === "blog") {
+      title = "EU AI Act Insights — Practitioner Commentary | EU AI Act Navigator";
+      description = "Practitioner-led analysis of the EU AI Act. FRIA deep dives, DPIA comparisons, risk classification guides, and compliance timelines from an experienced AI governance lawyer.";
+      path = "/blog";
+    } else if (view === "blogpost" && blogSlug) {
+      const post = BLOG_POSTS.find(p => p.slug === blogSlug);
+      title = post ? `${post.title} — EU AI Act Navigator` : "Blog — EU AI Act Navigator";
+      description = post?.metaDescription || "";
+      path = `/blog/${blogSlug}`;
     } else {
       title = "EU AI Act Navigator — Interactive Guide to Regulation (EU) 2024/1689";
       description = "Navigate the EU AI Act — 113 articles, 180 recitals, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
@@ -169,7 +218,7 @@ export default function App() {
     } else {
       jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
     }
-  }, [view, selectedArticle, selectedTheme]);
+  }, [view, selectedArticle, selectedTheme, blogSlug]);
 
   const isSearching = searchQuery.length >= 2;
   const searchResultCount = useMemo(() => {
@@ -274,7 +323,8 @@ export default function App() {
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
         isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
-        onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick} />
+        onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick}
+        onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
@@ -309,6 +359,22 @@ export default function App() {
             {view === "recitals" && <>
               <span style={{ color: "#d1d5db" }}>/</span>
               <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Recitals</span>
+            </>}
+            {view === "fria" && <>
+              <span style={{ color: "#d1d5db" }}>/</span>
+              <span style={{ color: "#1a1a1a", fontWeight: 600 }}>FRIA Screening</span>
+            </>}
+            {view === "timeline" && <>
+              <span style={{ color: "#d1d5db" }}>/</span>
+              <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Timeline</span>
+            </>}
+            {(view === "blog" || view === "blogpost") && <>
+              <span style={{ color: "#d1d5db" }}>/</span>
+              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#94a3b8" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
+              {view === "blogpost" && blogSlug && <>
+                <span style={{ color: "#d1d5db" }}>/</span>
+                <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{BLOG_POSTS.find(p => p.slug === blogSlug)?.title?.substring(0, 40) || "Article"}...</span>
+              </>}
             </>}
           </div>
 
@@ -418,8 +484,16 @@ export default function App() {
             <ThemeView themeId={selectedTheme} onArticleClick={handleArticleClick} />
           ) : view === "recitals" ? (
             <EnhancedRecitalsTab onArticleClick={handleArticleClick} initialRecital={selectedRecital} />
+          ) : view === "fria" ? (
+            <FRIAScreeningTool onArticleClick={handleArticleClick} />
+          ) : view === "timeline" ? (
+            <DeadlineTracker onArticleClick={handleArticleClick} />
+          ) : view === "blog" ? (
+            <BlogView onBlogPostClick={handleBlogPostClick} />
+          ) : view === "blogpost" && blogSlug ? (
+            <BlogPost slug={blogSlug} onBlogClick={handleBlogClick} onArticleClick={handleArticleClick} />
           ) : (
-            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} />
+            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
           )}
 
           {/* Footer */}
