@@ -13,10 +13,10 @@ const ANNEX_III_CATEGORIES = [
 ];
 
 const DEPLOYER_TYPES = [
-  { id: "public-body", label: "Public authority or body", description: "Government department, agency, local authority, or other public body deploying AI", friaRequired: true },
-  { id: "public-service-private", label: "Private entity providing public services", description: "Private company providing services in the public interest (healthcare, education, essential services)", friaRequired: true },
-  { id: "credit-insurance", label: "Creditworthiness or life/health insurance assessor", description: "You use AI for creditworthiness assessment or life/health insurance risk and pricing (Annex III 5(b) or 5(c))", friaRequired: true },
-  { id: "other-private", label: "Other private entity", description: "Private company not providing public services and not in credit/insurance assessment", friaRequired: false },
+  { id: "public-body", label: "Public authority or body", description: "Government department, agency, local authority, or other public body deploying AI", friaRequired: true, note: "Required under Article 27, except for critical infrastructure AI under Annex III point 2" },
+  { id: "public-service-private", label: "Private entity providing public services", description: "Private company providing services in the public interest (healthcare, education, essential services)", friaRequired: true, note: "Required under Article 27, except for critical infrastructure AI under Annex III point 2" },
+  { id: "credit-insurance", label: "Credit scoring or life/health insurance assessor", description: "You use AI for creditworthiness or credit scoring (Annex III 5(b), excluding fraud detection) or life/health insurance risk and pricing (Annex III 5(c)) — applies regardless of public/private status", friaRequired: true, note: "Required under Article 27 — fraud detection AI is excluded from this category" },
+  { id: "other-private", label: "Other private entity", description: "Private company not providing public services and not in credit/insurance assessment", friaRequired: false, note: "Not required under Article 27, but conducting a voluntary FRIA is recommended as best practice" },
 ];
 
 const FUNDAMENTAL_RIGHTS = [
@@ -31,7 +31,7 @@ const FUNDAMENTAL_RIGHTS = [
 
 const STEPS = [
   { id: "ai-check", title: "AI System Check", subtitle: "Is your system an AI system under Article 3(1)?" },
-  { id: "use-case", title: "Use Case Category", subtitle: "Select your AI system's use case" },
+  { id: "use-case", title: "Use Case Categories", subtitle: "Select all Annex III categories that apply to your AI system" },
   { id: "high-risk", title: "Risk Classification", subtitle: "High-risk classification result" },
   { id: "deployer", title: "Deployer Type", subtitle: "What type of organisation are you?" },
   { id: "rights", title: "Fundamental Rights", subtitle: "Which rights are potentially impacted?" },
@@ -51,7 +51,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   const [answers, setAnswers] = useState({
     aiCriteria: [],
     isAI: null,
-    useCase: null,
+    useCases: [],
     isHighRisk: null,
     deployerType: null,
     selectedRights: [],
@@ -72,12 +72,14 @@ export default function FRIAScreeningTool({ onArticleClick }) {
     });
   }, []);
 
-  const handleUseCaseSelect = useCallback((categoryId) => {
-    setAnswers(prev => ({
-      ...prev,
-      useCase: categoryId,
-      isHighRisk: true,
-    }));
+  const handleUseCaseToggle = useCallback((categoryId) => {
+    setAnswers(prev => {
+      const current = prev.useCases;
+      const next = current.includes(categoryId)
+        ? current.filter(c => c !== categoryId)
+        : [...current, categoryId];
+      return { ...prev, useCases: next, isHighRisk: next.length > 0 ? true : null };
+    });
   }, []);
 
   const handleDeployerSelect = useCallback((deployerType) => {
@@ -97,7 +99,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   const canProceed = () => {
     switch (step) {
       case 0: return answers.aiCriteria.length > 0;
-      case 1: return answers.useCase !== null;
+      case 1: return answers.useCases.length > 0;
       case 2: return answers.isHighRisk !== null;
       case 3: return answers.deployerType !== null;
       case 4: return answers.selectedRights.length > 0;
@@ -270,16 +272,23 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderUseCase = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
-        Annex III lists specific use cases that trigger high-risk classification. Select the category that best matches your AI system:
+      <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 8, fontFamily: SANS }}>
+        Annex III lists specific use cases that trigger high-risk classification. An AI system may span multiple categories — select <strong>all that apply</strong>:
       </p>
+      {answers.useCases.length > 1 && (
+        <div style={{ marginBottom: 16, padding: "10px 16px", background: "#f0f4ff", borderRadius: 8, border: "1px solid #c7d6ec" }}>
+          <p style={{ fontSize: 13, color: "#1e3a5f", margin: 0, fontFamily: SANS }}>
+            {answers.useCases.length} categories selected — your system will be assessed against each.
+          </p>
+        </div>
+      )}
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {ANNEX_III_CATEGORIES.map((cat) => {
-          const selected = answers.useCase === cat.id;
+          const selected = answers.useCases.includes(cat.id);
           return (
             <button
               key={cat.id}
-              onClick={() => handleUseCaseSelect(cat.id)}
+              onClick={() => handleUseCaseToggle(cat.id)}
               style={{
                 display: "flex", alignItems: "flex-start", gap: 14, padding: "16px 20px",
                 background: selected ? "#f0f4ff" : "#fafaf8",
@@ -289,11 +298,11 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 20, height: 20, borderRadius: "50%", border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
+                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
                 background: selected ? "#1e3a5f" : "white", display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0, marginTop: 2,
+                flexShrink: 0, marginTop: 1, transition: "all 0.15s",
               }}>
-                {selected && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "white" }} />}
+                {selected && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 4 }}>{cat.label}</div>
@@ -307,7 +316,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
       </div>
       <div style={{ marginTop: 20 }}>
         <button
-          onClick={() => { setAnswers(prev => ({ ...prev, useCase: "none", isHighRisk: false })); setStep(2); }}
+          onClick={() => { setAnswers(prev => ({ ...prev, useCases: [], isHighRisk: false })); setStep(2); }}
           style={{ ...btnSecondary, fontSize: 13, padding: "10px 20px", color: "#64748b" }}
         >
           None of these — my system doesn't fall under Annex III
@@ -329,7 +338,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <h3 style={{ fontSize: 18, fontWeight: 600, color: "#9a3412", margin: 0, fontFamily: SANS }}>High-Risk AI System</h3>
             </div>
             <p style={{ fontSize: 14, color: "#9a3412", lineHeight: 1.7, margin: 0, fontFamily: SANS }}>
-              Based on your selection (<strong>{ANNEX_III_CATEGORIES.find(c => c.id === answers.useCase)?.label}</strong>), your AI system is classified as <strong>high-risk</strong> under Article 6(2) and Annex III. This means additional obligations apply, including the requirement for a Fundamental Rights Impact Assessment (FRIA) under Article 27.
+              Based on your selection{answers.useCases.length > 1 ? "s" : ""} (<strong>{answers.useCases.map(id => ANNEX_III_CATEGORIES.find(c => c.id === id)?.label).filter(Boolean).join(", ")}</strong>), your AI system is classified as <strong>high-risk</strong> under Article 6(2) and Annex III. This means additional obligations apply, including the requirement for a Fundamental Rights Impact Assessment (FRIA) under Article 27.
             </p>
           </div>
         ) : (
@@ -382,7 +391,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                 {selected && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "white" }} />}
               </div>
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
                   <span style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a" }}>{dt.label}</span>
                   <span style={{
                     fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 6,
@@ -392,7 +401,8 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                     {dt.friaRequired ? "FRIA Required" : "FRIA Not Required"}
                   </span>
                 </div>
-                <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>{dt.description}</div>
+                <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, marginBottom: 6 }}>{dt.description}</div>
+                {dt.note && <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.5, fontStyle: "italic" }}>{dt.note}</div>}
               </div>
             </button>
           );
@@ -531,7 +541,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   const renderResults = () => {
     const friaRequired = getFriaRequired();
     const risk = getRiskLevel();
-    const category = ANNEX_III_CATEGORIES.find(c => c.id === answers.useCase);
+    const categories = answers.useCases.map(id => ANNEX_III_CATEGORIES.find(c => c.id === id)).filter(Boolean);
     const deployer = DEPLOYER_TYPES.find(d => d.id === answers.deployerType);
     const dpiaReuse = getDpiaReusePercent();
 
@@ -565,7 +575,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Classification</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{answers.isHighRisk ? "High-Risk" : "Not High-Risk"}</p>
-            {category && <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0", fontFamily: SANS }}>{category.label}</p>}
+            {categories.length > 0 && <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0", fontFamily: SANS }}>{categories.map(c => c.label).join(", ")}</p>}
           </div>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Deployer Type</p>
@@ -759,7 +769,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
             Back
           </button>
           {step === 2 && !answers.isHighRisk ? (
-            <button onClick={() => { setStep(0); setAnswers(prev => ({ ...prev, useCase: null, isHighRisk: null })); }} style={btnPrimary}>
+            <button onClick={() => { setStep(0); setAnswers(prev => ({ ...prev, useCases: [], isHighRisk: null })); }} style={btnPrimary}>
               Start Over
             </button>
           ) : (
@@ -776,7 +786,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
       {step === 6 && (
         <div style={{ textAlign: "center", marginTop: 8 }}>
-          <button onClick={() => { setStep(0); setAnswers({ aiCriteria: [], isAI: null, useCase: null, isHighRisk: null, deployerType: null, selectedRights: [], hasDPIA: null, dpiaScope: "", email: "" }); setEmailStatus(null); }} style={btnSecondary}>
+          <button onClick={() => { setStep(0); setAnswers({ aiCriteria: [], isAI: null, useCases: [], isHighRisk: null, deployerType: null, selectedRights: [], hasDPIA: null, dpiaScope: "", email: "" }); setEmailStatus(null); }} style={btnSecondary}>
             Start a New Screening
           </button>
         </div>

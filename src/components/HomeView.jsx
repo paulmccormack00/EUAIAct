@@ -140,6 +140,57 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         </div>
       )}
 
+      {/* Tools & Resources — prominent placement */}
+      <div style={{ marginBottom: 36 }}>
+        <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {onFRIAClick && (
+            <button
+              onClick={onFRIAClick}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fed7aa", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#ea580c"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fed7aa"; }}
+            >
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /><path d="M9 14l2 2 4-4" /></svg>
+              </div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
+              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
+            </button>
+          )}
+          {onTimelineClick && (
+            <button
+              onClick={onTimelineClick}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fecaca", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#dc2626"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fecaca"; }}
+            >
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Compliance Timeline</h3>
+              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#dc2626" }}>View timeline &rarr;</span>
+            </button>
+          )}
+          {onBlogClick && (
+            <button
+              onClick={onBlogClick}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #c7d6ec", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#1e3a5f"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#c7d6ec"; }}
+            >
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#f0f4ff", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
+              </div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Practitioner Insights</h3>
+              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f" }}>Read articles &rarr;</span>
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Divider */}
       <div className="home-divider" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
@@ -284,62 +335,6 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, fontFamily: SANS }}>{event}</p>
           </div>
         ))}
-      </div>
-
-      {/* Tools & Resources */}
-      <div style={{ marginBottom: 44 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-          <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
-          <span style={{ fontSize: 12, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>Tools & Resources</span>
-          <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
-        </div>
-        <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {onFRIAClick && (
-            <button
-              onClick={onFRIAClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fed7aa", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#ea580c"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fed7aa"; }}
-            >
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /><path d="M9 14l2 2 4-4" /></svg>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
-            </button>
-          )}
-          {onTimelineClick && (
-            <button
-              onClick={onTimelineClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fecaca", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#dc2626"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fecaca"; }}
-            >
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Compliance Timeline</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#dc2626" }}>View timeline &rarr;</span>
-            </button>
-          )}
-          {onBlogClick && (
-            <button
-              onClick={onBlogClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #c7d6ec", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#1e3a5f"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#c7d6ec"; }}
-            >
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: "#f0f4ff", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Practitioner Insights</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f" }}>Read articles &rarr;</span>
-            </button>
-          )}
-        </div>
       </div>
 
       {/* AI Advisor CTA */}
