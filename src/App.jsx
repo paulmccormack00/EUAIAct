@@ -358,12 +358,19 @@ export default function App() {
           .fria-email-form button { width: 100% !important; }
           .fria-card-inner { padding: 24px 16px !important; }
           .fria-heatmap { grid-template-columns: 1fr !important; }
+          .role-id-header { padding: 24px 0 20px !important; }
+          .role-id-title { font-size: 26px !important; }
+          .role-id-subtitle { font-size: 13px !important; }
+          .role-id-card { padding: 24px 20px !important; }
+          .role-result-header { flex-wrap: wrap !important; }
+          .role-result-actions { flex-direction: column !important; }
+          .role-result-actions button { width: 100% !important; justify-content: center !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
           .stats-grid .stat-value { font-size: 16px !important; }
-          .role-bar { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
-          .role-bar button { justify-content: center !important; }
+          .role-bar { display: flex !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+          .role-bar button { font-size: 11px !important; padding: 5px 8px !important; white-space: nowrap !important; }
           .main-content { padding: 16px 12px 32px !important; }
           .recitals-controls input { font-size: 13px !important; }
           .recitals-controls select { font-size: 13px !important; }
@@ -533,7 +540,7 @@ export default function App() {
           <div className="role-desc" style={{ flexShrink: 0, background: COLORS.primaryLight, borderBottom: `1px solid ${COLORS.primaryLightBorder}`, padding: "8px 24px", display: "flex", alignItems: "center", gap: 8 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
             <p style={{ fontSize: 13, color: COLORS.primary, margin: 0, fontFamily: SANS }}>
-              Showing articles relevant to <strong>{ROLES[activeRole].label.toLowerCase()}s</strong>. {ROLES[activeRole].description}.
+              Showing articles relevant to <strong>{ROLES[activeRole].labelPlural || ROLES[activeRole].label}</strong>. {ROLES[activeRole].description}.
               <button onClick={() => setActiveRole("all")} style={{ marginLeft: 8, fontSize: 12, color: COLORS.primary, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: SANS }}>Show all</button>
             </p>
           </div>

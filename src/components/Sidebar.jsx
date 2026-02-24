@@ -254,9 +254,6 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                 >
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: isActive ? color : "#cbd5e1", flexShrink: 0 }} />
                   {label}
-                  {viewId === "fria" && (
-                    <span style={{ marginLeft: "auto", padding: "1px 6px", background: "#fff7ed", borderRadius: 4, fontSize: 10, fontWeight: 700, color: "#ea580c" }}>New</span>
-                  )}
                 </button>
               );
             })}

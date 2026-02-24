@@ -100,18 +100,69 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         })}
       </div>
 
-      {/* Active role banner */}
-      {activeRole !== "all" && (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, padding: "14px 20px", margin: "16px 0 32px", background: "white", borderRadius: 12, border: "1px solid #e8e4de" }}>
-          <span style={{ fontSize: 13, color: "#374151", fontFamily: SANS }}>
-            Showing provisions relevant to <strong>{ROLES[activeRole].label.toLowerCase()}s</strong> — {ROLES[activeRole].articles.length} articles
-          </span>
-          <button onClick={() => setActiveRole("all")}
-            style={{ fontSize: 12, color: "#1e3a5f", background: "none", border: "1px solid #c7d6ec", borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontFamily: SANS, fontWeight: 500 }}>
-            Clear filter
-          </button>
-        </div>
-      )}
+      {/* Active role banner + provisions */}
+      {activeRole !== "all" && (() => {
+        const role = ROLES[activeRole];
+        const roleArticleSet = new Set(role.articles);
+        const chapters = EU_AI_ACT_DATA.chapters;
+        const relevantChapters = chapters.map(ch => {
+          const allArts = ch.articles || (ch.sections ? ch.sections.flatMap(s => s.articles) : []);
+          const matched = allArts.filter(num => roleArticleSet.has(num));
+          return matched.length > 0 ? { ...ch, matchedArticles: matched } : null;
+        }).filter(Boolean);
+
+        return (
+          <div style={{ margin: "16px 0 32px", background: "white", borderRadius: 16, border: `1px solid ${role.colorBorder}`, overflow: "hidden" }}>
+            {/* Header */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "16px 20px", background: role.colorBg, borderBottom: `1px solid ${role.colorBorder}` }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ fontSize: 20 }}>{role.icon}</span>
+                <span style={{ fontSize: 14, color: COLORS.textBody, fontFamily: SANS, fontWeight: 500 }}>
+                  Provisions for <strong>{ROLES[activeRole].labelPlural || role.label}</strong> — {role.articles.length} articles across {relevantChapters.length} chapters
+                </span>
+              </div>
+              <button onClick={() => setActiveRole("all")}
+                style={{ fontSize: 12, color: role.color, background: "none", border: `1px solid ${role.colorBorder}`, borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontFamily: SANS, fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0 }}>
+                Clear filter
+              </button>
+            </div>
+            {/* Chapter groups */}
+            <div style={{ padding: "12px 16px" }}>
+              {relevantChapters.map((ch) => (
+                <div key={ch.id} style={{ marginBottom: 12 }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, color: COLORS.warmText, textTransform: "uppercase", letterSpacing: "0.08em", margin: "0 0 6px", fontFamily: SANS }}>
+                    {ch.id} — {ch.title}
+                  </p>
+                  <div className="provisions-grid" style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {ch.matchedArticles.map((num) => {
+                      const art = EU_AI_ACT_DATA.articles[String(num)];
+                      if (!art) return null;
+                      return (
+                        <button key={num} onClick={() => onArticleClick(num)}
+                          title={`Article ${num} — ${art.title}`}
+                          style={{
+                            display: "inline-flex", alignItems: "center", gap: 6,
+                            padding: "5px 10px", background: COLORS.surfaceAltBg,
+                            border: `1px solid ${COLORS.borderDefault}`, borderRadius: RADIUS.md,
+                            cursor: "pointer", fontSize: 12, fontFamily: SANS,
+                            color: COLORS.textBody, transition: "all 0.12s",
+                            maxWidth: 260, overflow: "hidden",
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = role.color; e.currentTarget.style.background = role.colorBg; }}
+                          onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderDefault; e.currentTarget.style.background = COLORS.surfaceAltBg; }}
+                        >
+                          <span style={{ fontWeight: 600, color: role.color, flexShrink: 0 }}>Art. {num}</span>
+                          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: COLORS.textMuted }}>{art.title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Role Identifier CTA Banner */}
       {onRoleIdentifierClick && (

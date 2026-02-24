@@ -1,7 +1,7 @@
 export const ROLES = {
   all: { id: "all", label: "All provisions", icon: "📋", description: "Complete Act" },
   provider: {
-    id: "provider", label: "Provider of AI", icon: "🏗",
+    id: "provider", label: "Provider of AI", labelPlural: "providers of AI", icon: "🏗",
     description: "You develop, train, or place AI systems or GPAI models on the market",
     legalBasis: "Art. 3(3)",
     legalDefinition: "A natural or legal person, public authority, agency or other body that develops an AI system or a general-purpose AI model, or that has an AI system or a general-purpose AI model developed, and places it on the market or puts it into service under its own name or trademark, whether for payment or free of charge.",
@@ -19,7 +19,7 @@ export const ROLES = {
     articles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,71,72,73,74,78,79,80,81,82,83,84,95,96,99,100,101,111,112,113]
   },
   deployer: {
-    id: "deployer", label: "Deployer of AI", icon: "⚙",
+    id: "deployer", label: "Deployer of AI", labelPlural: "deployers of AI", icon: "⚙",
     description: "You use AI systems under your authority in a professional capacity",
     legalBasis: "Art. 3(4)",
     legalDefinition: "A natural or legal person, public authority, agency or other body using an AI system under its authority except where the AI system is used in the course of a personal non-professional activity.",
@@ -37,7 +37,7 @@ export const ROLES = {
     articles: [1,2,3,4,5,6,7,9,13,14,15,20,25,26,27,43,49,50,57,58,60,61,62,71,72,73,74,78,85,86,87,95,96,99,111,112,113]
   },
   importer: {
-    id: "importer", label: "Importer", icon: "📦",
+    id: "importer", label: "Importer", labelPlural: "importers", icon: "📦",
     description: "You bring AI systems from non-EU providers into the EU market",
     legalBasis: "Art. 3(6)",
     legalDefinition: "A natural or legal person located or established in the Union that places on the market an AI system that bears the name or trademark of a natural or legal person established in a third country.",
@@ -54,7 +54,7 @@ export const ROLES = {
     articles: [1,2,3,4,5,23,25,43,44,45,46,47,48,49,95,96,99,111,112,113]
   },
   distributor: {
-    id: "distributor", label: "Distributor", icon: "🔄",
+    id: "distributor", label: "Distributor", labelPlural: "distributors", icon: "🔄",
     description: "You make AI systems available on the EU market without being a provider or importer",
     legalBasis: "Art. 3(7)",
     legalDefinition: "A natural or legal person in the supply chain, other than the provider or the importer, that makes an AI system available on the Union market.",
@@ -70,10 +70,10 @@ export const ROLES = {
     articles: [1,2,3,4,5,24,25,95,96,99,111,112,113]
   },
   authRep: {
-    id: "authRep", label: "Authorised Representative", icon: "📜",
+    id: "authRep", label: "Authorised Representative", labelPlural: "authorised representatives", icon: "📜",
     description: "You represent a non-EU AI provider under a written mandate within the EU",
     legalBasis: "Art. 3(5)",
-    legalDefinition: "A natural or legal person located or established in the Union who has received and accepted a written mandate from a provider of an AI system or a general-purpose AI model to, respectively, carry out and perform on its behalf the obligations and procedures established by this Regulation.",
+    legalDefinition: "A natural or legal person located or established in the Union who has received and accepted a written mandate from a provider of an AI system or a general-purpose AI model to, respectively, perform and carry out on its behalf the obligations and procedures established by this Regulation.",
     identifyAs: "You are an authorised representative if you have a written mandate from a non-EU AI provider to act on their behalf for EU AI Act compliance.",
     color: "#ea580c",
     colorBg: "#fff7ed",
@@ -81,12 +81,13 @@ export const ROLES = {
     keyArticleGroups: [
       { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
       { name: "Auth Rep Obligations", color: "#EA580C", ref: "Art. 22", articleNum: 22 },
+      { name: "GPAI Model Representatives", color: "#F59E0B", ref: "Art. 54", articleNum: 54 },
       { name: "Registration & Conformity", color: "#D97706", ref: "Art. 49", articleNum: 49 },
     ],
-    articles: [1,2,3,4,5,22,49,95,96,99,111,112,113]
+    articles: [1,2,3,4,5,22,49,53,54,95,96,99,111,112,113]
   },
   affected: {
-    id: "affected", label: "Affected Person", icon: "👤",
+    id: "affected", label: "Affected Person", labelPlural: "affected persons", icon: "👤",
     description: "You are subject to decisions made by AI systems and want to understand your rights",
     legalBasis: "Implied by rights provisions",
     legalDefinition: "A natural person who is subject to or otherwise affected by an AI system. The EU AI Act establishes specific rights for individuals impacted by AI decisions, including rights to explanation and complaint.",
