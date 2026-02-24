@@ -45,7 +45,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           Navigate the EU AI Act by what matters to you
         </h1>
         <p className="hero-desc" style={{ fontSize: 16, color: COLORS.textMuted, lineHeight: 1.7, maxWidth: 580, margin: "0 auto", fontFamily: SANS }}>
-          The world's first comprehensive AI regulation — 113 articles, 180 recitals, one interactive reference. Select your role to see the provisions that apply to you.
+          The world's first comprehensive AI regulation — 113 articles, 180 recitals, 13 annexes, one interactive reference. Select your role to see the provisions that apply to you.
         </p>
       </div>
 
@@ -171,10 +171,11 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       </div>
 
       {/* Stats */}
-      <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 44 }}>
+      <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, marginBottom: 44 }}>
         {[
           { label: "Articles", value: "113", bg: "#f0f4ff", accent: "#1e3a5f" },
           { label: "Recitals", value: "180", bg: "#fdf8ef", accent: "#8b6914" },
+          { label: "Annexes", value: "13", bg: "#fff7ed", accent: "#9a3412" },
           { label: "Themes", value: String(EU_AI_ACT_DATA.themes.length), bg: "#f5f3ff", accent: "#5b21b6" },
           { label: "Cross-refs", value: "242+", bg: "#f0fdf4", accent: "#166534" },
         ].map(({ label, value, bg, accent }) => (

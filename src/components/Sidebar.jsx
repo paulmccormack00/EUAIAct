@@ -3,8 +3,9 @@ import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { truncateText } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
+import { ANNEXES } from "../data/annexes.js";
 
-export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onFRIAClick, onTimelineClick, onBlogClick }) {
+export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -45,11 +46,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               { id: "chapters", label: "Chapters" },
               { id: "themes", label: "Themes" },
               { id: "recitals", label: "Recitals" },
+              { id: "annexes", label: "Annexes" },
             ].map(({ id, label }) => {
-              const isActive = (view === id || (view === "theme" && id === "themes") || (view === "article" && id === "chapters") || (view === "home" && id === "chapters"));
+              const isActive = (view === id || (view === "theme" && id === "themes") || (view === "article" && id === "chapters") || (view === "home" && id === "chapters") || (view === "annex" && id === "annexes"));
               return (
                 <button key={id}
-                  onClick={() => { if (id === "recitals") { onRecitalsClick(); } else { setView(id === "themes" ? "theme" : id); } }}
+                  onClick={() => { if (id === "recitals") { onRecitalsClick(); } else if (id === "annexes") { onAnnexesClick?.(); } else { setView(id === "themes" ? "theme" : id); } }}
                   style={{
                     flex: 1, padding: "8px 6px", fontSize: 12, fontWeight: isActive ? 600 : 500,
                     borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS,
@@ -194,6 +196,33 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                   <span style={{ fontWeight: 600, color: "#1a1a1a" }}>({r.number})</span> <span>{truncateText(r.text, 70)}</span>
                 </button>
               ))}
+            </div>
+          )}
+
+          {(view === "annexes" || view === "annex") && (
+            <div>
+              <p style={{ fontSize: 10, fontWeight: 600, color: "#8b7355", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Annexes (I–XIII)</p>
+              {ANNEXES.map((annex) => {
+                const isActive = selectedAnnex === annex.id;
+                return (
+                  <button key={annex.id} onClick={() => { onAnnexClick(annex.id); setIsMobileOpen(false); }}
+                    style={{
+                      width: "100%", textAlign: "left", padding: "7px 10px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                      background: isActive ? "#1e3a5f" : "transparent",
+                      color: isActive ? "white" : "#374151",
+                      fontWeight: isActive ? 600 : 400,
+                      transition: "all 0.1s",
+                      borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
+                      marginBottom: 1,
+                    }}
+                    onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "#f5ede3"; }}
+                    onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+                  >
+                    <span style={{ fontWeight: 600, color: isActive ? "#c7d6ec" : "#1a1a1a" }}>Annex {annex.number}</span>{" "}
+                    <span style={{ color: isActive ? "#c7d6ec" : "#94a3b8" }}>{truncateText(annex.title, 55)}</span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

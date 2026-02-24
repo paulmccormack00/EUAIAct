@@ -19,7 +19,9 @@ import FRIAScreeningTool from "./components/FRIAScreeningTool.jsx";
 import DeadlineTracker from "./components/DeadlineTracker.jsx";
 import BlogView from "./components/BlogView.jsx";
 import BlogPost from "./components/BlogPost.jsx";
+import AnnexView from "./components/AnnexView.jsx";
 import { BLOG_POSTS } from "./data/blog-posts.js";
+import { ANNEXES } from "./data/annexes.js";
 
 // Parse initial URL to determine starting view
 function parseRoute(pathname) {
@@ -27,20 +29,26 @@ function parseRoute(pathname) {
   const articleMatch = p.match(/^\/article\/(\d+)$/);
   if (articleMatch) {
     const num = Number(articleMatch[1]);
-    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null };
+    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null, annexId: null };
   }
   const themeMatch = p.match(/^\/theme\/([a-z-]+)$/);
   if (themeMatch) {
     const tid = themeMatch[1];
-    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null };
+    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null, annexId: null };
   }
-  if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null };
-  if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null };
-  if (p === "/timeline") return { view: "timeline", selectedArticle: null, selectedTheme: null, blogSlug: null };
-  if (p === "/blog") return { view: "blog", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  if (p === "/timeline") return { view: "timeline", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  if (p === "/blog") return { view: "blog", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   const blogMatch = p.match(/^\/blog\/([a-z0-9-]+)$/);
-  if (blogMatch) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: blogMatch[1] };
-  return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null };
+  if (blogMatch) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: blogMatch[1], annexId: null };
+  if (p === "/annexes") return { view: "annexes", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  const annexMatch = p.match(/^\/annex\/(\d+)$/);
+  if (annexMatch) {
+    const aid = Number(annexMatch[1]);
+    if (ANNEXES.find(a => a.id === aid)) return { view: "annex", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: aid };
+  }
+  return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
 }
 
 export default function App() {
@@ -57,9 +65,10 @@ export default function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedRecital, setSelectedRecital] = useState(null);
   const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
+  const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
   const mainRef = useRef(null);
 
-  useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme, blogSlug]);
+  useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
 
   // --- URL Routing ---
   const navigateTo = useCallback((path, state) => {
@@ -106,6 +115,21 @@ export default function App() {
     navigateTo(`/blog/${slug}`, { view: "blogpost", blogSlug: slug });
   }, [navigateTo]);
 
+  const handleAnnexesClick = useCallback(() => {
+    setView("annexes"); setSelectedAnnex(null);
+    navigateTo("/annexes", { view: "annexes" });
+  }, [navigateTo]);
+
+  const handleAnnexClick = useCallback((annexId) => {
+    if (annexId === null) {
+      setView("annexes"); setSelectedAnnex(null);
+      navigateTo("/annexes", { view: "annexes" });
+    } else {
+      setView("annex"); setSelectedAnnex(annexId);
+      navigateTo(`/annex/${annexId}`, { view: "annex", annexId });
+    }
+  }, [navigateTo]);
+
   // Browser back/forward
   useEffect(() => {
     const onPopState = () => {
@@ -114,6 +138,7 @@ export default function App() {
       setSelectedArticle(route.selectedArticle);
       setSelectedTheme(route.selectedTheme);
       setBlogSlug(route.blogSlug);
+      setSelectedAnnex(route.annexId);
       setSearchQuery("");
     };
     window.addEventListener("popstate", onPopState);
@@ -158,9 +183,18 @@ export default function App() {
       title = post ? `${post.title} — EU AI Act Navigator` : "Blog — EU AI Act Navigator";
       description = post?.metaDescription || "";
       path = `/blog/${blogSlug}`;
+    } else if (view === "annexes") {
+      title = "Annexes I–XIII — EU AI Act Navigator";
+      description = "All 13 annexes of the EU AI Act (Regulation (EU) 2024/1689). High-risk classifications, technical documentation requirements, conformity assessment procedures, and GPAI model criteria.";
+      path = "/annexes";
+    } else if (view === "annex" && selectedAnnex) {
+      const annex = ANNEXES.find(a => a.id === selectedAnnex);
+      title = annex ? `Annex ${annex.number}: ${annex.title} — EU AI Act Navigator` : "Annex — EU AI Act Navigator";
+      description = annex?.summary || "";
+      path = `/annex/${selectedAnnex}`;
     } else {
       title = "EU AI Act Navigator — Interactive Guide to Regulation (EU) 2024/1689";
-      description = "Navigate the EU AI Act — 113 articles, 180 recitals, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
+      description = "Navigate the EU AI Act — 113 articles, 180 recitals, 13 annexes, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
       path = "/";
     }
 
@@ -343,6 +377,7 @@ export default function App() {
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
         isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
         onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick}
+        onAnnexesClick={handleAnnexesClick} onAnnexClick={handleAnnexClick} selectedAnnex={selectedAnnex}
         onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
@@ -394,6 +429,14 @@ export default function App() {
               {view === "blogpost" && blogSlug && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{BLOG_POSTS.find(p => p.slug === blogSlug)?.title?.substring(0, 40) || "Article"}...</span>
+              </>}
+            </>}
+            {(view === "annexes" || view === "annex") && <>
+              <span style={{ color: "#d1d5db" }}>/</span>
+              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#94a3b8" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
+              {view === "annex" && selectedAnnex && <>
+                <span style={{ color: "#d1d5db" }}>/</span>
+                <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>
               </>}
             </>}
           </div>
@@ -514,6 +557,10 @@ export default function App() {
             <BlogView onBlogPostClick={handleBlogPostClick} />
           ) : view === "blogpost" && blogSlug ? (
             <BlogPost slug={blogSlug} onBlogClick={handleBlogClick} onArticleClick={handleArticleClick} />
+          ) : view === "annexes" ? (
+            <AnnexView onAnnexClick={handleAnnexClick} onArticleClick={handleArticleClick} />
+          ) : view === "annex" && selectedAnnex ? (
+            <AnnexView annexId={selectedAnnex} onAnnexClick={handleAnnexClick} onArticleClick={handleArticleClick} />
           ) : (
             <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
           )}
@@ -539,6 +586,10 @@ export default function App() {
                 <a href="https://kormoon.ai/" target="_blank" rel="noopener noreferrer"
                   style={{ fontSize: 12, color: COLORS.warmText, fontFamily: SANS, textDecoration: "underline", textDecorationColor: COLORS.warmGold }}>
                   kormoon.ai
+                </a>
+                <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng" target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: 12, color: COLORS.warmText, fontFamily: SANS, textDecoration: "underline", textDecorationColor: COLORS.warmGold }}>
+                  Official EUR-Lex Source
                 </a>
               </div>
             </div>

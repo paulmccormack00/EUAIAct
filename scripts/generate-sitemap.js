@@ -36,6 +36,12 @@ urls.push({ loc: "/fria", priority: "0.9", changefreq: "weekly" });
 // Compliance Timeline
 urls.push({ loc: "/timeline", priority: "0.8", changefreq: "weekly" });
 
+// Annexes
+urls.push({ loc: "/annexes", priority: "0.7", changefreq: "monthly" });
+for (let i = 1; i <= 13; i++) {
+  urls.push({ loc: `/annex/${i}`, priority: "0.7", changefreq: "monthly" });
+}
+
 // Blog
 urls.push({ loc: "/blog", priority: "0.7", changefreq: "weekly" });
 
