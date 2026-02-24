@@ -24,6 +24,7 @@
     { "source": "/recitals", "destination": "/index.html" },
     { "source": "/fria", "destination": "/index.html" },
     { "source": "/timeline", "destination": "/index.html" },
+    { "source": "/role-identifier", "destination": "/index.html" },
     { "source": "/blog", "destination": "/index.html" },
     { "source": "/blog/:path*", "destination": "/index.html" },
     { "source": "/annexes", "destination": "/index.html" },

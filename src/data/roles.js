@@ -1,18 +1,106 @@
 export const ROLES = {
   all: { id: "all", label: "All provisions", icon: "📋", description: "Complete Act" },
-  provider: { 
-    id: "provider", label: "Provider of AI", icon: "🏗", 
+  provider: {
+    id: "provider", label: "Provider of AI", icon: "🏗",
     description: "You develop, train, or place AI systems or GPAI models on the market",
+    legalBasis: "Art. 3(3)",
+    legalDefinition: "A natural or legal person, public authority, agency or other body that develops an AI system or a general-purpose AI model, or that has an AI system or a general-purpose AI model developed, and places it on the market or puts it into service under its own name or trademark, whether for payment or free of charge.",
+    identifyAs: "You are a provider if you develop, train, or commission AI systems and place them on the market under your own name or trademark.",
+    color: "#3b82f6",
+    colorBg: "#eff6ff",
+    colorBorder: "#dbeafe",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "High-Risk Classification", color: "#F97316", ref: "Art. 6-7", articleNum: 6 },
+      { name: "Technical Requirements", color: "#F59E0B", ref: "Art. 8-15", articleNum: 9 },
+      { name: "Conformity Assessment", color: "#8B5CF6", ref: "Art. 43-48", articleNum: 43 },
+      { name: "GPAI Obligations", color: "#10B981", ref: "Art. 51-56", articleNum: 53 },
+    ],
     articles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,71,72,73,74,78,79,80,81,82,83,84,95,96,99,100,101,111,112,113]
   },
-  deployer: { 
-    id: "deployer", label: "Deployer of AI", icon: "⚙", 
+  deployer: {
+    id: "deployer", label: "Deployer of AI", icon: "⚙",
     description: "You use AI systems under your authority in a professional capacity",
+    legalBasis: "Art. 3(4)",
+    legalDefinition: "A natural or legal person, public authority, agency or other body using an AI system under its authority except where the AI system is used in the course of a personal non-professional activity.",
+    identifyAs: "You are a deployer if you use AI systems professionally under your own authority — e.g. in procurement, operations, HR, or compliance.",
+    color: "#f59e0b",
+    colorBg: "#fffbeb",
+    colorBorder: "#fde68a",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "Deployer Obligations", color: "#D97706", ref: "Art. 26-27", articleNum: 26 },
+      { name: "Transparency", color: "#06B6D4", ref: "Art. 50", articleNum: 50 },
+      { name: "Monitoring & Incidents", color: "#A855F7", ref: "Art. 72-73", articleNum: 72 },
+      { name: "Penalties", color: "#DC2626", ref: "Art. 99", articleNum: 99 },
+    ],
     articles: [1,2,3,4,5,6,7,9,13,14,15,20,25,26,27,43,49,50,57,58,60,61,62,71,72,73,74,78,85,86,87,95,96,99,111,112,113]
   },
-  affected: { 
-    id: "affected", label: "Affected person", icon: "👤", 
+  importer: {
+    id: "importer", label: "Importer", icon: "📦",
+    description: "You bring AI systems from non-EU providers into the EU market",
+    legalBasis: "Art. 3(6)",
+    legalDefinition: "A natural or legal person located or established in the Union that places on the market an AI system that bears the name or trademark of a natural or legal person established in a third country.",
+    identifyAs: "You are an importer if you are EU-based and bring AI systems from non-EU providers into the EU market under the non-EU provider's name.",
+    color: "#8b5cf6",
+    colorBg: "#faf5ff",
+    colorBorder: "#e9d5ff",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "Importer Obligations", color: "#8B5CF6", ref: "Art. 23", articleNum: 23 },
+      { name: "Supply Chain Duties", color: "#6366F1", ref: "Art. 25", articleNum: 25 },
+      { name: "Conformity & CE", color: "#7C3AED", ref: "Art. 43-49", articleNum: 43 },
+    ],
+    articles: [1,2,3,4,5,23,25,43,44,45,46,47,48,49,95,96,99,111,112,113]
+  },
+  distributor: {
+    id: "distributor", label: "Distributor", icon: "🔄",
+    description: "You make AI systems available on the EU market without being a provider or importer",
+    legalBasis: "Art. 3(7)",
+    legalDefinition: "A natural or legal person in the supply chain, other than the provider or the importer, that makes an AI system available on the Union market.",
+    identifyAs: "You are a distributor if you distribute or resell AI systems in the EU supply chain without developing or importing them yourself.",
+    color: "#06b6d4",
+    colorBg: "#ecfeff",
+    colorBorder: "#a5f3fc",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "Distributor Obligations", color: "#06B6D4", ref: "Art. 24", articleNum: 24 },
+      { name: "Supply Chain Duties", color: "#0891B2", ref: "Art. 25", articleNum: 25 },
+    ],
+    articles: [1,2,3,4,5,24,25,95,96,99,111,112,113]
+  },
+  authRep: {
+    id: "authRep", label: "Authorised Representative", icon: "📜",
+    description: "You represent a non-EU AI provider under a written mandate within the EU",
+    legalBasis: "Art. 3(5)",
+    legalDefinition: "A natural or legal person located or established in the Union who has received and accepted a written mandate from a provider of an AI system or a general-purpose AI model to, respectively, carry out and perform on its behalf the obligations and procedures established by this Regulation.",
+    identifyAs: "You are an authorised representative if you have a written mandate from a non-EU AI provider to act on their behalf for EU AI Act compliance.",
+    color: "#ea580c",
+    colorBg: "#fff7ed",
+    colorBorder: "#fed7aa",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "Auth Rep Obligations", color: "#EA580C", ref: "Art. 22", articleNum: 22 },
+      { name: "Registration & Conformity", color: "#D97706", ref: "Art. 49", articleNum: 49 },
+    ],
+    articles: [1,2,3,4,5,22,49,95,96,99,111,112,113]
+  },
+  affected: {
+    id: "affected", label: "Affected Person", icon: "👤",
     description: "You are subject to decisions made by AI systems and want to understand your rights",
+    legalBasis: "Implied by rights provisions",
+    legalDefinition: "A natural person who is subject to or otherwise affected by an AI system. The EU AI Act establishes specific rights for individuals impacted by AI decisions, including rights to explanation and complaint.",
+    identifyAs: "You are an affected person if AI systems are used to make or inform decisions about you — e.g. in hiring, credit, public services, or law enforcement.",
+    color: "#10b981",
+    colorBg: "#ecfdf5",
+    colorBorder: "#d1fae5",
+    keyArticleGroups: [
+      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
+      { name: "Transparency Rights", color: "#06B6D4", ref: "Art. 50", articleNum: 50 },
+      { name: "Right to Explanation", color: "#2563EB", ref: "Art. 86", articleNum: 86 },
+      { name: "Complaints & Whistleblowing", color: "#2563EB", ref: "Art. 85, 87", articleNum: 85 },
+      { name: "Penalties & Enforcement", color: "#DC2626", ref: "Art. 99", articleNum: 99 },
+    ],
     articles: [1,2,3,4,5,50,77,85,86,87,95,96,99,112,113]
   },
 };

@@ -20,6 +20,7 @@ import DeadlineTracker from "./components/DeadlineTracker.jsx";
 import BlogView from "./components/BlogView.jsx";
 import BlogPost from "./components/BlogPost.jsx";
 import AnnexView from "./components/AnnexView.jsx";
+import RoleIdentifier from "./components/RoleIdentifier.jsx";
 import { BLOG_POSTS } from "./data/blog-posts.js";
 import { ANNEXES } from "./data/annexes.js";
 
@@ -39,6 +40,7 @@ function parseRoute(pathname) {
   if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/timeline") return { view: "timeline", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  if (p === "/role-identifier") return { view: "role-identifier", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/blog") return { view: "blog", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   const blogMatch = p.match(/^\/blog\/([a-z0-9-]+)$/);
   if (blogMatch) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: blogMatch[1], annexId: null };
@@ -130,6 +132,17 @@ export default function App() {
     }
   }, [navigateTo]);
 
+  const handleRoleIdentifierClick = useCallback(() => {
+    setView("role-identifier");
+    navigateTo("/role-identifier", { view: "role-identifier" });
+  }, [navigateTo]);
+
+  const handleApplyRole = useCallback((roleId) => {
+    setActiveRole(roleId);
+    setView("home");
+    navigateTo("/", { view: "home" });
+  }, [navigateTo]);
+
   // Browser back/forward
   useEffect(() => {
     const onPopState = () => {
@@ -174,6 +187,10 @@ export default function App() {
       title = "EU AI Act Compliance Timeline — Every Deadline You Need to Know";
       description = "Interactive timeline of all EU AI Act deadlines from February 2025 to August 2027. Track the FRIA deadline, GPAI obligations, and Digital Omnibus updates.";
       path = "/timeline";
+    } else if (view === "role-identifier") {
+      title = "Role Identifier — What's My Role Under the EU AI Act?";
+      description = "Free interactive tool to identify your role under the EU AI Act. Answer a few questions to discover whether you are a provider, deployer, importer, distributor, authorised representative, or affected person.";
+      path = "/role-identifier";
     } else if (view === "blog") {
       title = "EU AI Act Insights — Practitioner Commentary | EU AI Act Navigator";
       description = "Practitioner-led analysis of the EU AI Act. FRIA deep dives, DPIA comparisons, risk classification guides, and compliance timelines from an experienced AI governance lawyer.";
@@ -310,7 +327,8 @@ export default function App() {
           .btn-label { display: none !important; }
           .site-logo-text { display: none !important; }
           .kbd-shortcut { display: none !important; }
-          .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 16px !important; }
+          .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 8px !important; }
+          .supply-chain-grid { grid-template-columns: 1fr !important; gap: 6px !important; margin-bottom: 16px !important; }
           .persona-card { padding: 10px 14px !important; border-radius: 12px !important; flex: 1 !important; }
           .persona-icon { width: 32px !important; height: 32px !important; border-radius: 8px !important; font-size: 16px !important; margin-bottom: 0 !important; flex-shrink: 0 !important; }
           .persona-title { font-size: 12px !important; margin: 0 !important; white-space: nowrap !important; }
@@ -378,7 +396,7 @@ export default function App() {
         isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
         onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick}
         onAnnexesClick={handleAnnexesClick} onAnnexClick={handleAnnexClick} selectedAnnex={selectedAnnex}
-        onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
+        onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Bar */}
@@ -422,6 +440,10 @@ export default function App() {
             {view === "timeline" && <>
               <span style={{ color: "#d1d5db" }}>/</span>
               <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Timeline</span>
+            </>}
+            {view === "role-identifier" && <>
+              <span style={{ color: "#d1d5db" }}>/</span>
+              <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Role Identifier</span>
             </>}
             {(view === "blog" || view === "blogpost") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
@@ -553,6 +575,8 @@ export default function App() {
             <FRIAScreeningTool onArticleClick={handleArticleClick} />
           ) : view === "timeline" ? (
             <DeadlineTracker onArticleClick={handleArticleClick} />
+          ) : view === "role-identifier" ? (
+            <RoleIdentifier onArticleClick={handleArticleClick} onApplyRole={handleApplyRole} onFRIAClick={handleFRIAClick} />
           ) : view === "blog" ? (
             <BlogView onBlogPostClick={handleBlogPostClick} />
           ) : view === "blogpost" && blogSlug ? (
@@ -562,7 +586,7 @@ export default function App() {
           ) : view === "annex" && selectedAnnex ? (
             <AnnexView annexId={selectedAnnex} onAnnexClick={handleAnnexClick} onArticleClick={handleArticleClick} />
           ) : (
-            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} />
+            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
           )}
 
           {/* Footer */}

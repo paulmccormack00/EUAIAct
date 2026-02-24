@@ -5,7 +5,7 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
 import { ANNEXES } from "../data/annexes.js";
 
-export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick }) {
+export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
@@ -232,6 +232,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
           <p style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {[
+              { label: "Role Identifier", icon: "user-check", viewId: "role-identifier", onClick: () => { onRoleIdentifierClick?.(); setIsMobileOpen(false); }, color: "#8b5cf6" },
               { label: "FRIA Screening", icon: "clipboard-check", viewId: "fria", onClick: () => { onFRIAClick?.(); setIsMobileOpen(false); }, color: "#ea580c" },
               { label: "Compliance Timeline", icon: "clock", viewId: "timeline", onClick: () => { onTimelineClick?.(); setIsMobileOpen(false); }, color: "#dc2626" },
               { label: "Practitioner Insights", icon: "book", viewId: "blog", onClick: () => { onBlogClick?.(); setIsMobileOpen(false); }, color: "#1e3a5f" },

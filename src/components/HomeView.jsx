@@ -3,36 +3,9 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
 import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
-export default function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen, onFRIAClick, onTimelineClick, onBlogClick }) {
-  const personaThemes = {
-    provider: [
-      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
-      { name: "High-Risk Classification", color: "#F97316", ref: "Art. 6-7", articleNum: 6 },
-      { name: "Technical Requirements", color: "#F59E0B", ref: "Art. 8-15", articleNum: 9 },
-      { name: "Conformity Assessment", color: "#8B5CF6", ref: "Art. 43-48", articleNum: 43 },
-      { name: "GPAI Obligations", color: "#10B981", ref: "Art. 51-56", articleNum: 53 },
-    ],
-    deployer: [
-      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
-      { name: "Deployer Obligations", color: "#D97706", ref: "Art. 26-27", articleNum: 26 },
-      { name: "Transparency", color: "#06B6D4", ref: "Art. 50", articleNum: 50 },
-      { name: "Monitoring & Incidents", color: "#A855F7", ref: "Art. 72-73", articleNum: 72 },
-      { name: "Penalties", color: "#DC2626", ref: "Art. 99", articleNum: 99 },
-    ],
-    affected: [
-      { name: "Prohibited Practices", color: "#EF4444", ref: "Art. 5", articleNum: 5 },
-      { name: "Transparency Rights", color: "#06B6D4", ref: "Art. 50", articleNum: 50 },
-      { name: "Right to Explanation", color: "#2563EB", ref: "Art. 86", articleNum: 86 },
-      { name: "Complaints & Whistleblowing", color: "#2563EB", ref: "Art. 85, 87", articleNum: 85 },
-      { name: "Penalties & Enforcement", color: "#DC2626", ref: "Art. 99", articleNum: 99 },
-    ],
-  };
-
-  const personaCards = [
-    { id: "provider", icon: "🏗", title: "Provider of AI", desc: "You develop, train, or place AI systems or general-purpose AI models on the EU market.", border: "#dbeafe", hover: "#3b82f6", accent: "#3b82f6", iconBg: "#eff6ff" },
-    { id: "deployer", icon: "⚙", title: "Deployer of AI", desc: "You use AI systems under your authority in a professional capacity — procurement, operations, HR, compliance.", border: "#fde68a", hover: "#f59e0b", accent: "#f59e0b", iconBg: "#fffbeb" },
-    { id: "affected", icon: "👤", title: "Affected Person", desc: "You are subject to decisions made using AI systems and want to understand your rights and protections.", border: "#d1fae5", hover: "#10b981", accent: "#10b981", iconBg: "#ecfdf5" },
-  ];
+export default function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick }) {
+  const primaryRoles = ["provider", "deployer", "affected"];
+  const supplyChainRoles = ["importer", "distributor", "authRep"];
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -49,31 +22,33 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         </p>
       </div>
 
-      {/* Persona Cards */}
-      <div className="key-articles-grid persona-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: activeRole !== "all" ? 0 : 48 }}>
-        {personaCards.map((p) => {
-          const isActive = activeRole === p.id;
+      {/* Row 1 — Primary Role Cards */}
+      <div className="key-articles-grid persona-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: activeRole !== "all" ? 0 : 20 }}>
+        {primaryRoles.map((roleId) => {
+          const role = ROLES[roleId];
+          const isActive = activeRole === roleId;
           return (
-          <div key={p.id} className="persona-card"
-            onClick={() => { setActiveRole(isActive ? "all" : p.id); }}
+          <div key={roleId} className="persona-card"
+            onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
             style={{
-              background: isActive ? p.iconBg : "white", borderRadius: 20,
-              border: `2px solid ${isActive ? p.hover : p.border}`,
+              background: isActive ? role.colorBg : "white", borderRadius: 20,
+              border: `2px solid ${isActive ? role.color : role.colorBorder}`,
               padding: "28px 24px", cursor: "pointer",
               transition: "all 0.25s", position: "relative",
               boxShadow: isActive ? "0 8px 32px rgba(0,0,0,0.08)" : "none",
             }}
-            onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = p.hover; }}}
-            onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = p.border; }}}
+            onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = role.color; }}}
+            onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = role.colorBorder; }}}
           >
-            {isActive && <div className="persona-check" style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: p.hover, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {isActive && <div className="persona-check" style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: role.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
             </div>}
-            <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : p.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{p.icon}</div>
-            <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 8px", fontFamily: SANS, color: "#1a1a1a" }}>{p.title}</h3>
-            <p className="persona-desc" style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{p.desc}</p>
+            <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{role.icon}</div>
+            <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
+            <span className="persona-desc" style={{ display: "inline-block", padding: "2px 8px", background: isActive ? "white" : role.colorBg, borderRadius: RADIUS.sm, fontSize: 11, color: role.color, fontWeight: 600, fontFamily: SANS, marginBottom: 10, border: `1px solid ${role.colorBorder}` }}>{role.legalBasis}</span>
+            <p className="persona-desc" style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
             <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-              {personaThemes[p.id].map((t) => (
+              {role.keyArticleGroups.map((t) => (
                 <button key={t.name} onClick={(e) => { e.stopPropagation(); onArticleClick(t.articleNum); }}
                   style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: isActive ? "white" : "#faf9f7", borderRadius: 10, fontSize: 13, color: "#374151", fontFamily: SANS, border: "none", cursor: "pointer", textAlign: "left", width: "100%", transition: "background 0.15s" }}
                   onMouseEnter={e => e.currentTarget.style.background = isActive ? "#f7f5f2" : "#f0f0ed"}
@@ -85,10 +60,42 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 </button>
               ))}
             </div>
-            <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: p.accent, fontFamily: SANS }}>
-              {isActive ? "✓ Viewing as " + p.title : "Explore as " + p.title + " →"}
+            <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: role.color, fontFamily: SANS }}>
+              {isActive ? "✓ Viewing as " + role.label : "Explore as " + role.label + " →"}
             </div>
           </div>
+          );
+        })}
+      </div>
+
+      {/* Row 2 — Supply Chain Role Cards (compact) */}
+      <div className="key-articles-grid supply-chain-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: activeRole !== "all" ? 0 : 48 }}>
+        {supplyChainRoles.map((roleId) => {
+          const role = ROLES[roleId];
+          const isActive = activeRole === roleId;
+          return (
+            <div key={roleId}
+              onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
+              style={{
+                background: isActive ? role.colorBg : "white", borderRadius: 14,
+                border: `1.5px solid ${isActive ? role.color : role.colorBorder}`,
+                padding: "18px 20px", cursor: "pointer",
+                transition: "all 0.2s", position: "relative",
+                display: "flex", alignItems: "center", gap: 14,
+                boxShadow: isActive ? "0 4px 16px rgba(0,0,0,0.06)" : "none",
+              }}
+              onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; e.currentTarget.style.borderColor = role.color; }}}
+              onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = role.colorBorder; }}}
+            >
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{role.icon}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <h3 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 2px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
+                <p style={{ fontSize: 12, color: "#64748b", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 600, color: role.color, fontFamily: SANS, flexShrink: 0 }}>
+                {isActive ? "✓" : "→"}
+              </span>
+            </div>
           );
         })}
       </div>
@@ -102,6 +109,35 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           <button onClick={() => setActiveRole("all")}
             style={{ fontSize: 12, color: "#1e3a5f", background: "none", border: "1px solid #c7d6ec", borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontFamily: SANS, fontWeight: 500 }}>
             Clear filter
+          </button>
+        </div>
+      )}
+
+      {/* Role Identifier CTA Banner */}
+      {onRoleIdentifierClick && (
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 16,
+          padding: "20px 28px", marginBottom: 36,
+          background: COLORS.primaryLight, borderRadius: RADIUS.xxl,
+          border: `1px solid ${COLORS.primaryLightBorder}`,
+        }}
+          className="hero-section"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+          <span style={{ fontSize: 14, color: COLORS.primary, fontFamily: SANS, fontWeight: 500 }}>
+            Not sure which role applies to you?
+          </span>
+          <button onClick={onRoleIdentifierClick}
+            style={{
+              padding: "8px 18px", background: COLORS.primary, color: "white",
+              border: "none", borderRadius: RADIUS.md, cursor: "pointer",
+              fontSize: 13, fontWeight: 600, fontFamily: SANS, whiteSpace: "nowrap",
+              transition: "opacity 0.15s",
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
+            onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+          >
+            Take the Role Identifier →
           </button>
         </div>
       )}
