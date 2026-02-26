@@ -28,7 +28,7 @@ export default function AboutModal({ onClose, onKeyDown }) {
         <div style={{ borderTop: "1px solid #f0ebe4", paddingTop: 20, marginBottom: 24 }}>
           <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#5c4d38", margin: "0 0 10px", fontFamily: SANS }}>Created with a little help from Claude</h3>
           <p style={{ fontSize: 18, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Paul McCormack</p>
-          <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.6, margin: "0 0 16px", fontFamily: SANS }}>
+          <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.6, margin: "0 0 16px", fontFamily: SANS }}>
             Founder, dual-qualified lawyer (England & Wales / New York), and Director of Product Management at Salesforce. 16+ years in data privacy, AI governance, and regulatory technology — including founding <a href="https://kormoon.ai/" target="_blank" rel="noopener noreferrer" style={{ color: "#1e3a5f", textDecoration: "underline", textDecorationColor: "#93b3d4" }}>Kormoon</a>, a privacy software company acquired by Privitar and later Informatica (now Salesforce).
           </p>
         </div>

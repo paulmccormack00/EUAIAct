@@ -109,7 +109,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                           <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
                             style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "8px 10px", minHeight: 36, textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
                             <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
-                            <span style={{ fontSize: 12, color: "#546478" }}>{sec.title}</span>
+                            <span style={{ fontSize: 12, color: "#4d5d71" }}>{sec.title}</span>
                           </button>
                           {secExp && <div style={{ marginLeft: 16 }}>
                             {sec.articles.map((num) => {
@@ -259,7 +259,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                     background: isActive ? "#f0f4ff" : "transparent",
                     textDecoration: "none", borderRadius: 8, cursor: "pointer",
                     fontSize: 13, fontWeight: isActive ? 600 : 500,
-                    color: isActive ? "#1e3a5f" : "#546478",
+                    color: isActive ? "#1e3a5f" : "#4d5d71",
                     fontFamily: SANS, textAlign: "left", width: "100%",
                     transition: "all 0.15s",
                   }}
@@ -278,7 +278,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
         <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4", background: "#faf9f7" }}>
           {onAboutClick && (
             <button className="sidebar-about-btn" onClick={() => { onAboutClick(); setIsMobileOpen(false); }}
-              style={{ display: "none", width: "100%", padding: "8px 12px", marginBottom: 8, background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 12, color: "#546478", fontFamily: SANS, textAlign: "center" }}>
+              style={{ display: "none", width: "100%", padding: "8px 12px", marginBottom: 8, background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 12, color: "#4d5d71", fontFamily: SANS, textAlign: "center" }}>
               About this tool
             </button>
           )}

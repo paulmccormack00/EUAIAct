@@ -97,7 +97,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
         <h1 className="view-title" style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Recitals</h1>
-        <p style={{ fontSize: 14, color: "#546478", margin: 0, fontFamily: SANS }}>
+        <p style={{ fontSize: 14, color: "#4d5d71", margin: 0, fontFamily: SANS }}>
           The EU AI Act contains 180 recitals providing interpretive guidance for the articles. Click any Article reference to navigate directly.
         </p>
       </div>
@@ -130,7 +130,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       </div>
 
       {/* Results Count */}
-      <div aria-live="polite" aria-atomic="true" style={{ fontSize: 13, color: "#546478", marginBottom: 12, display: "flex", alignItems: "center", gap: 8, fontFamily: SANS }}>
+      <div aria-live="polite" aria-atomic="true" style={{ fontSize: 13, color: "#4d5d71", marginBottom: 12, display: "flex", alignItems: "center", gap: 8, fontFamily: SANS }}>
         Showing {filteredRecitals.length} of {allRecitals.length} recitals
         {articleFilter && (
           <button onClick={() => setArticleFilter(null)}
@@ -159,7 +159,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                     {num}
                   </span>
                   {!isOpen && previewText && (
-                    <span style={{ fontSize: 13, color: "#546478", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <span style={{ fontSize: 13, color: "#4d5d71", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {previewText}
                     </span>
                   )}

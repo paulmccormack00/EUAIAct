@@ -22,7 +22,7 @@ export default function SearchResults({ query, onArticleClick }) {
   return (
     <div style={{ maxWidth: "100%" }}>
       <h2 style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Search Results</h2>
-      <p style={{ fontSize: 14, color: "#546478", margin: "0 0 28px", fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", margin: "0 0 28px", fontFamily: SANS }}>
         {results.articles.length + results.recitals.length} result{(results.articles.length + results.recitals.length) !== 1 ? "s" : ""} for "{query}"
       </p>
 

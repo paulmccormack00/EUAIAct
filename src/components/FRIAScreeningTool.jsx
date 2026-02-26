@@ -341,7 +341,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderAICheck = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
         Article 3(1) defines an AI system by several key characteristics. Select all that apply to your system:
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -368,7 +368,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               </div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 4 }}>{criterion.label}</div>
-                <div style={{ fontSize: 13, color: "#546478", lineHeight: 1.5 }}>{criterion.help}</div>
+                <div style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5 }}>{criterion.help}</div>
               </div>
             </button>
           );
@@ -385,7 +385,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
         <div style={{ marginTop: 20 }}>
           <button
             onClick={() => setAnswers(prev => ({ ...prev, isAI: false }))}
-            style={{ ...btnSecondary, fontSize: 13, padding: "10px 20px", color: "#546478" }}
+            style={{ ...btnSecondary, fontSize: 13, padding: "10px 20px", color: "#4d5d71" }}
           >
             My system doesn't meet enough criteria — it's not an AI system
           </button>
@@ -396,7 +396,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderUseCase = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, marginBottom: 8, fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, marginBottom: 8, fontFamily: SANS }}>
         Annex III lists specific use cases that trigger high-risk classification. An AI system may span multiple categories — select <strong>all that apply</strong>:
       </p>
       {answers.useCases.length > 1 && (
@@ -430,7 +430,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 4 }}>{cat.label}</div>
-                <div style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, marginBottom: 6 }}>{cat.description}</div>
+                <div style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, marginBottom: 6 }}>{cat.description}</div>
                 <div style={{ fontSize: 12, color: "#4a5f74", fontStyle: "italic" }}>e.g. {cat.examples}</div>
               </div>
               <span style={{ fontSize: 11, color: "#4a5f74", fontWeight: 500, flexShrink: 0 }}>{cat.articles}</span>
@@ -441,7 +441,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
       <div style={{ marginTop: 20 }}>
         <button
           onClick={() => { setAnswers(prev => ({ ...prev, useCases: [], isHighRisk: false })); setStep(2); }}
-          style={{ ...btnSecondary, fontSize: 13, padding: "10px 20px", color: "#546478" }}
+          style={{ ...btnSecondary, fontSize: 13, padding: "10px 20px", color: "#4d5d71" }}
         >
           None of these — my system doesn't fall under Annex III
         </button>
@@ -489,7 +489,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderDeployer = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
         Article 27(1) requires certain deployer types to conduct a FRIA before putting a high-risk AI system into use. What type of entity are you?
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -525,7 +525,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                     {dt.friaRequired ? "FRIA Required" : "FRIA Not Required"}
                   </span>
                 </div>
-                <div style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, marginBottom: 6 }}>{dt.description}</div>
+                <div style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, marginBottom: 6 }}>{dt.description}</div>
                 {dt.note && <div style={{ fontSize: 12, color: "#4a5f74", lineHeight: 1.5, fontStyle: "italic" }}>{dt.note}</div>}
               </div>
             </button>
@@ -537,7 +537,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderRights = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
         Select all fundamental rights categories from the EU Charter that your AI system could potentially impact. This creates your rights impact profile.
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -565,7 +565,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 2 }}>{right.label}</div>
                 <div style={{ fontSize: 12, color: "#4a5f74", marginBottom: 6 }}>{right.charter}</div>
-                <div style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, marginBottom: 4 }}>{right.description}</div>
+                <div style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, marginBottom: 4 }}>{right.description}</div>
                 <div style={{ fontSize: 12, color: "#4a5f74", fontStyle: "italic" }}>e.g. {right.examples}</div>
               </div>
             </button>
@@ -584,7 +584,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
   const renderDPIA = () => (
     <div>
-      <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, marginBottom: 24, fontFamily: SANS }}>
         Article 27(4) allows deployers to reuse relevant parts of an existing Data Protection Impact Assessment (DPIA) when conducting a FRIA. This can significantly reduce the effort required.
       </p>
 
@@ -686,7 +686,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <h2 className="fria-results-title" style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
             {friaRequired ? "FRIA is Required" : "FRIA is Not Required"}
           </h2>
-          <p style={{ fontSize: 14, color: "#546478", fontFamily: SANS }}>
+          <p style={{ fontSize: 14, color: "#4d5d71", fontFamily: SANS }}>
             {friaRequired
               ? "Under Article 27, your organisation must conduct a Fundamental Rights Impact Assessment before deploying this AI system."
               : "Based on your deployer type, a FRIA is not legally required. However, conducting one voluntarily demonstrates responsible AI governance."
@@ -699,7 +699,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Classification</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{answers.isHighRisk ? "High-Risk" : "Not High-Risk"}</p>
-            {categories.length > 0 && <p style={{ fontSize: 13, color: "#546478", margin: "4px 0 0", fontFamily: SANS }}>{categories.map(c => c.label).join(", ")}</p>}
+            {categories.length > 0 && <p style={{ fontSize: 13, color: "#4d5d71", margin: "4px 0 0", fontFamily: SANS }}>{categories.map(c => c.label).join(", ")}</p>}
           </div>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Deployer Type</p>
@@ -711,12 +711,12 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <div style={{ padding: "20px", background: risk.bg, borderRadius: 12, border: `1px solid ${risk.color}22` }}>
             <p style={{ fontSize: 11, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Rights Impact</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: risk.color, margin: 0, fontFamily: SANS }}>{risk.level} Risk</p>
-            <p style={{ fontSize: 13, color: "#546478", margin: "4px 0 0", fontFamily: SANS }}>{answers.selectedRights.length} of 7 right categories impacted</p>
+            <p style={{ fontSize: 13, color: "#4d5d71", margin: "4px 0 0", fontFamily: SANS }}>{answers.selectedRights.length} of 7 right categories impacted</p>
           </div>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
             <p style={{ fontSize: 11, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>DPIA Reuse</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{dpiaReuse}% Reusable</p>
-            <p style={{ fontSize: 13, color: "#546478", margin: "4px 0 0", fontFamily: SANS }}>{answers.hasDPIA ? "Under Article 27(4)" : "No existing DPIA"}</p>
+            <p style={{ fontSize: 13, color: "#4d5d71", margin: "4px 0 0", fontFamily: SANS }}>{answers.hasDPIA ? "Under Article 27(4)" : "No existing DPIA"}</p>
           </div>
         </div>
 
@@ -761,7 +761,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SANS }}>
             Save Your Results
           </h3>
-          <p style={{ fontSize: 13, color: "#546478", margin: "0 0 16px", fontFamily: SANS }}>
+          <p style={{ fontSize: 13, color: "#4d5d71", margin: "0 0 16px", fontFamily: SANS }}>
             Enter your email to receive a copy of this screening summary, plus updates when the official FRIA template is published.
           </p>
           {emailStatus === "success" ? (
@@ -810,7 +810,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
             </div>
             <h2 style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SERIF }}>Not in Scope</h2>
-            <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
+            <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
               Your system does not appear to meet the Article 3(1) definition of an AI system. The EU AI Act obligations, including the FRIA requirement, do not apply.
             </p>
             <p style={{ fontSize: 13, color: "#4a5f74", lineHeight: 1.6, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
@@ -889,7 +889,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           Am I required to do a FRIA?
         </h1>
-        <p style={{ fontSize: 15, color: "#546478", lineHeight: 1.6, fontFamily: SANS }}>
+        <p style={{ fontSize: 15, color: "#4d5d71", lineHeight: 1.6, fontFamily: SANS }}>
           Answer a few questions to determine your obligations under Article 27 of the EU AI Act.
         </p>
       </div>

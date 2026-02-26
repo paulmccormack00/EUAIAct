@@ -82,7 +82,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
         <h1 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Definitions
         </h1>
-        <p style={{ fontSize: 15, color: "#546478", margin: "8px 0 0", fontFamily: SANS }}>
+        <p style={{ fontSize: 15, color: "#4d5d71", margin: "8px 0 0", fontFamily: SANS }}>
           {definitions.length} defined terms used throughout the AI Act
         </p>
       </div>
@@ -131,7 +131,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
 
       {/* Showing count */}
       {defSearch && (
-        <p style={{ fontSize: 13, color: "#546478", marginBottom: 16, fontFamily: SANS }}>
+        <p style={{ fontSize: 13, color: "#4d5d71", marginBottom: 16, fontFamily: SANS }}>
           {filtered.length} definition{filtered.length !== 1 ? "s" : ""} matching "{defSearch}"
         </p>
       )}

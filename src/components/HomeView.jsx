@@ -43,7 +43,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{role.icon}</div>
             <h2 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h2>
             <span className="persona-desc" style={{ display: "inline-block", padding: "2px 8px", background: isActive ? "white" : role.colorBg, borderRadius: RADIUS.sm, fontSize: 11, color: role.color, fontWeight: 600, fontFamily: SANS, marginBottom: 10, border: `1px solid ${role.colorBorder}` }}>{role.legalBasis}</span>
-            <p className="persona-desc" style={{ fontSize: 13.5, color: "#546478", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
+            <p className="persona-desc" style={{ fontSize: 13.5, color: "#4d5d71", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
             <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {role.keyArticleGroups.map((t) => (
                 <a key={t.name} href={`/article/${t.articleNum}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); onArticleClick(t.articleNum); }}
@@ -90,7 +90,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <div style={{ width: 40, height: 40, borderRadius: 10, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{role.icon}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h2 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 2px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h2>
-                <p style={{ fontSize: 12, color: "#546478", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
+                <p style={{ fontSize: 12, color: "#4d5d71", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
               </div>
               <span style={{ fontSize: 12, fontWeight: 600, color: role.color, fontFamily: SANS, flexShrink: 0 }}>
                 {isActive ? "✓" : "→"}
@@ -213,7 +213,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /><path d="M9 14l2 2 4-4" /></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
-              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
+              <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
             </a>
           )}
@@ -228,7 +228,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Compliance Timeline</h3>
-              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
+              <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#dc2626" }}>View timeline &rarr;</span>
             </a>
           )}
@@ -243,7 +243,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Practitioner Insights</h3>
-              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
+              <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f" }}>Read articles &rarr;</span>
             </a>
           )}
@@ -287,7 +287,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Theme Map */}
       <div className="themes-section" style={{ textAlign: "center", marginBottom: 44 }}>
         <h2 style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px", fontFamily: SERIF }}>Browse by Theme</h2>
-        <p style={{ fontSize: 14, color: "#546478", marginBottom: 24, fontFamily: SANS }}>19 thematic groupings across the full Regulation</p>
+        <p style={{ fontSize: 14, color: "#4d5d71", marginBottom: 24, fontFamily: SANS }}>19 thematic groupings across the full Regulation</p>
         <div className="themes-grid" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
           {EU_AI_ACT_DATA.themes.map((theme) => {
             const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
@@ -362,7 +362,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               boxShadow: status === "current" ? "0 0 0 4px rgba(30,58,95,0.15)" : "none",
             }} />
             <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#4a5f74" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
-            <p style={{ fontSize: 12, color: "#546478", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
+            <p style={{ fontSize: 12, color: "#4d5d71", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
           </div>
           );
         })}

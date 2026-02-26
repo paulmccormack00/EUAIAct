@@ -33,7 +33,7 @@ export default class ErrorBoundary extends Component {
           <h2 style={{ fontSize: 22, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
             Something went wrong
           </h2>
-          <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.6, maxWidth: 400, margin: "0 auto 24px", fontFamily: SANS }}>
+          <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.6, maxWidth: 400, margin: "0 auto 24px", fontFamily: SANS }}>
             An unexpected error occurred. Please try refreshing the page.
           </p>
           <button

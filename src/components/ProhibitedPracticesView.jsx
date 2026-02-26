@@ -105,7 +105,7 @@ export default function ProhibitedPracticesView({ article, onThemeClick, onArtic
               borderRadius: 12, background: isExpanded ? "#fffbfb" : "white",
               transition: "all 0.15s",
             }}>
-              <button onClick={() => toggleItem(p.letter)}
+              <button onClick={() => toggleItem(p.letter)} aria-expanded={isExpanded}
                 style={{ width: "100%", display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", textAlign: "left", background: "none", border: "none", cursor: "pointer" }}>
                 <span style={{
                   flexShrink: 0, width: 34, height: 34, borderRadius: 8,

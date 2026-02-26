@@ -302,7 +302,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <div style={{ textAlign: "center", padding: "32px 0" }}>
               <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: COLORS.primaryLight, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
               <h3 style={{ margin: "0 0 6px", fontSize: 16, color: "#1a1a1a", fontFamily: SANS }}>Ask about the EU AI Act</h3>
-              <p style={{ margin: "0 0 20px", fontSize: 13, color: "#546478", fontFamily: SANS, lineHeight: 1.5 }}>
+              <p style={{ margin: "0 0 20px", fontSize: 13, color: "#4d5d71", fontFamily: SANS, lineHeight: 1.5 }}>
                 Get plain-English answers about obligations, classifications, timelines, and compliance requirements.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

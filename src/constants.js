@@ -54,7 +54,7 @@ const COLORS = {
   textPrimary: "#1a1a1a",
   textBody: "#374151",
   textSecondary: "#4a5568",
-  textMuted: "#546478",
+  textMuted: "#4d5d71",
   textPlaceholder: "#4a5f74",
   textFaint: "#cbd5e1",
 

@@ -137,9 +137,9 @@ function getStatusColor(status) {
     case "current": return { bg: "#f0f4ff", border: "#c7d6ec", dot: "#1e3a5f", text: "#1e3a5f" };
     case "upcoming": return { bg: "#fffbeb", border: "#fde68a", dot: "#d97706", text: "#92400e" };
     case "critical": return { bg: "#fef2f2", border: "#fecaca", dot: "#dc2626", text: "#991b1b" };
-    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#546478" };
+    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#4d5d71" };
     case "tentative": return { bg: "#faf5ff", border: "#e9d5ff", dot: "#7c3aed", text: "#5b21b6" };
-    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#546478" };
+    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#4d5d71" };
   }
 }
 
@@ -172,7 +172,7 @@ export default function DeadlineTracker({ onArticleClick }) {
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           EU AI Act Compliance Timeline
         </h1>
-        <p style={{ fontSize: 15, color: "#546478", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
+        <p style={{ fontSize: 15, color: "#4d5d71", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
           Every deadline you need to know — from prohibited practices to full application. Track milestones, understand obligations, and prepare your organisation.
         </p>
       </div>
@@ -253,7 +253,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                         )}
                       </div>
                       <h2 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h2>
-                      <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
+                      <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
                     </div>
                     <svg
                       width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" aria-hidden="true"

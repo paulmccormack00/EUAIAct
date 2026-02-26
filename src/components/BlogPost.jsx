@@ -194,7 +194,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SERIF, lineHeight: 1.2 }}>
           {post.title}
         </h1>
-        <p style={{ fontSize: 16, color: "#546478", lineHeight: 1.6, margin: "0 0 20px", fontFamily: SANS }}>
+        <p style={{ fontSize: 16, color: "#4d5d71", lineHeight: 1.6, margin: "0 0 20px", fontFamily: SANS }}>
           {post.subtitle}
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid #e8e4de" }}>
@@ -231,7 +231,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
         <h3 style={{ fontSize: 18, fontWeight: 500, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SERIF }}>
           Not sure if you need a FRIA?
         </h3>
-        <p style={{ fontSize: 14, color: "#546478", margin: "0 0 16px", fontFamily: SANS }}>
+        <p style={{ fontSize: 14, color: "#4d5d71", margin: "0 0 16px", fontFamily: SANS }}>
           Use our free FRIA Screening Tool to find out in under 5 minutes.
         </p>
       </div>

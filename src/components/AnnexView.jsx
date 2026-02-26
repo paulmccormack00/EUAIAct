@@ -274,9 +274,9 @@ function AnnexList({ onAnnexClick, onArticleClick }) {
                 {annex.number}
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, margin: 0, lineHeight: 1.3 }}>
+                <h2 style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, margin: 0, lineHeight: 1.3 }}>
                   {annex.title}
-                </h3>
+                </h2>
                 <p style={{ fontSize: 13, color: COLORS.textMuted, margin: "4px 0 0", lineHeight: 1.5 }}>
                   {annex.summary}
                 </p>

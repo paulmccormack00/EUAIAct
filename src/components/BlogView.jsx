@@ -12,7 +12,7 @@ export default function BlogView({ onBlogPostClick }) {
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           EU AI Act Insights
         </h1>
-        <p style={{ fontSize: 15, color: "#546478", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
+        <p style={{ fontSize: 15, color: "#4d5d71", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
           Practitioner-led analysis of the EU AI Act — not academic, not bureaucratic. Practical guidance from someone who's been in the compliance trenches.
         </p>
       </div>
@@ -79,7 +79,7 @@ export default function BlogView({ onBlogPostClick }) {
               </span>
             </div>
             <h3 style={{ fontSize: 18, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{post.title}</h3>
-            <p style={{ fontSize: 14, color: "#546478", lineHeight: 1.6, margin: "0 0 12px" }}>{post.subtitle}</p>
+            <p style={{ fontSize: 14, color: "#4d5d71", lineHeight: 1.6, margin: "0 0 12px" }}>{post.subtitle}</p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {post.tags.slice(0, 3).map(tag => (
                 <span key={tag} style={{ padding: "2px 8px", background: "#f7f5f2", borderRadius: 4, fontSize: 11, color: "#5c4d38" }}>{tag}</span>
