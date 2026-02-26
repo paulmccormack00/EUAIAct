@@ -33,11 +33,13 @@ function parseRoute(pathname) {
   if (articleMatch) {
     const num = Number(articleMatch[1]);
     if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null, annexId: null };
+    return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   const themeMatch = p.match(/^\/theme\/([a-z-]+)$/);
   if (themeMatch) {
     const tid = themeMatch[1];
     if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null, annexId: null };
+    return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
@@ -45,12 +47,17 @@ function parseRoute(pathname) {
   if (p === "/role-identifier") return { view: "role-identifier", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/blog") return { view: "blog", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   const blogMatch = p.match(/^\/blog\/([a-z0-9-]+)$/);
-  if (blogMatch) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: blogMatch[1], annexId: null };
+  if (blogMatch) {
+    const slug = blogMatch[1];
+    if (BLOG_POSTS.find(bp => bp.slug === slug)) return { view: "blogpost", selectedArticle: null, selectedTheme: null, blogSlug: slug, annexId: null };
+    return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  }
   if (p === "/annexes") return { view: "annexes", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   const annexMatch = p.match(/^\/annex\/(\d+)$/);
   if (annexMatch) {
     const aid = Number(annexMatch[1]);
     if (ANNEXES.find(a => a.id === aid)) return { view: "annex", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: aid };
+    return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   if (p === "/") return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
@@ -192,6 +199,14 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
+  // Close mobile sidebar on Escape
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const handler = (e) => { if (e.key === "Escape") setIsMobileOpen(false); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isMobileOpen]);
+
   // --- Dynamic document.title, meta description, canonical, JSON-LD ---
   useEffect(() => {
     const BASE_URL = "https://euai.app";
@@ -282,6 +297,24 @@ export default function App() {
     // Update og:type — "article" for blog posts, "website" for everything else
     let ogType = document.querySelector('meta[property="og:type"]');
     if (ogType) ogType.setAttribute("content", view === "blogpost" ? "article" : "website");
+
+    // Add article:published_time and article:author for blog posts
+    const articleTimeMeta = document.querySelector('meta[property="article:published_time"]');
+    const articleAuthorMeta = document.querySelector('meta[property="article:author"]');
+    if (view === "blogpost" && blogSlug) {
+      const post = BLOG_POSTS.find(p => p.slug === blogSlug);
+      if (post) {
+        if (!articleTimeMeta) {
+          const m1 = document.createElement("meta"); m1.setAttribute("property", "article:published_time"); m1.setAttribute("content", post.date); document.head.appendChild(m1);
+        } else { articleTimeMeta.setAttribute("content", post.date); }
+        if (!articleAuthorMeta) {
+          const m2 = document.createElement("meta"); m2.setAttribute("property", "article:author"); m2.setAttribute("content", post.author); document.head.appendChild(m2);
+        } else { articleAuthorMeta.setAttribute("content", post.author); }
+      }
+    } else {
+      if (articleTimeMeta) articleTimeMeta.remove();
+      if (articleAuthorMeta) articleAuthorMeta.remove();
+    }
 
     // Update meta keywords
     let metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -567,7 +600,7 @@ export default function App() {
           </a>
 
           {/* Breadcrumb */}
-          <div className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: COLORS.textPlaceholder, marginRight: 16, flexShrink: 0 }}>
+          <nav aria-label="Breadcrumb" className="breadcrumb" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: COLORS.textPlaceholder, marginRight: 16, flexShrink: 0 }}>
             <button onClick={handleHomeClick} style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, fontFamily: SANS, fontSize: 14 }}
               onMouseEnter={e => e.currentTarget.style.color = COLORS.textBody} onMouseLeave={e => e.currentTarget.style.color = COLORS.textPlaceholder}>
               Home
@@ -612,7 +645,7 @@ export default function App() {
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>
               </>}
             </>}
-          </div>
+          </nav>
 
           <div className="search-bar-wrap" style={{ flex: 1, maxWidth: 520 }}>
             <SearchBar query={searchQuery} setQuery={setSearchQuery} resultCount={searchResultCount} />
@@ -665,6 +698,7 @@ export default function App() {
             return (
               <button key={role.id} onClick={() => setActiveRole(role.id)}
                 title={role.description}
+                aria-pressed={isActive}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 5,
                   padding: "6px 14px", fontSize: 13, fontFamily: SANS, fontWeight: isActive ? 600 : 500,
@@ -691,7 +725,8 @@ export default function App() {
         )}
 
         {/* Content */}
-        <main id="main-content" ref={mainRef} tabIndex={-1} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px", outline: "none" }}>
+        <div ref={mainRef} tabIndex={-1} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px", outline: "none" }}>
+        <main id="main-content">
           <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "80px 0" }}><div style={{ width: 32, height: 32, border: `3px solid ${COLORS.borderDefault}`, borderTopColor: COLORS.primary, borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style></div>}>
           {isSearching ? (
             <SearchResults query={debouncedQuery} onArticleClick={handleArticleClick} />
@@ -754,6 +789,7 @@ export default function App() {
           )}
 
           </Suspense>
+        </main>
 
           {/* Footer */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${COLORS.borderDefault}` }}>
@@ -784,7 +820,7 @@ export default function App() {
               </div>
             </div>
           </footer>
-        </main>
+        </div>
       </div>
 
       <Suspense fallback={null}>
