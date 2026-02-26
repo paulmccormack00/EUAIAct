@@ -89,7 +89,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
     <div style={{ maxWidth: "100%" }}>
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Recitals</h2>
+        <h1 className="view-title" style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Recitals</h1>
         <p style={{ fontSize: 14, color: "#64748b", margin: 0, fontFamily: SANS }}>
           The EU AI Act contains 180 recitals providing interpretive guidance for the articles. Click any Article reference to navigate directly.
         </p>
@@ -98,7 +98,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       {/* Search + Filters */}
       <div className="recitals-controls" style={{ display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ position: "relative", flex: "1 1 240px", minWidth: 200 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" aria-hidden="true" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input type="text" placeholder="Search recitals by number, keyword, or article..."
@@ -145,25 +145,25 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
             <div key={num} ref={(el) => { recitalRefs.current[num] = el; }}
               style={{ border: `1px solid ${isOpen ? "#d4a574" : "#e8e0d8"}`, borderRadius: 10, background: "white", overflow: "hidden", transition: "all 0.15s", boxShadow: isOpen ? "0 1px 3px rgba(0,0,0,0.06)" : "none" }}>
               {/* Recital Header */}
-              <button onClick={() => toggleRecital(num)}
-                style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: isOpen ? "#fdfaf6" : "transparent", border: "none", cursor: "pointer", fontFamily: SANS, gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: isOpen ? "#fdfaf6" : "transparent", fontFamily: SANS, gap: 12 }}>
+                <button onClick={() => toggleRecital(num)} aria-expanded={isOpen}
+                  style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 0, background: "none", border: "none", cursor: "pointer", fontFamily: SANS, textAlign: "left", padding: 0 }}>
                   <span style={{ flexShrink: 0, width: 30, height: 30, borderRadius: "50%", background: "#f5ede3", color: "#8b6914", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700 }}>
                     {num}
                   </span>
                   {!isOpen && previewText && (
-                    <span style={{ fontSize: 13, color: "#64748b", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left" }}>
+                    <span style={{ fontSize: 13, color: "#64748b", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {previewText}
                     </span>
                   )}
                   {!isOpen && !previewText && (
-                    <span style={{ fontSize: 13, color: "#cbd5e1", fontStyle: "italic", textAlign: "left" }}>Recital {num}</span>
+                    <span style={{ fontSize: 13, color: "#cbd5e1", fontStyle: "italic" }}>Recital {num}</span>
                   )}
-                </div>
+                </button>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
                   <div className="recital-chips" style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
                     {linkedArticles.slice(0, 5).map((a) => (
-                      <button key={a} onClick={(e) => { e.stopPropagation(); onArticleClick && onArticleClick(a); }}
+                      <button key={a} onClick={() => onArticleClick && onArticleClick(a)}
                         style={{ fontSize: 11, padding: "2px 7px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec", transition: "background 0.15s", fontFamily: "inherit", lineHeight: "inherit" }}
                         title={`Navigate to Article ${a}`}
                         onMouseEnter={(e) => (e.target.style.background = "#dbe5f5")}
@@ -177,12 +177,15 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                       </span>
                     )}
                   </div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
-                    style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}>
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
+                  <button onClick={() => toggleRecital(num)} aria-hidden="true" tabIndex={-1}
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
+                      style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}>
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
                 </div>
-              </button>
+              </div>
 
               {/* Expanded Content */}
               {isOpen && (

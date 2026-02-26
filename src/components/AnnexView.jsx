@@ -57,7 +57,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
-          <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: COLORS.primary }}>Overview</h4>
+          <h2 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: COLORS.primary }}>Overview</h2>
         </div>
         <p style={{ fontSize: 14, color: COLORS.primary, lineHeight: 1.7, margin: 0 }}>{annex.summary}</p>
       </div>
@@ -71,7 +71,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
             borderRadius: 14, marginBottom: 12, overflow: "hidden",
             boxShadow: SHADOWS.xs,
           }}>
-            <button onClick={() => toggleSection(idx)} style={{
+            <button onClick={() => toggleSection(idx)} aria-expanded={isExpanded} style={{
               width: "100%", display: "flex", alignItems: "center", gap: 10,
               padding: "16px 24px", border: "none", cursor: "pointer",
               background: isExpanded ? "#faf9f7" : COLORS.white,
@@ -132,17 +132,17 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
       {/* Related Articles */}
       {annex.relatedArticles && annex.relatedArticles.length > 0 && (
         <div style={{ marginTop: 28 }}>
-          <h4 style={{
+          <h2 style={{
             fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, margin: "0 0 12px",
             textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: SANS,
             display: "flex", alignItems: "center", gap: 8,
           }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2" aria-hidden="true">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
             </svg>
             Related Articles
-          </h4>
+          </h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {annex.relatedArticles.map(num => {
               const ref = EU_AI_ACT_DATA.articles[String(num)];

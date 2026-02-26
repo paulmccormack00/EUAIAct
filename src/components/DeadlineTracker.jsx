@@ -252,7 +252,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                           </span>
                         )}
                       </div>
-                      <h3 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h3>
+                      <h2 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h2>
                       <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
                     </div>
                     <svg

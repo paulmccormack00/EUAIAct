@@ -63,7 +63,7 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
 
       {/* Plain Language Toggle */}
       <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        <button onClick={() => {
+        <button aria-expanded={showPlainLanguage} onClick={() => {
           setShowPlainLanguage(!showPlainLanguage);
         }}
           style={{
@@ -82,7 +82,7 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
         <div className="plain-panel" style={{ background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 14, padding: "24px 28px", marginBottom: 24, fontFamily: SANS }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0369a1" strokeWidth="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
-            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#0369a1" }}>Plain English Summary</h4>
+            <h2 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#0369a1" }}>Plain English Summary</h2>
           </div>
           <div style={{ fontSize: 14, color: "#1e3a5f", lineHeight: 1.75, whiteSpace: "pre-wrap" }}>
             {(PLAIN_SUMMARIES[String(articleNum)] || "No plain language summary available for this article.")}
@@ -134,10 +134,10 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
       {/* Cross-referenced Articles */}
       {referencedArticles.length > 0 && (
         <div style={{ marginBottom: 28 }}>
-          <h4 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: SANS, display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
+          <h2 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: SANS, display: "flex", alignItems: "center", gap: 8 }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
             Cross-referenced Articles
-          </h4>
+          </h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {referencedArticles.map((num) => {
               const ref = EU_AI_ACT_DATA.articles[String(num)];

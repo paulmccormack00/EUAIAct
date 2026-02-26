@@ -19,7 +19,7 @@ export default function ThemeView({ themeId, onArticleClick }) {
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
           <div style={{ width: 16, height: 16, borderRadius: "50%", backgroundColor: theme.color }} />
-          <h2 style={{ fontSize: 28, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>{theme.name}</h2>
+          <h1 className="view-title" style={{ fontSize: 28, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>{theme.name}</h1>
         </div>
         <p style={{ color: "#4a5568", fontSize: 15, fontFamily: SANS, margin: "4px 0 0" }}>{theme.description}</p>
         {theme.cross_cutting && (

@@ -41,9 +41,13 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
     try {
       const contextArticle = currentArticle ? `The user is currently viewing Article ${currentArticle} ("${EU_AI_ACT_DATA.articles[String(currentArticle)]?.title || ""}").` : "";
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000);
+
       const resp = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           messages: [...messages, userMsg].slice(-10),
           context: contextArticle,
@@ -51,6 +55,8 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           question: q,
         }),
       });
+
+      clearTimeout(timeout);
 
       if (!resp.ok) {
         const errBody = await resp.text().catch(() => "");
@@ -93,7 +99,10 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
                   return updated;
                 });
               }
-            } catch (e) { /* skip */ }
+            } catch (e) {
+              // Log SSE parse errors for debugging
+              if (line.trim() && !line.startsWith("data: ")) continue;
+            }
           }
         }
         setQuestionCount(prev => prev + 1);
@@ -106,7 +115,10 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       }
     } catch (e) {
       console.error("Chat error:", e);
-      setMessages(prev => [...prev, { role: "assistant", content: "Unable to connect to the advisor service. Please try again." }]);
+      const errorMsg = e.name === "AbortError"
+        ? "The request timed out. Please try a shorter or simpler question."
+        : "Unable to connect to the advisor service. Please try again.";
+      setMessages(prev => [...prev, { role: "assistant", content: errorMsg }]);
     }
     setLoading(false);
   };

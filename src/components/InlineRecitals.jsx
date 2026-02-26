@@ -36,10 +36,10 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
 
   return (
     <div style={{ margin: "16px 0", border: `1px solid ${isExpanded ? "#d4a574" : "#e8e0d8"}`, borderRadius: 10, overflow: "hidden", background: "#fdfaf6", transition: "all 0.2s" }}>
-      <button onClick={() => setIsExpanded(!isExpanded)}
+      <button onClick={() => setIsExpanded(!isExpanded)} aria-expanded={isExpanded}
         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: isExpanded ? "#f5ede3" : "#fdfaf6", border: "none", cursor: "pointer", fontFamily: SANS, transition: "background 0.2s" }}>
         <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
           Related Recitals ({linkedRecitals.length})
         </span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b5a42" strokeWidth="2" style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
@@ -56,25 +56,30 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
 
             return (
               <div key={recitalNum} style={{ border: "1px solid #e8e0d8", borderRadius: 8, background: "white", overflow: "hidden" }}>
-                <button onClick={() => toggleRecital(recitalNum)}
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", background: "transparent", border: "none", cursor: "pointer", fontFamily: SANS }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>Recital {recitalNum}</span>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", fontFamily: SANS }}>
+                  <button onClick={() => toggleRecital(recitalNum)} aria-expanded={isOpen}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontFamily: SANS, padding: 0, fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>
+                    Recital {recitalNum}
+                  </button>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                       {linkedArticles.filter((a) => a !== articleNumber).slice(0, 4).map((a) => (
-                        <button key={a} onClick={(e) => { e.stopPropagation(); onArticleClick && onArticleClick(a); }}
+                        <button key={a} onClick={() => onArticleClick && onArticleClick(a)}
                           style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec", fontFamily: "inherit", lineHeight: "inherit" }}
                           title={`Also linked to Article ${a}`}>
                           Art {a}
                         </button>
                       ))}
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
-                      style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s", flexShrink: 0 }}>
-                      <path d="M6 9l6 6 6-6" />
-                    </svg>
+                    <button onClick={() => toggleRecital(recitalNum)} aria-hidden="true" tabIndex={-1}
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
+                        style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}>
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </button>
                   </div>
-                </button>
+                </div>
 
                 {isOpen && displayText && (
                   <div style={{ padding: "0 12px 12px", fontSize: 13.5, lineHeight: 1.65, color: "#374151", fontFamily: SANS }}>

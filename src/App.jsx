@@ -676,22 +676,22 @@ export default function App() {
           </div>
 
           {/* AI Advisor button */}
-          <button onClick={() => setChatOpen(true)}
+          <button aria-label="AI Advisor" onClick={() => setChatOpen(true)}
             style={{ flexShrink: 0, padding: "8px 14px", background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, border: "none", borderRadius: RADIUS.md, cursor: "pointer", fontSize: 13, color: "white", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6, fontWeight: 500, transition: "all 0.15s" }}
             onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
             <span className="btn-label">AI Advisor</span>
           </button>
 
           {/* About button */}
-          <button className="about-btn" onClick={() => setShowAbout(true)}
+          <button className="about-btn" aria-label="About" onClick={() => setShowAbout(true)}
             style={{ flexShrink: 0, padding: "8px 14px", background: "none", border: `1px solid ${COLORS.borderLight}`, borderRadius: RADIUS.md, cursor: "pointer", fontSize: 13, color: COLORS.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline; e.currentTarget.style.color = COLORS.primary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderLight; e.currentTarget.style.color = COLORS.textMuted; }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
             <span className="btn-label">About</span>
           </button>
 

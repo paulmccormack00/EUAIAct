@@ -90,7 +90,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
       {/* Search + controls */}
       <div className="def-controls" style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
         <div className="def-search-wrap" style={{ flex: 1, minWidth: 250, display: "flex", alignItems: "center", background: "white", border: "1.5px solid #e2e0dc", borderRadius: 10, padding: "8px 14px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ marginRight: 10, flexShrink: 0 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" aria-hidden="true" style={{ marginRight: 10, flexShrink: 0 }}>
             <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
           </svg>
           <input
@@ -102,7 +102,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
             style={{ flex: 1, border: "none", background: "transparent", fontSize: 14, fontFamily: SANS, color: "#1e293b" }}
           />
           {defSearch && (
-            <button onClick={() => setDefSearch("")} style={{ background: "none", border: "none", cursor: "pointer", color: "#566b82", padding: 2 }}>
+            <button onClick={() => setDefSearch("")} aria-label="Clear filter" style={{ background: "none", border: "none", cursor: "pointer", color: "#566b82", padding: 2 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
           )}
@@ -123,7 +123,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
       <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 24 }}>
         {letters.map(letter => (
           <a key={letter} href={`#def-letter-${letter}`}
-            style={{ width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, fontSize: 13, fontWeight: 600, fontFamily: SANS, color: "#1e3a5f", background: "#f0f4ff", border: "1px solid #c7d6ec", textDecoration: "none", cursor: "pointer" }}>
+            style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, fontSize: 13, fontWeight: 600, fontFamily: SANS, color: "#1e3a5f", background: "#f0f4ff", border: "1px solid #c7d6ec", textDecoration: "none", cursor: "pointer" }}>
             {letter}
           </a>
         ))}
@@ -151,7 +151,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
                   borderRadius: 10, background: isExpanded ? "#fafcff" : "white",
                   transition: "all 0.15s",
                 }}>
-                  <button onClick={() => toggleDef(def.num)}
+                  <button onClick={() => toggleDef(def.num)} aria-expanded={isExpanded}
                     style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", textAlign: "left", background: "none", border: "none", cursor: "pointer" }}>
                     <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: "#f0f4ff", color: "#1e3a5f", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, fontFamily: SANS }}>
                       {def.num}

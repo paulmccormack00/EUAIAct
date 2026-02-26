@@ -28,7 +28,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
           return (
-          <button key={roleId} className="persona-card"
+          <div key={roleId} className="persona-card" role="group" aria-label={role.label}
             onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
             style={{ textAlign: "left",
               background: isActive ? role.colorBg : "white", borderRadius: 20,
@@ -63,7 +63,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: role.color, fontFamily: SANS }}>
               {isActive ? "✓ Viewing as " + role.label : "Explore as " + role.label + " →"}
             </div>
-          </button>
+          </div>
           );
         })}
       </div>

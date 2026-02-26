@@ -117,7 +117,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                 <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                                   aria-current={isActive ? "page" : undefined}
                                   style={{
-                                    display: "block", width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                                    display: "block", width: "100%", textAlign: "left", padding: "8px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                                     background: isActive ? "#1e3a5f" : "transparent",
                                     color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                                     fontWeight: isActive ? 600 : 400,
@@ -142,7 +142,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                         <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                           aria-current={isActive ? "page" : undefined}
                           style={{
-                            display: "block", width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                            display: "block", width: "100%", textAlign: "left", padding: "8px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                             background: isActive ? "#1e3a5f" : "transparent",
                             color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                             fontWeight: isActive ? 600 : 400,
