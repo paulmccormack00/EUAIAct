@@ -116,7 +116,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
           ))}
         </select>
 
-        <button onClick={handleExpandAll}
+        <button onClick={handleExpandAll} aria-expanded={expandAll} aria-label={expandAll ? "Collapse all recitals" : "Expand all recitals"}
           style={{ padding: "10px 16px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 13, background: "white", color: "#4a5568", cursor: "pointer", whiteSpace: "nowrap", fontWeight: 500, fontFamily: SANS }}>
           {expandAll ? "Collapse All" : "Expand All"}
         </button>

@@ -14,6 +14,15 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const trapRef = useFocusTrap(isOpen);
+  const readerRef = useRef(null);
+
+  // Cancel any active stream when panel closes
+  useEffect(() => {
+    if (!isOpen && readerRef.current) {
+      readerRef.current.cancel().catch(() => {});
+      readerRef.current = null;
+    }
+  }, [isOpen]);
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
   useEffect(() => { if (isOpen && inputRef.current) setTimeout(() => inputRef.current.focus(), 300); }, [isOpen]);
@@ -69,6 +78,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       if (contentType.includes("text/event-stream")) {
         // Streaming response — read SSE events
         const reader = resp.body.getReader();
+        readerRef.current = reader;
         const decoder = new TextDecoder();
         let accumulated = "";
         let buffer = "";
@@ -105,6 +115,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             }
           }
         }
+        readerRef.current = null;
         setQuestionCount(prev => prev + 1);
         return; // loading already set to false above
       } else {

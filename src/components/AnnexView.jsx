@@ -35,7 +35,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
           onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline; e.currentTarget.style.color = COLORS.primary; }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderLight; e.currentTarget.style.color = COLORS.textMuted; }}
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M15 19l-7-7 7-7" /></svg>
           All Annexes
         </button>
 
@@ -56,7 +56,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
         borderRadius: 14, padding: "20px 24px", marginBottom: 24, fontFamily: SANS,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
           <h2 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: COLORS.primary }}>Overview</h2>
         </div>
         <p style={{ fontSize: 14, color: COLORS.primary, lineHeight: 1.7, margin: 0 }}>{annex.summary}</p>
@@ -77,7 +77,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
               background: isExpanded ? "#faf9f7" : COLORS.white,
               fontFamily: SANS, textAlign: "left", transition: "background 0.15s",
             }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2.5"
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2.5" aria-hidden="true"
                 style={{ transition: "transform 0.2s", transform: isExpanded ? "rotate(90deg)" : "none", flexShrink: 0 }}>
                 <path d="M9 5l7 7-7 7" />
               </svg>
@@ -171,7 +171,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
         borderRadius: 12, border: `1px solid ${COLORS.warmBorder}`,
         display: "flex", alignItems: "center", gap: 10, fontFamily: SANS,
       }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.warmText} strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.warmText} strokeWidth="2" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
           <polyline points="15 3 21 3 21 9" />
           <line x1="10" y1="14" x2="21" y2="3" />
@@ -197,7 +197,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderLight; }}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M15 19l-7-7 7-7" /></svg>
             Annex {ANNEXES[annex.id - 2]?.number}
           </button>
         )}
@@ -213,7 +213,7 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderLight; }}
           >
             Annex {ANNEXES[annex.id]?.number}
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
           </button>
         )}
       </div>
@@ -239,7 +239,7 @@ function AnnexList({ onAnnexClick, onArticleClick }) {
         borderRadius: 12, border: `1px solid ${COLORS.primaryLightBorder}`,
         display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, marginBottom: 24,
       }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
           <polyline points="15 3 21 3 21 9" />
           <line x1="10" y1="14" x2="21" y2="3" />
@@ -293,7 +293,7 @@ function AnnexList({ onAnnexClick, onArticleClick }) {
                   </div>
                 )}
               </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.textPlaceholder} strokeWidth="2" style={{ flexShrink: 0, marginTop: 4 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.textPlaceholder} strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0, marginTop: 4 }}>
                 <path d="M9 5l7 7-7 7" />
               </svg>
             </div>

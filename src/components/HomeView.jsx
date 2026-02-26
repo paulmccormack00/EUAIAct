@@ -28,8 +28,9 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
           return (
-          <div key={roleId} className="persona-card" role="group" aria-label={role.label}
+          <div key={roleId} className="persona-card" role="button" tabIndex={0} aria-pressed={isActive} aria-label={isActive ? `Deselect ${role.label} role` : `Select ${role.label} role`}
             onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActiveRole(isActive ? "all" : roleId); } }}
             style={{ textAlign: "left",
               background: isActive ? role.colorBg : "white", borderRadius: 20,
               border: `2px solid ${isActive ? role.color : role.colorBorder}`,
@@ -41,7 +42,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = role.colorBorder; }}}
           >
             {isActive && <div className="persona-check" style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: role.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
             </div>}
             <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{role.icon}</div>
             <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
@@ -174,7 +175,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         }}
           className="hero-section"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
           <span style={{ fontSize: 14, color: COLORS.primary, fontFamily: SANS, fontWeight: 500 }}>
             Not sure which role applies to you?
           </span>
@@ -197,7 +198,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       <div style={{ margin: "0 -40px 36px", padding: "32px 40px", background: "#f7f5f2", borderTop: "1px solid #e8e4de", borderBottom: "1px solid #e8e4de" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
           <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1e3a5f", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
           </div>
           <h2 style={{ fontSize: 18, fontWeight: 600, color: COLORS.textPrimary, margin: 0, fontFamily: SANS }}>Tools &amp; Resources</h2>
         </div>

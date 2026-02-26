@@ -9,6 +9,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           'eu-ai-act-data': ['./src/data/eu-ai-act-data.js'],
+          'plain-summaries': ['./src/data/plain-summaries.js'],
+          'annexes-data': ['./src/data/annexes.js'],
         },
       },
     },

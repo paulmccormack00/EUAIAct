@@ -47,7 +47,7 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
               background: "#1e3a5f", color: "#d4c5a9", borderRadius: 20, fontSize: 12, fontWeight: 600,
               fontFamily: SANS, letterSpacing: "0.02em",
             }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               {Math.ceil((new Date("2026-08-02") - new Date()) / 86400000)} days until the FRIA deadline
             </span>
           </div>
@@ -63,7 +63,7 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
 
       {/* Plain Language Toggle */}
       <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        <button aria-expanded={showPlainLanguage} onClick={() => {
+        <button aria-expanded={showPlainLanguage} aria-controls="plain-language-panel" onClick={() => {
           setShowPlainLanguage(!showPlainLanguage);
         }}
           style={{
@@ -72,16 +72,16 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
             background: showPlainLanguage ? "#1e3a5f" : "white", color: showPlainLanguage ? "white" : "#4a5568",
             cursor: "pointer", transition: "all 0.15s",
           }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
           {showPlainLanguage ? "Hide" : "Plain English"}
         </button>
       </div>
 
       {/* Plain Language Panel */}
       {showPlainLanguage && (
-        <div className="plain-panel" style={{ background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 14, padding: "24px 28px", marginBottom: 24, fontFamily: SANS }}>
+        <div id="plain-language-panel" className="plain-panel" style={{ background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 14, padding: "24px 28px", marginBottom: 24, fontFamily: SANS }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0369a1" strokeWidth="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0369a1" strokeWidth="2" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
             <h2 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#0369a1" }}>Plain English Summary</h2>
           </div>
           <div style={{ fontSize: 14, color: "#1e3a5f", lineHeight: 1.75, whiteSpace: "pre-wrap" }}>

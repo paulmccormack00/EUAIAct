@@ -30,7 +30,7 @@ export default function ThemeView({ themeId, onArticleClick }) {
       </div>
 
       <div style={{ marginBottom: 32 }}>
-        <h3 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: SANS }}>Articles ({articles.length})</h3>
+        <h2 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: SANS }}>Articles ({articles.length})</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {articles.map(({ num, title, text, relatedRecitals }) => (
             <button key={num} onClick={() => onArticleClick(num)}
@@ -57,7 +57,7 @@ export default function ThemeView({ themeId, onArticleClick }) {
 
       {themeRecitals.length > 0 && (
         <div>
-          <h3 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: SANS }}>Related Recitals ({themeRecitals.length})</h3>
+          <h2 style={{ fontSize: 12, fontWeight: 600, color: "#4a5568", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: SANS }}>Related Recitals ({themeRecitals.length})</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {visibleRecitals.map((recital) => (
               <RecitalCard key={recital.number} recital={recital} isExpanded={expandedRecitals.has(recital.number)}

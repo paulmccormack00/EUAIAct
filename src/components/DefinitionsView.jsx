@@ -108,11 +108,11 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
           )}
         </div>
         <div style={{ display: "flex", gap: 6 }}>
-          <button onClick={expandAll}
+          <button onClick={expandAll} aria-label="Expand all definitions"
             style={{ padding: "8px 14px", fontSize: 12, fontFamily: SANS, fontWeight: 500, background: "white", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", color: "#4a5568" }}>
             Expand all
           </button>
-          <button onClick={collapseAll}
+          <button onClick={collapseAll} aria-label="Collapse all definitions"
             style={{ padding: "8px 14px", fontSize: 12, fontFamily: SANS, fontWeight: 500, background: "white", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", color: "#4a5568" }}>
             Collapse all
           </button>
