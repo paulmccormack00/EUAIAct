@@ -258,11 +258,9 @@ export default function App() {
       metaKeywords.setAttribute("content", keywords);
     }
 
-    // Update og:image — dynamic per-page OG image
+    // Update og:image — SVG endpoint for browsers, static PNG fallback for social crawlers
     let ogImage = document.querySelector('meta[property="og:image"]');
-    const pageType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : (view === "fria" || view === "timeline" || view === "role-identifier") ? "tool" : "page";
-    const ogImageUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""))}&type=${pageType}`;
-    if (ogImage) ogImage.setAttribute("content", ogImageUrl);
+    if (ogImage) ogImage.setAttribute("content", `${BASE_URL}/og-image.png`);
 
     // --- Dynamic JSON-LD ---
     let jsonLdEl = document.getElementById("dynamic-jsonld");
@@ -326,7 +324,7 @@ export default function App() {
             "mainEntityOfPage": BASE_URL + path,
             "articleBody": articleBody,
             "keywords": post.metaKeywords || post.tags?.join(", ") || "",
-            "image": `${BASE_URL}/api/og?title=${encodeURIComponent(post.title)}&type=blog`,
+            "image": `${BASE_URL}/og-image.png`,
             "url": BASE_URL + path
           },
           { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
