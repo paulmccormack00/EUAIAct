@@ -29,25 +29,22 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Build (sitemap + vite + prerender)
-        run: npm run build
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build with Vercel (sitemap + vite + prerender)
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Verify prerender output
         run: |
           echo "Checking prerendered files..."
-          test -f dist/article/6/index.html && echo "article/6 OK" || echo "article/6 MISSING"
-          test -f dist/fria/index.html && echo "fria OK" || echo "fria MISSING"
-          test -f dist/blog/index.html && echo "blog OK" || echo "blog MISSING"
-          # Count total prerendered files
-          find dist -name "index.html" | wc -l | xargs -I{} echo "Total prerendered HTML files: {}"
-
-      - name: Install Vercel CLI
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: npm i -g vercel@latest
-
-      - name: Pull Vercel environment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          test -f .vercel/output/static/article/6/index.html && echo "article/6 OK" || echo "article/6 MISSING"
+          test -f .vercel/output/static/fria/index.html && echo "fria OK" || echo "fria MISSING"
+          test -f .vercel/output/static/blog/index.html && echo "blog OK" || echo "blog MISSING"
+          find .vercel/output/static -name "index.html" | wc -l | xargs -I{} echo "Total prerendered HTML files: {}"
 
       - name: Deploy to Vercel
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
