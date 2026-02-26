@@ -59,7 +59,11 @@ const DEFAULT_PROMPTS = [
   "When do the high-risk AI rules take effect?",
 ];
 
+import rateLimit from "./_rate-limit.js";
+
 export default async function handler(req, res) {
+  if (!rateLimit(req, res, { limit: 30, windowMs: 60_000 })) return;
+
   const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
   const origin = req.headers.origin || "";
   const isAllowed = allowedOrigins.includes(origin) || /^https:\/\/euai-app-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/.test(origin);

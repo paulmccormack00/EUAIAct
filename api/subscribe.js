@@ -1,4 +1,8 @@
+import rateLimit from "./_rate-limit.js";
+
 export default async function handler(req, res) {
+  if (!rateLimit(req, res, { limit: 10, windowMs: 60_000 })) return;
+
   const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
   const origin = req.headers.origin || "";
   const isAllowed = allowedOrigins.includes(origin) || /^https:\/\/euai-app-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/.test(origin);

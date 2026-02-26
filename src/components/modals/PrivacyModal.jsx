@@ -1,8 +1,11 @@
 import { SANS, SERIF, COLORS, RADIUS } from "../../constants.js";
+import useFocusTrap from "../../hooks/useFocusTrap.js";
 
 export default function PrivacyModal({ onClose, onKeyDown }) {
+  const trapRef = useFocusTrap(true);
+
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" onKeyDown={onKeyDown}
+    <div ref={trapRef} role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" onKeyDown={onKeyDown}
       style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
@@ -14,7 +17,7 @@ export default function PrivacyModal({ onClose, onKeyDown }) {
         </button>
 
         <h2 id="privacy-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Privacy Notice</h2>
-        <p style={{ fontSize: 13, color: "#8b7355", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
+        <p style={{ fontSize: 13, color: "#6b5a42", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
 
         <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: "0 0 20px", fontFamily: SANS }}>
           We appreciate that not everyone is a privacy geek &mdash; but we are! For that reason, we&rsquo;ve tried to make this short, simple, and transparent. This notice explains what data is collected when you use the EU AI Act Navigator and how it is handled.

@@ -137,9 +137,9 @@ function getStatusColor(status) {
     case "current": return { bg: "#f0f4ff", border: "#c7d6ec", dot: "#1e3a5f", text: "#1e3a5f" };
     case "upcoming": return { bg: "#fffbeb", border: "#fde68a", dot: "#d97706", text: "#92400e" };
     case "critical": return { bg: "#fef2f2", border: "#fecaca", dot: "#dc2626", text: "#991b1b" };
-    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#94a3b8", text: "#64748b" };
+    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#6b7c93", text: "#64748b" };
     case "tentative": return { bg: "#faf5ff", border: "#e9d5ff", dot: "#7c3aed", text: "#5b21b6" };
-    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#94a3b8", text: "#64748b" };
+    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#6b7c93", text: "#64748b" };
   }
 }
 
@@ -239,7 +239,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                         {getStatusLabel(status)}
                       </span>
                       {!isPast && status !== "passed" && (
-                        <span style={{ fontSize: 11, color: "#94a3b8" }}>
+                        <span style={{ fontSize: 11, color: "#6b7c93" }}>
                           {days} days
                         </span>
                       )}
@@ -248,7 +248,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                     <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
                   </div>
                   <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2"
+                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2"
                     style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "none" }}
                   >
                     <path d="M6 9l6 6 6-6" />
@@ -285,7 +285,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                     )}
                     {deadline.links && deadline.links.length > 0 && (
                       <div style={{ marginTop: 12 }}>
-                        <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
+                        <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
                         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                           {deadline.links.map((link) => (
                             <a

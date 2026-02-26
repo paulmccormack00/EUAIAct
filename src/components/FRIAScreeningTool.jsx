@@ -431,9 +431,9 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 4 }}>{cat.label}</div>
                 <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, marginBottom: 6 }}>{cat.description}</div>
-                <div style={{ fontSize: 12, color: "#94a3b8", fontStyle: "italic" }}>e.g. {cat.examples}</div>
+                <div style={{ fontSize: 12, color: "#6b7c93", fontStyle: "italic" }}>e.g. {cat.examples}</div>
               </div>
-              <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 500, flexShrink: 0 }}>{cat.articles}</span>
+              <span style={{ fontSize: 11, color: "#6b7c93", fontWeight: 500, flexShrink: 0 }}>{cat.articles}</span>
             </button>
           );
         })}
@@ -526,7 +526,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                   </span>
                 </div>
                 <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, marginBottom: 6 }}>{dt.description}</div>
-                {dt.note && <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.5, fontStyle: "italic" }}>{dt.note}</div>}
+                {dt.note && <div style={{ fontSize: 12, color: "#6b7c93", lineHeight: 1.5, fontStyle: "italic" }}>{dt.note}</div>}
               </div>
             </button>
           );
@@ -564,9 +564,9 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", marginBottom: 2 }}>{right.label}</div>
-                <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 6 }}>{right.charter}</div>
+                <div style={{ fontSize: 12, color: "#6b7c93", marginBottom: 6 }}>{right.charter}</div>
                 <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, marginBottom: 4 }}>{right.description}</div>
-                <div style={{ fontSize: 12, color: "#94a3b8", fontStyle: "italic" }}>e.g. {right.examples}</div>
+                <div style={{ fontSize: 12, color: "#6b7c93", fontStyle: "italic" }}>e.g. {right.examples}</div>
               </div>
             </button>
           );
@@ -697,24 +697,24 @@ export default function FRIAScreeningTool({ onArticleClick }) {
         {/* Summary Cards */}
         <div className="fria-results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16, marginBottom: 24 }}>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
-            <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Classification</p>
+            <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Classification</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{answers.isHighRisk ? "High-Risk" : "Not High-Risk"}</p>
             {categories.length > 0 && <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0", fontFamily: SANS }}>{categories.map(c => c.label).join(", ")}</p>}
           </div>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
-            <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Deployer Type</p>
+            <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Deployer Type</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{deployer?.label || "—"}</p>
             <p style={{ fontSize: 13, color: friaRequired ? "#ea580c" : "#16a34a", fontWeight: 600, margin: "4px 0 0", fontFamily: SANS }}>
               {friaRequired ? "FRIA Obligated" : "FRIA Optional"}
             </p>
           </div>
           <div style={{ padding: "20px", background: risk.bg, borderRadius: 12, border: `1px solid ${risk.color}22` }}>
-            <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Rights Impact</p>
+            <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Rights Impact</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: risk.color, margin: 0, fontFamily: SANS }}>{risk.level} Risk</p>
             <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0", fontFamily: SANS }}>{answers.selectedRights.length} of 7 right categories impacted</p>
           </div>
           <div style={{ padding: "20px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
-            <p style={{ fontSize: 11, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>DPIA Reuse</p>
+            <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>DPIA Reuse</p>
             <p style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{dpiaReuse}% Reusable</p>
             <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0", fontFamily: SANS }}>{answers.hasDPIA ? "Under Article 27(4)" : "No existing DPIA"}</p>
           </div>
@@ -734,7 +734,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: impacted ? "#dc2626" : "#cbd5e1" }} />
-                    <span style={{ fontSize: 13, fontWeight: 500, color: impacted ? "#991b1b" : "#94a3b8", fontFamily: SANS }}>{right.label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 500, color: impacted ? "#991b1b" : "#6b7c93", fontFamily: SANS }}>{right.label}</span>
                   </div>
                 </div>
               );
@@ -813,7 +813,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
             <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
               Your system does not appear to meet the Article 3(1) definition of an AI system. The EU AI Act obligations, including the FRIA requirement, do not apply.
             </p>
-            <p style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.6, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
+            <p style={{ fontSize: 13, color: "#6b7c93", lineHeight: 1.6, maxWidth: 500, margin: "0 auto 24px", fontFamily: SANS }}>
               Note: Other regulations (GDPR, Product Liability Directive) may still apply. Consider reviewing your system against the full <button onClick={() => onArticleClick?.(3)} style={{ background: "none", border: "none", color: "#1e3a5f", textDecoration: "underline", cursor: "pointer", fontSize: 13, fontFamily: SANS, padding: 0 }}>Article 3 definitions</button>.
             </p>
             <button onClick={() => { setStep(0); setAnswers(prev => ({ ...prev, aiCriteria: [], isAI: null })); }} style={btnPrimary}>
@@ -898,7 +898,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f", fontFamily: SANS }}>Step {step + 1} of {STEPS.length}</span>
-          <span style={{ fontSize: 12, color: "#94a3b8", fontFamily: SANS }}>{progressPercent}%</span>
+          <span style={{ fontSize: 12, color: "#6b7c93", fontFamily: SANS }}>{progressPercent}%</span>
         </div>
         <div style={{ height: 6, background: "#e8e4de", borderRadius: 3, overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${progressPercent}%`, background: "#1e3a5f", borderRadius: 3, transition: "width 0.3s ease" }} />
@@ -913,7 +913,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               style={{
                 flex: 1, padding: "8px 4px", background: i === step ? "#f0f4ff" : i < step ? "#f0fdf4" : "#fafaf8",
                 border: `1px solid ${i === step ? "#c7d6ec" : i < step ? "#bbf7d0" : "#e8e4de"}`,
-                borderRadius: 6, fontSize: 11, color: i <= step ? "#374151" : "#94a3b8",
+                borderRadius: 6, fontSize: 11, color: i <= step ? "#374151" : "#6b7c93",
                 fontFamily: SANS, cursor: i < step ? "pointer" : "default",
                 fontWeight: i === step ? 600 : 400, transition: "all 0.15s",
               }}
@@ -930,7 +930,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
           <h2 style={{ fontSize: 20, fontWeight: 500, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>
             {STEPS[step].title}
           </h2>
-          <p style={{ fontSize: 14, color: "#94a3b8", margin: 0, fontFamily: SANS }}>
+          <p style={{ fontSize: 14, color: "#6b7c93", margin: 0, fontFamily: SANS }}>
             {STEPS[step].subtitle}
           </p>
         </div>

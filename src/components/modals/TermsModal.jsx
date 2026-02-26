@@ -1,8 +1,11 @@
 import { SANS, SERIF, COLORS, RADIUS } from "../../constants.js";
+import useFocusTrap from "../../hooks/useFocusTrap.js";
 
 export default function TermsModal({ onClose, onKeyDown }) {
+  const trapRef = useFocusTrap(true);
+
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="terms-modal-title" onKeyDown={onKeyDown}
+    <div ref={trapRef} role="dialog" aria-modal="true" aria-labelledby="terms-modal-title" onKeyDown={onKeyDown}
       style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
@@ -14,7 +17,7 @@ export default function TermsModal({ onClose, onKeyDown }) {
         </button>
 
         <h2 id="terms-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Terms of Use</h2>
-        <p style={{ fontSize: 13, color: "#8b7355", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
+        <p style={{ fontSize: 13, color: "#6b5a42", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
 
         {[
           { title: "About this tool", text: "The EU AI Act Navigator (\u201cTool\u201d) is provided by Paul McCormack as a free, informational reference tool. It is designed to help users navigate the EU Artificial Intelligence Act (Regulation (EU) 2024/1689). The Tool is not a law firm product and is not authorised or regulated by any legal professional body." },

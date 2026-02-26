@@ -1,9 +1,12 @@
 import { SANS, SERIF, COLORS, RADIUS } from "../../constants.js";
 import { ASTRO_THUMBS } from "../../assets.js";
+import useFocusTrap from "../../hooks/useFocusTrap.js";
 
 export default function AboutModal({ onClose, onKeyDown }) {
+  const trapRef = useFocusTrap(true);
+
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="about-modal-title" onKeyDown={onKeyDown}
+    <div ref={trapRef} role="dialog" aria-modal="true" aria-labelledby="about-modal-title" onKeyDown={onKeyDown}
       style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
       onClick={onClose}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }} />
@@ -23,7 +26,7 @@ export default function AboutModal({ onClose, onKeyDown }) {
         </div>
 
         <div style={{ borderTop: "1px solid #f0ebe4", paddingTop: 20, marginBottom: 24 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8b7355", margin: "0 0 10px", fontFamily: SANS }}>Created with a little help from Claude</h3>
+          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6b5a42", margin: "0 0 10px", fontFamily: SANS }}>Created with a little help from Claude</h3>
           <p style={{ fontSize: 18, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Paul McCormack</p>
           <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: "0 0 16px", fontFamily: SANS }}>
             Founder, dual-qualified lawyer (England & Wales / New York), and Director of Product Management at Salesforce. 16+ years in data privacy, AI governance, and regulatory technology — including founding <a href="https://kormoon.ai/" target="_blank" rel="noopener noreferrer" style={{ color: "#1e3a5f", textDecoration: "underline", textDecorationColor: "#93b3d4" }}>Kormoon</a>, a privacy software company acquired by Privitar and later Informatica (now Salesforce).
@@ -31,7 +34,7 @@ export default function AboutModal({ onClose, onKeyDown }) {
         </div>
 
         <div style={{ borderTop: "1px solid #f0ebe4", paddingTop: 20, marginBottom: 24 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8b7355", margin: "0 0 10px", fontFamily: SANS }}>Why this tool exists</h3>
+          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6b5a42", margin: "0 0 10px", fontFamily: SANS }}>Why this tool exists</h3>
           <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: 0, fontFamily: SANS }}>
             The EU AI Act is one of the most consequential pieces of technology regulation in a generation. But like the GDPR before it, its 113 articles and 180 recitals are difficult to navigate without understanding how they interrelate. The recitals are essential — they provide the legislative intent, the context, and the interpretive guidance that practitioners need to apply the law properly.
           </p>
@@ -41,7 +44,7 @@ export default function AboutModal({ onClose, onKeyDown }) {
         </div>
 
         <div style={{ borderTop: "1px solid #f0ebe4", paddingTop: 20, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8b7355", margin: "0 0 10px", fontFamily: SANS }}>Feedback & Contact</h3>
+          <h3 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6b5a42", margin: "0 0 10px", fontFamily: SANS }}>Feedback & Contact</h3>
           <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: "0 0 14px", fontFamily: SANS }}>
             This is a living tool. If you spot an error in the cross-references, have suggestions for additional features, or would like to discuss the AI Act's application to your business — I'd love to hear from you.
           </p>
@@ -62,7 +65,7 @@ export default function AboutModal({ onClose, onKeyDown }) {
         </div>
 
         <div style={{ borderTop: "1px solid #f0ebe4", paddingTop: 16 }}>
-          <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, fontFamily: SANS, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: "#6b7c93", margin: 0, fontFamily: SANS, lineHeight: 1.5 }}>
             Based on the official text published in the Official Journal of the European Union (OJ L, 2024/1689, 12.7.2024). This tool is for informational purposes and does not constitute legal advice. Recital-to-article mappings reflect editorial judgment and may be updated.
           </p>
         </div>

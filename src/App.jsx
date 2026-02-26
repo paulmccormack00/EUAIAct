@@ -1,28 +1,30 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { FONT_FACE_CSS, SANS, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
+import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from "react";
+import { FONT_FACE_CSS, SANS, SERIF, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
 import { EU_AI_ACT_DATA } from "./data/eu-ai-act-data.js";
 import { ROLES } from "./data/roles.js";
 import SearchBar from "./components/SearchBar.jsx";
-import SearchResults from "./components/SearchResults.jsx";
-import DefinitionsView from "./components/DefinitionsView.jsx";
-import ProhibitedPracticesView from "./components/ProhibitedPracticesView.jsx";
-import ArticleDetail from "./components/ArticleDetail.jsx";
-import ThemeView from "./components/ThemeView.jsx";
-import EnhancedRecitalsTab from "./components/EnhancedRecitalsTab.jsx";
-import HomeView from "./components/HomeView.jsx";
 import Sidebar from "./components/Sidebar.jsx";
-import ChatPanel from "./components/ChatPanel.jsx";
-import AboutModal from "./components/modals/AboutModal.jsx";
-import TermsModal from "./components/modals/TermsModal.jsx";
-import PrivacyModal from "./components/modals/PrivacyModal.jsx";
-import FRIAScreeningTool from "./components/FRIAScreeningTool.jsx";
-import DeadlineTracker from "./components/DeadlineTracker.jsx";
-import BlogView from "./components/BlogView.jsx";
-import BlogPost from "./components/BlogPost.jsx";
-import AnnexView from "./components/AnnexView.jsx";
-import RoleIdentifier from "./components/RoleIdentifier.jsx";
 import { BLOG_POSTS } from "./data/blog-posts.js";
 import { ANNEXES } from "./data/annexes.js";
+
+// Lazy-loaded route components
+const SearchResults = lazy(() => import("./components/SearchResults.jsx"));
+const DefinitionsView = lazy(() => import("./components/DefinitionsView.jsx"));
+const ProhibitedPracticesView = lazy(() => import("./components/ProhibitedPracticesView.jsx"));
+const ArticleDetail = lazy(() => import("./components/ArticleDetail.jsx"));
+const ThemeView = lazy(() => import("./components/ThemeView.jsx"));
+const EnhancedRecitalsTab = lazy(() => import("./components/EnhancedRecitalsTab.jsx"));
+const HomeView = lazy(() => import("./components/HomeView.jsx"));
+const ChatPanel = lazy(() => import("./components/ChatPanel.jsx"));
+const AboutModal = lazy(() => import("./components/modals/AboutModal.jsx"));
+const TermsModal = lazy(() => import("./components/modals/TermsModal.jsx"));
+const PrivacyModal = lazy(() => import("./components/modals/PrivacyModal.jsx"));
+const FRIAScreeningTool = lazy(() => import("./components/FRIAScreeningTool.jsx"));
+const DeadlineTracker = lazy(() => import("./components/DeadlineTracker.jsx"));
+const BlogView = lazy(() => import("./components/BlogView.jsx"));
+const BlogPost = lazy(() => import("./components/BlogPost.jsx"));
+const AnnexView = lazy(() => import("./components/AnnexView.jsx"));
+const RoleIdentifier = lazy(() => import("./components/RoleIdentifier.jsx"));
 
 // Parse initial URL to determine starting view
 function parseRoute(pathname) {
@@ -60,6 +62,7 @@ export default function App() {
   const [selectedArticle, setSelectedArticle] = useState(initRoute.selectedArticle);
   const [selectedTheme, setSelectedTheme] = useState(initRoute.selectedTheme);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
@@ -71,10 +74,28 @@ export default function App() {
   const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
   const mainRef = useRef(null);
 
-  useEffect(() => { mainRef.current?.scrollTo(0, 0); }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
+  // Debounce search query by 200ms
+  useEffect(() => {
+    if (searchQuery.length < 2) { setDebouncedQuery(""); return; }
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 200);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    // Skip scroll-to-top on back/forward navigation (scroll is restored in popstate handler)
+    if (isPopStateRef.current) return;
+    mainRef.current?.scrollTo(0, 0);
+    // Move focus to main content for screen readers on route change
+    if (mainRef.current) {
+      mainRef.current.focus({ preventScroll: true });
+    }
+  }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
 
   // --- URL Routing ---
   const navigateTo = useCallback((path, state) => {
+    // Save current scroll position before navigating
+    const scrollY = mainRef.current?.scrollTop || 0;
+    window.history.replaceState({ ...window.history.state, scrollY }, "");
     window.history.pushState(state, "", path);
   }, []);
 
@@ -145,8 +166,10 @@ export default function App() {
   }, [navigateTo]);
 
   // Browser back/forward
+  const isPopStateRef = useRef(false);
   useEffect(() => {
-    const onPopState = () => {
+    const onPopState = (e) => {
+      isPopStateRef.current = true;
       const route = parseRoute(window.location.pathname);
       setView(route.view);
       setSelectedArticle(route.selectedArticle);
@@ -154,6 +177,16 @@ export default function App() {
       setBlogSlug(route.blogSlug);
       setSelectedAnnex(route.annexId);
       setSearchQuery("");
+      // Restore scroll position after render
+      const savedScroll = e.state?.scrollY;
+      if (savedScroll != null) {
+        requestAnimationFrame(() => {
+          mainRef.current?.scrollTo(0, savedScroll);
+          isPopStateRef.current = false;
+        });
+      } else {
+        isPopStateRef.current = false;
+      }
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -245,6 +278,10 @@ export default function App() {
     // Update og:description
     let ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute("content", description);
+
+    // Update og:type — "article" for blog posts, "website" for everything else
+    let ogType = document.querySelector('meta[property="og:type"]');
+    if (ogType) ogType.setAttribute("content", view === "blogpost" ? "article" : "website");
 
     // Update meta keywords
     let metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -378,13 +415,13 @@ export default function App() {
     }
   }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
 
-  const isSearching = searchQuery.length >= 2;
+  const isSearching = debouncedQuery.length >= 2;
   const searchResultCount = useMemo(() => {
     if (!isSearching) return 0;
-    const q = searchQuery.toLowerCase();
+    const q = debouncedQuery.toLowerCase();
     return Object.values(EU_AI_ACT_DATA.articles).filter(a => a.title.toLowerCase().includes(q) || a.text.toLowerCase().includes(q)).length
       + Object.values(EU_AI_ACT_DATA.recitals).filter(r => r.text.toLowerCase().includes(q)).length;
-  }, [searchQuery, isSearching]);
+  }, [debouncedQuery, isSearching]);
 
   return (
     <div style={{ height: "100vh", display: "flex", background: COLORS.pageBg, fontFamily: SANS }}>
@@ -561,7 +598,7 @@ export default function App() {
             </>}
             {(view === "blog" || view === "blogpost") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#94a3b8" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
+              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#6b7c93" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
               {view === "blogpost" && blogSlug && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{BLOG_POSTS.find(p => p.slug === blogSlug)?.title?.substring(0, 40) || "Article"}...</span>
@@ -569,7 +606,7 @@ export default function App() {
             </>}
             {(view === "annexes" || view === "annex") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#94a3b8" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
+              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#6b7c93" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
               {view === "annex" && selectedAnnex && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>
@@ -654,9 +691,10 @@ export default function App() {
         )}
 
         {/* Content */}
-        <main id="main-content" ref={mainRef} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px" }}>
+        <main id="main-content" ref={mainRef} tabIndex={-1} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px", outline: "none" }}>
+          <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "80px 0" }}><div style={{ width: 32, height: 32, border: `3px solid ${COLORS.borderDefault}`, borderTopColor: COLORS.primary, borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style></div>}>
           {isSearching ? (
-            <SearchResults query={searchQuery} onArticleClick={handleArticleClick} />
+            <SearchResults query={debouncedQuery} onArticleClick={handleArticleClick} />
           ) : view === "article" && selectedArticle === 3 ? (
             <DefinitionsView onArticleClick={handleArticleClick} searchQuery={searchQuery} />
           ) : view === "article" && selectedArticle === 5 ? (
@@ -715,6 +753,8 @@ export default function App() {
             <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
           )}
 
+          </Suspense>
+
           {/* Footer */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${COLORS.borderDefault}` }}>
             <p style={{ fontSize: 11, color: COLORS.textPlaceholder, lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
@@ -747,9 +787,11 @@ export default function App() {
         </main>
       </div>
 
-      {showAbout && <AboutModal onClose={() => setShowAbout(false)} onKeyDown={e => { if (e.key === "Escape") setShowAbout(false); }} />}
-      {showTerms && <TermsModal onClose={() => setShowTerms(false)} onKeyDown={e => { if (e.key === "Escape") setShowTerms(false); }} />}
-      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} onKeyDown={e => { if (e.key === "Escape") setShowPrivacy(false); }} />}
+      <Suspense fallback={null}>
+        {showAbout && <AboutModal onClose={() => setShowAbout(false)} onKeyDown={e => { if (e.key === "Escape") setShowAbout(false); }} />}
+        {showTerms && <TermsModal onClose={() => setShowTerms(false)} onKeyDown={e => { if (e.key === "Escape") setShowTerms(false); }} />}
+        {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} onKeyDown={e => { if (e.key === "Escape") setShowPrivacy(false); }} />}
+      </Suspense>
       {/* Floating AI Advisor Button */}
       {!chatOpen && (
         <button
@@ -769,7 +811,9 @@ export default function App() {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
         </button>
       )}
-      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { handleRecitalsClick(); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
+      <Suspense fallback={null}>
+        <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { handleRecitalsClick(); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
+      </Suspense>
     </div>
   );
 }

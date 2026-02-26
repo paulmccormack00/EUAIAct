@@ -154,7 +154,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
                   }}>
                     {step.badge && <span style={{ position: "absolute", top: -10, left: 16, padding: "2px 8px", background: step.type === "yes" ? "#16a34a" : "#dc2626", color: "white", borderRadius: 4, fontSize: 10, fontWeight: 700 }}>{step.badge}</span>}
                     {step.text}
-                    {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#94a3b8", marginTop: 2 }}>{step.ref}</span>}
+                    {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#6b7c93", marginTop: 2 }}>{step.ref}</span>}
                   </div>
                   {i < block.steps.length - 1 && (
                     <div style={{ width: 2, height: 20, background: "#cbd5e1" }} />
@@ -163,7 +163,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
               ))}
             </div>
             {block.caption && (
-              <p style={{ fontSize: 11, color: "#94a3b8", textAlign: "center", margin: "16px 0 0", fontStyle: "italic", fontFamily: SANS }}>{block.caption}</p>
+              <p style={{ fontSize: 11, color: "#6b7c93", textAlign: "center", margin: "16px 0 0", fontStyle: "italic", fontFamily: SANS }}>{block.caption}</p>
             )}
           </div>
         );
@@ -189,7 +189,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
           <span style={{ padding: "4px 12px", background: "#f0f4ff", borderRadius: 6, fontSize: 12, fontWeight: 600, color: "#1e3a5f", fontFamily: SANS }}>
             {post.category}
           </span>
-          <span style={{ fontSize: 13, color: "#94a3b8", fontFamily: SANS }}>{post.readTime}</span>
+          <span style={{ fontSize: 13, color: "#6b7c93", fontFamily: SANS }}>{post.readTime}</span>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SERIF, lineHeight: 1.2 }}>
           {post.title}
@@ -201,7 +201,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
           <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#f0f4ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 600, color: "#1e3a5f", fontFamily: SANS }}>P</div>
           <div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{post.author}</p>
-            <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, fontFamily: SANS }}>
+            <p style={{ fontSize: 12, color: "#6b7c93", margin: 0, fontFamily: SANS }}>
               {post.authorRole} &middot; {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
             </p>
           </div>
@@ -215,10 +215,10 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
 
       {/* Tags */}
       <div style={{ marginTop: 36, paddingTop: 24, borderTop: "1px solid #e8e4de" }}>
-        <p style={{ fontSize: 12, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 10, fontFamily: SANS }}>Tags</p>
+        <p style={{ fontSize: 12, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 10, fontFamily: SANS }}>Tags</p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {post.tags.map(tag => (
-            <span key={tag} style={{ padding: "4px 12px", background: "#f7f5f2", borderRadius: 6, fontSize: 12, color: "#8b7355", fontFamily: SANS }}>{tag}</span>
+            <span key={tag} style={{ padding: "4px 12px", background: "#f7f5f2", borderRadius: 6, fontSize: 12, color: "#6b5a42", fontFamily: SANS }}>{tag}</span>
           ))}
         </div>
       </div>

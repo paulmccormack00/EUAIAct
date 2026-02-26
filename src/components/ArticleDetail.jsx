@@ -32,7 +32,7 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
         {article.chapter && (
-          <p style={{ fontSize: 11, color: "#8b7355", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>{article.chapter}</p>
+          <p style={{ fontSize: 11, color: "#6b5a42", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>{article.chapter}</p>
         )}
         <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Article {articleNum}

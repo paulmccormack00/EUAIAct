@@ -42,7 +42,7 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b6914" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
           Related Recitals ({linkedRecitals.length})
         </span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b7355" strokeWidth="2" style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b5a42" strokeWidth="2" style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>
@@ -69,7 +69,7 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
                         </span>
                       ))}
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2"
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2"
                       style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s", flexShrink: 0 }}>
                       <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -79,11 +79,11 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
                 {isOpen && displayText && (
                   <div style={{ padding: "0 12px 12px", fontSize: 13.5, lineHeight: 1.65, color: "#374151", fontFamily: SANS }}>
                     {renderTextWithLinks(displayText)}
-                    {!isFullText && <p style={{ fontSize: 11, color: "#8b7355", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
+                    {!isFullText && <p style={{ fontSize: 11, color: "#6b5a42", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
                   </div>
                 )}
                 {isOpen && !displayText && (
-                  <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: SANS }}>
+                  <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#6b7c93", fontStyle: "italic", fontFamily: SANS }}>
                     Full text available in the official regulation (OJ L 2024/1689).
                   </div>
                 )}

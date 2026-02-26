@@ -1,4 +1,8 @@
+import rateLimit from "./_rate-limit.js";
+
 export default async function handler(req, res) {
+  if (!rateLimit(req, res, { limit: 10, windowMs: 60_000 })) return;
+
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }

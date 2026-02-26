@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP } from "../data/recital-maps.js";
+import useFocusTrap from "../hooks/useFocusTrap.js";
 
 export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
@@ -12,6 +13,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   const FREE_LIMIT = 5;
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const trapRef = useFocusTrap(isOpen);
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
   useEffect(() => { if (isOpen && inputRef.current) setTimeout(() => inputRef.current.focus(), 300); }, [isOpen]);
@@ -228,7 +230,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       {isOpen && <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.15)", zIndex: 40 }} />}
 
       {/* Panel */}
-      <div className="chat-panel" role="dialog" aria-modal="true" aria-label="AI Act Advisor chat"
+      <div ref={trapRef} className="chat-panel" role="dialog" aria-modal="true" aria-label="AI Act Advisor chat"
         onKeyDown={e => { if (e.key === "Escape") onClose(); }}
         style={{
         position: "fixed", top: 0, right: 0, bottom: 0, width: 420, maxWidth: "100vw",
@@ -248,11 +250,11 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {questionCount > 0 && (
-              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#94a3b8", fontFamily: SANS, fontWeight: 500 }}>
+              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#6b7c93", fontFamily: SANS, fontWeight: 500 }}>
                 {questionCount}/{FREE_LIMIT}
               </span>
             )}
-          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#94a3b8" }}>
+          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#6b7c93" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
           </div>
@@ -304,10 +306,10 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
               <div style={{ display: "flex", gap: 4 }}>
                 {[0, 1, 2].map((i) => (
-                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#94a3b8", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
+                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#6b7c93", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
                 ))}
               </div>
-              <span style={{ fontSize: 12, color: "#94a3b8", fontFamily: SANS }}>Analysing…</span>
+              <span style={{ fontSize: 12, color: "#6b7c93", fontFamily: SANS }}>Analysing…</span>
               <style>{`@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`}</style>
             </div>
           )}
@@ -342,7 +344,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
             </button>
           </div>
-          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#94a3b8", textAlign: "center", fontFamily: SANS }}>
+          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#6b7c93", textAlign: "center", fontFamily: SANS }}>
             Responses are AI-generated and may not reflect the latest guidance
           </p>
         </div>

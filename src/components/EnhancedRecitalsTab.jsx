@@ -98,7 +98,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       {/* Search + Filters */}
       <div className="recitals-controls" style={{ display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ position: "relative", flex: "1 1 240px", minWidth: 200 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input type="text" placeholder="Search recitals by number, keyword, or article..."
@@ -107,7 +107,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
         </div>
 
         <select value={articleFilter ?? ""} onChange={(e) => setArticleFilter(e.target.value ? parseInt(e.target.value) : null)}
-          style={{ padding: "10px 12px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 14, background: "white", color: articleFilter ? "#1a1a1a" : "#94a3b8", cursor: "pointer", minWidth: 180, fontFamily: SANS }}>
+          style={{ padding: "10px 12px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 14, background: "white", color: articleFilter ? "#1a1a1a" : "#6b7c93", cursor: "pointer", minWidth: 180, fontFamily: SANS }}>
           <option value="">Filter by Article...</option>
           {allArticles.map((a) => (
             <option key={a} value={a}>Article {a} ({(ARTICLE_TO_RECITAL_MAP[a] || []).length} recitals)</option>
@@ -170,12 +170,12 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                       </span>
                     ))}
                     {linkedArticles.length > 5 && (
-                      <span style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0ebe4", color: "#8b7355", fontWeight: 500 }}>
+                      <span style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0ebe4", color: "#6b5a42", fontWeight: 500 }}>
                         +{linkedArticles.length - 5}
                       </span>
                     )}
                   </div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2"
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2"
                     style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}>
                     <path d="M6 9l6 6 6-6" />
                   </svg>
@@ -188,16 +188,16 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                   {displayText ? (
                     <div style={{ fontSize: 14, lineHeight: 1.75, color: "#374151", fontFamily: SANS }}>
                       {renderTextWithLinks(displayText)}
-                      {!isFullText && <p style={{ fontSize: 11, color: "#8b7355", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
+                      {!isFullText && <p style={{ fontSize: 11, color: "#6b5a42", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
                     </div>
                   ) : (
-                    <div style={{ fontSize: 14, color: "#94a3b8", fontStyle: "italic", fontFamily: SANS }}>
+                    <div style={{ fontSize: 14, color: "#6b7c93", fontStyle: "italic", fontFamily: SANS }}>
                       Recital text pending — full text is available in the official regulation (OJ L 2024/1689).
                     </div>
                   )}
                   {/* Cross-reference footer */}
                   <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #f0ebe4", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 12, color: "#8b7355", fontWeight: 500, fontFamily: SANS }}>Cross-references:</span>
+                    <span style={{ fontSize: 12, color: "#6b5a42", fontWeight: 500, fontFamily: SANS }}>Cross-references:</span>
                     {linkedArticles.map((a) => (
                       <button key={a} onClick={() => onArticleClick && onArticleClick(a)}
                         style={{ fontSize: 12, padding: "3px 10px", borderRadius: 14, border: "1px solid #c7d6ec", background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, fontFamily: SANS, transition: "all 0.15s" }}
@@ -214,7 +214,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
         })}
 
         {filteredRecitals.length === 0 && (
-          <div style={{ textAlign: "center", padding: "40px 20px", color: "#94a3b8", fontSize: 14, fontFamily: SANS }}>
+          <div style={{ textAlign: "center", padding: "40px 20px", color: "#6b7c93", fontSize: 14, fontFamily: SANS }}>
             No recitals match your search. Try a different keyword or clear filters.
           </div>
         )}
