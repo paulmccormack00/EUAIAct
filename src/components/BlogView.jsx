@@ -19,13 +19,14 @@ export default function BlogView({ onBlogPostClick }) {
 
       {/* Featured post */}
       {BLOG_POSTS.length > 0 && (
-        <button
-          onClick={() => onBlogPostClick(BLOG_POSTS[0].slug)}
+        <a
+          href={`/blog/${BLOG_POSTS[0].slug}`}
+          onClick={(e) => { e.preventDefault(); onBlogPostClick(BLOG_POSTS[0].slug); }}
           style={{
-            width: "100%", textAlign: "left", padding: "32px",
+            display: "block", width: "100%", textAlign: "left", padding: "32px",
             background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 100%)`,
-            borderRadius: RADIUS.round, border: "none", cursor: "pointer", color: "white",
-            marginBottom: 24, transition: "transform 0.15s",
+            borderRadius: RADIUS.round, textDecoration: "none", cursor: "pointer", color: "white",
+            marginBottom: 24, transition: "transform 0.15s", boxSizing: "border-box",
           }}
           onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
           onMouseLeave={e => e.currentTarget.style.transform = "none"}
@@ -49,20 +50,21 @@ export default function BlogView({ onBlogPostClick }) {
               <p style={{ fontSize: 11, opacity: 0.6, margin: 0, fontFamily: SANS }}>{new Date(BLOG_POSTS[0].date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
             </div>
           </div>
-        </button>
+        </a>
       )}
 
       {/* Post list */}
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {BLOG_POSTS.slice(1).map((post) => (
-          <button
+          <a
             key={post.slug}
-            onClick={() => onBlogPostClick(post.slug)}
+            href={`/blog/${post.slug}`}
+            onClick={(e) => { e.preventDefault(); onBlogPostClick(post.slug); }}
             style={{
-              width: "100%", textAlign: "left", padding: "24px",
+              display: "block", width: "100%", textAlign: "left", padding: "24px",
               background: COLORS.white, borderRadius: RADIUS.xxl,
               border: `1px solid ${COLORS.borderDefault}`, cursor: "pointer",
-              transition: "all 0.15s", fontFamily: SANS,
+              transition: "all 0.15s", fontFamily: SANS, textDecoration: "none", color: "inherit", boxSizing: "border-box",
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.primaryLightBorder; e.currentTarget.style.boxShadow = SHADOWS.lg; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderDefault; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
@@ -83,7 +85,7 @@ export default function BlogView({ onBlogPostClick }) {
                 <span key={tag} style={{ padding: "2px 8px", background: "#f7f5f2", borderRadius: 4, fontSize: 11, color: "#8b7355" }}>{tag}</span>
               ))}
             </div>
-          </button>
+          </a>
         ))}
       </div>
     </div>

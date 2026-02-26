@@ -142,6 +142,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 button:focus:not(:focus-visible), input:focus:not(:focus-visible), textarea:focus:not(:focus-visible), select:focus:not(:focus-visible), a:focus:not(:focus-visible) {
   outline: none;
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 `;
 
 export { FONT_FACE_CSS, SERIF, SANS, COLORS, RADIUS, SHADOWS, FOCUS_CSS };

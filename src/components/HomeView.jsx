@@ -28,9 +28,9 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
           return (
-          <div key={roleId} className="persona-card"
+          <button key={roleId} className="persona-card"
             onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
-            style={{
+            style={{ textAlign: "left",
               background: isActive ? role.colorBg : "white", borderRadius: 20,
               border: `2px solid ${isActive ? role.color : role.colorBorder}`,
               padding: "28px 24px", cursor: "pointer",
@@ -49,21 +49,21 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             <p className="persona-desc" style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
             <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {role.keyArticleGroups.map((t) => (
-                <button key={t.name} onClick={(e) => { e.stopPropagation(); onArticleClick(t.articleNum); }}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: isActive ? "white" : "#faf9f7", borderRadius: 10, fontSize: 13, color: "#374151", fontFamily: SANS, border: "none", cursor: "pointer", textAlign: "left", width: "100%", transition: "background 0.15s" }}
+                <a key={t.name} href={`/article/${t.articleNum}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); onArticleClick(t.articleNum); }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: isActive ? "white" : "#faf9f7", borderRadius: 10, fontSize: 13, color: "#374151", fontFamily: SANS, textDecoration: "none", cursor: "pointer", textAlign: "left", width: "100%", transition: "background 0.15s" }}
                   onMouseEnter={e => e.currentTarget.style.background = isActive ? "#f7f5f2" : "#f0f0ed"}
                   onMouseLeave={e => e.currentTarget.style.background = isActive ? "white" : "#faf9f7"}
                 >
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: t.color, flexShrink: 0 }} />
                   <span style={{ flex: 1 }}>{t.name}</span>
                   <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 500 }}>{t.ref}</span>
-                </button>
+                </a>
               ))}
             </div>
             <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: role.color, fontFamily: SANS }}>
               {isActive ? "✓ Viewing as " + role.label : "Explore as " + role.label + " →"}
             </div>
-          </div>
+          </button>
           );
         })}
       </div>
@@ -74,14 +74,14 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
           return (
-            <div key={roleId}
+            <button key={roleId}
               onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
               style={{
                 background: isActive ? role.colorBg : "white", borderRadius: 14,
                 border: `1.5px solid ${isActive ? role.color : role.colorBorder}`,
                 padding: "18px 20px", cursor: "pointer",
                 transition: "all 0.2s", position: "relative",
-                display: "flex", alignItems: "center", gap: 14,
+                display: "flex", alignItems: "center", gap: 14, textAlign: "left", width: "100%",
                 boxShadow: isActive ? "0 4px 16px rgba(0,0,0,0.06)" : "none",
               }}
               onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; e.currentTarget.style.borderColor = role.color; }}}
@@ -95,7 +95,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <span style={{ fontSize: 12, fontWeight: 600, color: role.color, fontFamily: SANS, flexShrink: 0 }}>
                 {isActive ? "✓" : "→"}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>
@@ -138,13 +138,13 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                       const art = EU_AI_ACT_DATA.articles[String(num)];
                       if (!art) return null;
                       return (
-                        <button key={num} onClick={() => onArticleClick(num)}
+                        <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); onArticleClick(num); }}
                           title={`Article ${num} — ${art.title}`}
                           style={{
                             display: "inline-flex", alignItems: "center", gap: 6,
                             padding: "5px 10px", background: COLORS.surfaceAltBg,
                             border: `1px solid ${COLORS.borderDefault}`, borderRadius: RADIUS.md,
-                            cursor: "pointer", fontSize: 12, fontFamily: SANS,
+                            cursor: "pointer", fontSize: 12, fontFamily: SANS, textDecoration: "none",
                             color: COLORS.textBody, transition: "all 0.12s",
                             maxWidth: 260, overflow: "hidden",
                           }}
@@ -153,7 +153,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                         >
                           <span style={{ fontWeight: 600, color: role.color, flexShrink: 0 }}>Art. {num}</span>
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: COLORS.textMuted }}>{art.title}</span>
-                        </button>
+                        </a>
                       );
                     })}
                   </div>
@@ -203,9 +203,9 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
         </div>
         <div className="key-articles-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {onFRIAClick && (
-            <button
-              onClick={onFRIAClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fed7aa", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+            <a href="/fria"
+              onClick={(e) => { e.preventDefault(); onFRIAClick(); }}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fed7aa", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS, textDecoration: "none", display: "block" }}
               onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#ea580c"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fed7aa"; }}
             >
@@ -215,12 +215,12 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
               <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
-            </button>
+            </a>
           )}
           {onTimelineClick && (
-            <button
-              onClick={onTimelineClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fecaca", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+            <a href="/timeline"
+              onClick={(e) => { e.preventDefault(); onTimelineClick(); }}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #fecaca", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS, textDecoration: "none", display: "block" }}
               onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#dc2626"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#fecaca"; }}
             >
@@ -230,12 +230,12 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Compliance Timeline</h3>
               <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#dc2626" }}>View timeline &rarr;</span>
-            </button>
+            </a>
           )}
           {onBlogClick && (
-            <button
-              onClick={onBlogClick}
-              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #c7d6ec", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS }}
+            <a href="/blog"
+              onClick={(e) => { e.preventDefault(); onBlogClick(); }}
+              style={{ textAlign: "left", padding: "24px", background: "white", borderRadius: 16, border: "2px solid #c7d6ec", cursor: "pointer", transition: "all 0.15s", fontFamily: SANS, textDecoration: "none", display: "block" }}
               onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = "#1e3a5f"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#c7d6ec"; }}
             >
@@ -245,7 +245,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Practitioner Insights</h3>
               <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f" }}>Read articles &rarr;</span>
-            </button>
+            </a>
           )}
         </div>
       </div>
@@ -282,15 +282,15 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
             const isRelevant = !roleArticles || theme.articles.some(a => roleArticles.includes(a));
             return (
-            <button key={theme.id} className="theme-btn" onClick={() => onThemeClick(theme.id)}
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", background: "white", border: "1px solid #e8e4de", borderRadius: 12, fontSize: 13, cursor: "pointer", fontFamily: SANS, transition: "all 0.15s", opacity: isRelevant ? 1 : 0.35 }}
+            <a key={theme.id} className="theme-btn" href={`/theme/${theme.id}`} onClick={(e) => { e.preventDefault(); onThemeClick(theme.id); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", background: "white", border: "1px solid #e8e4de", borderRadius: 12, fontSize: 13, cursor: "pointer", fontFamily: SANS, transition: "all 0.15s", opacity: isRelevant ? 1 : 0.35, textDecoration: "none", color: "inherit" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "#93b3d4"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.05)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "#e8e4de"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
             >
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: theme.color }} />
               {theme.name}
               <span style={{ fontSize: 11, color: "#94a3b8", marginLeft: 2 }}>{theme.articles.length}</span>
-            </button>
+            </a>
             );
           })}
         </div>

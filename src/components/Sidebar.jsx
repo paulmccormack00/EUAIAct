@@ -75,7 +75,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
             const allArts = chapter.articles || (chapter.sections ? chapter.sections.flatMap(s => s.articles) : []);
             return (
               <div key={chapter.id} style={{ marginBottom: 4 }}>
-                <button onClick={() => toggleChapter(chapter.id)}
+                <button onClick={() => toggleChapter(chapter.id)} aria-expanded={isExp}
                   style={{
                     width: "100%", display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", textAlign: "left", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: SANS,
                     background: isExp ? "#f5f2ed" : "transparent",
@@ -98,7 +98,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                       const secExp = expandedSections.has(sKey);
                       return (
                         <div key={sKey}>
-                          <button onClick={() => toggleSection(sKey)}
+                          <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
                             style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "5px 8px", textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
                             <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
                             <span style={{ fontSize: 12, color: "#64748b" }}>{sec.title}</span>
@@ -111,9 +111,10 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                               const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
                               const isRelevant = !roleArticles || roleArticles.includes(num);
                               return (
-                                <button key={num} onClick={() => handleArticleClick(num)}
+                                <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
+                                  aria-current={isActive ? "page" : undefined}
                                   style={{
-                                    width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                                    display: "block", width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                                     background: isActive ? "#1e3a5f" : "transparent",
                                     color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                                     fontWeight: isActive ? 600 : 400,
@@ -122,7 +123,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                     borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                                   }}>
                                   <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#94a3b8" }}>{art.title}</span>
-                                </button>
+                                </a>
                               );
                             })}
                           </div>}
@@ -135,9 +136,10 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                       const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
                       const isRelevant = !roleArticles || roleArticles.includes(num);
                       return (
-                        <button key={num} onClick={() => handleArticleClick(num)}
+                        <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
+                          aria-current={isActive ? "page" : undefined}
                           style={{
-                            width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                            display: "block", width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                             background: isActive ? "#1e3a5f" : "transparent",
                             color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                             fontWeight: isActive ? 600 : 400,
@@ -146,7 +148,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                             borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                           }}>
                           <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#94a3b8" }}>{art.title}</span>
-                        </button>
+                        </a>
                       );
                     })}
                   </div>
@@ -160,26 +162,28 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               {themes.filter(t => !t.cross_cutting).map((theme) => {
                 const isActive = selectedTheme === theme.id;
                 return (
-                  <button key={theme.id} onClick={() => handleThemeClick(theme.id)}
-                    style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: SANS, marginBottom: 2, background: isActive ? `${theme.color}10` : "transparent", borderLeft: isActive ? `3px solid ${theme.color}` : "3px solid transparent" }}>
+                  <a key={theme.id} href={`/theme/${theme.id}`} onClick={(e) => { e.preventDefault(); handleThemeClick(theme.id); }}
+                    aria-current={isActive ? "page" : undefined}
+                    style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 10, textDecoration: "none", cursor: "pointer", fontFamily: SANS, marginBottom: 2, background: isActive ? `${theme.color}10` : "transparent", borderLeft: isActive ? `3px solid ${theme.color}` : "3px solid transparent" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: theme.color, flexShrink: 0 }} />
                       <span style={{ fontSize: 13, fontWeight: isActive ? 600 : 500, color: isActive ? "#1a1a1a" : "#374151" }}>{theme.name}</span>
                     </div>
                     <p style={{ fontSize: 11, color: "#94a3b8", margin: "2px 0 0 18px" }}>{theme.articles.length} article{theme.articles.length !== 1 ? "s" : ""}</p>
-                  </button>
+                  </a>
                 );
               })}
               <div style={{ borderTop: "1px solid #f0ebe4", margin: "12px 0", paddingTop: 12 }}>
                 <p style={{ fontSize: 10, fontWeight: 600, color: "#8b7355", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 12px", fontFamily: SANS }}>Cross-cutting</p>
                 {themes.filter(t => t.cross_cutting).map((theme) => (
-                  <button key={theme.id} onClick={() => handleThemeClick(theme.id)}
-                    style={{ width: "100%", textAlign: "left", padding: "8px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS, background: selectedTheme === theme.id ? `${theme.color}10` : "transparent" }}>
+                  <a key={theme.id} href={`/theme/${theme.id}`} onClick={(e) => { e.preventDefault(); handleThemeClick(theme.id); }}
+                    aria-current={selectedTheme === theme.id ? "page" : undefined}
+                    style={{ display: "block", width: "100%", textAlign: "left", padding: "8px 12px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, background: selectedTheme === theme.id ? `${theme.color}10` : "transparent" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 10, height: 10, borderRadius: "50%", border: `2px solid ${theme.color}`, flexShrink: 0 }} />
                       <span style={{ fontSize: 13, fontWeight: 500, color: "#374151" }}>{theme.name}</span>
                     </div>
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>
@@ -205,9 +209,10 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               {ANNEXES.map((annex) => {
                 const isActive = selectedAnnex === annex.id;
                 return (
-                  <button key={annex.id} onClick={() => { onAnnexClick(annex.id); setIsMobileOpen(false); }}
+                  <a key={annex.id} href={`/annex/${annex.id}`} onClick={(e) => { e.preventDefault(); onAnnexClick(annex.id); setIsMobileOpen(false); }}
+                    aria-current={isActive ? "page" : undefined}
                     style={{
-                      width: "100%", textAlign: "left", padding: "7px 10px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                      display: "block", width: "100%", textAlign: "left", padding: "7px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                       background: isActive ? "#1e3a5f" : "transparent",
                       color: isActive ? "white" : "#374151",
                       fontWeight: isActive ? 600 : 400,
@@ -220,7 +225,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                   >
                     <span style={{ fontWeight: 600, color: isActive ? "#c7d6ec" : "#1a1a1a" }}>Annex {annex.number}</span>{" "}
                     <span style={{ color: isActive ? "#c7d6ec" : "#94a3b8" }}>{truncateText(annex.title, 55)}</span>
-                  </button>
+                  </a>
                 );
               })}
             </div>
@@ -232,18 +237,19 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
           <p style={{ fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {[
-              { label: "Role Identifier", icon: "user-check", viewId: "role-identifier", onClick: () => { onRoleIdentifierClick?.(); setIsMobileOpen(false); }, color: "#8b5cf6" },
-              { label: "FRIA Screening", icon: "clipboard-check", viewId: "fria", onClick: () => { onFRIAClick?.(); setIsMobileOpen(false); }, color: "#ea580c" },
-              { label: "Compliance Timeline", icon: "clock", viewId: "timeline", onClick: () => { onTimelineClick?.(); setIsMobileOpen(false); }, color: "#dc2626" },
-              { label: "Practitioner Insights", icon: "book", viewId: "blog", onClick: () => { onBlogClick?.(); setIsMobileOpen(false); }, color: "#1e3a5f" },
-            ].map(({ label, viewId, onClick, color }) => {
+              { label: "Role Identifier", viewId: "role-identifier", href: "/role-identifier", onClick: () => { onRoleIdentifierClick?.(); setIsMobileOpen(false); }, color: "#8b5cf6" },
+              { label: "FRIA Screening", viewId: "fria", href: "/fria", onClick: () => { onFRIAClick?.(); setIsMobileOpen(false); }, color: "#ea580c" },
+              { label: "Compliance Timeline", viewId: "timeline", href: "/timeline", onClick: () => { onTimelineClick?.(); setIsMobileOpen(false); }, color: "#dc2626" },
+              { label: "Practitioner Insights", viewId: "blog", href: "/blog", onClick: () => { onBlogClick?.(); setIsMobileOpen(false); }, color: "#1e3a5f" },
+            ].map(({ label, viewId, href, onClick, color }) => {
               const isActive = view === viewId || (viewId === "blog" && view === "blogpost");
               return (
-                <button key={viewId} onClick={onClick}
+                <a key={viewId} href={href} onClick={(e) => { e.preventDefault(); onClick(); }}
+                  aria-current={isActive ? "page" : undefined}
                   style={{
                     display: "flex", alignItems: "center", gap: 8, padding: "8px 10px",
                     background: isActive ? "#f0f4ff" : "transparent",
-                    border: "none", borderRadius: 8, cursor: "pointer",
+                    textDecoration: "none", borderRadius: 8, cursor: "pointer",
                     fontSize: 13, fontWeight: isActive ? 600 : 500,
                     color: isActive ? "#1e3a5f" : "#64748b",
                     fontFamily: SANS, textAlign: "left", width: "100%",
@@ -254,7 +260,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                 >
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: isActive ? color : "#cbd5e1", flexShrink: 0 }} />
                   {label}
-                </button>
+                </a>
               );
             })}
           </div>

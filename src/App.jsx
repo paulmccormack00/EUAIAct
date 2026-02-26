@@ -50,7 +50,8 @@ function parseRoute(pathname) {
     const aid = Number(annexMatch[1]);
     if (ANNEXES.find(a => a.id === aid)) return { view: "annex", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: aid };
   }
-  return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  if (p === "/") return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
+  return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
 }
 
 export default function App() {
@@ -209,6 +210,10 @@ export default function App() {
       title = annex ? `Annex ${annex.number}: ${annex.title} — EU AI Act Navigator` : "Annex — EU AI Act Navigator";
       description = annex?.summary || "";
       path = `/annex/${selectedAnnex}`;
+    } else if (view === "notfound") {
+      title = "Page Not Found — EU AI Act Navigator";
+      description = "The page you're looking for doesn't exist.";
+      path = window.location.pathname;
     } else {
       title = "EU AI Act Navigator — Interactive Guide to Regulation (EU) 2024/1689";
       description = "Navigate the EU AI Act — 113 articles, 180 recitals, 13 annexes, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
@@ -216,6 +221,10 @@ export default function App() {
     }
 
     document.title = title;
+
+    // Add noindex for 404 pages
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (robotsMeta) robotsMeta.setAttribute("content", view === "notfound" ? "noindex, nofollow" : "index, follow");
 
     // Update meta description
     let metaDesc = document.querySelector('meta[name="description"]');
@@ -690,6 +699,18 @@ export default function App() {
             <AnnexView onAnnexClick={handleAnnexClick} onArticleClick={handleArticleClick} />
           ) : view === "annex" && selectedAnnex ? (
             <AnnexView annexId={selectedAnnex} onAnnexClick={handleAnnexClick} onArticleClick={handleArticleClick} />
+          ) : view === "notfound" ? (
+            <div style={{ maxWidth: 600, margin: "80px auto", textAlign: "center", padding: "0 20px" }}>
+              <div style={{ fontSize: 64, marginBottom: 16 }}>🔍</div>
+              <h1 style={{ fontSize: 28, fontWeight: 400, color: COLORS.textPrimary, margin: "0 0 12px", fontFamily: SERIF }}>Page Not Found</h1>
+              <p style={{ fontSize: 15, color: COLORS.textMuted, lineHeight: 1.6, margin: "0 0 32px", fontFamily: SANS }}>
+                The page you're looking for doesn't exist. It may have been moved or the URL may be incorrect.
+              </p>
+              <a href="/" onClick={(e) => { e.preventDefault(); setView("home"); window.history.pushState({}, "", "/"); }}
+                style={{ display: "inline-block", padding: "12px 28px", background: COLORS.primary, color: "white", textDecoration: "none", borderRadius: RADIUS.xl, fontSize: 15, fontWeight: 600, fontFamily: SANS }}>
+                Back to EU AI Act Navigator
+              </a>
+            </div>
           ) : (
             <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
           )}

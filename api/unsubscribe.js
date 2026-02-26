@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   const { token } = req.query || {};
 
-  if (!token || token.length !== 64) {
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) {
     return sendPage(res, "Invalid Link", "This unsubscribe link is invalid or has expired.");
   }
 

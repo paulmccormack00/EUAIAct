@@ -4,8 +4,7 @@
 export default async function handler(req, res) {
   const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app"];
   const origin = req.headers.origin || "";
-  // Allow Vercel preview deployments and known origins
-  const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
+  const isAllowed = allowedOrigins.includes(origin) || /^https:\/\/euai-app-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/.test(origin);
   res.setHeader("Access-Control-Allow-Origin", isAllowed ? origin : allowedOrigins[0]);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
