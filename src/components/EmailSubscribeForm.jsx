@@ -91,13 +91,15 @@ export default function EmailSubscribeForm({
           className="fria-input"
           type="email"
           aria-label="Email address"
+          aria-describedby={status === "error" ? "subscribe-error" : undefined}
+          aria-invalid={status === "error" ? "true" : undefined}
           placeholder="you@company.com"
           value={email}
           onChange={e => { setEmail(e.target.value); if (status === "error") setStatus(null); }}
           style={{
             flex: 1, minWidth: 0, padding: "12px 16px",
             border: status === "error" ? `1.5px solid ${COLORS.errorAccent}` : `1px solid ${COLORS.borderInput}`,
-            borderRadius: RADIUS.lg, fontSize: 14, fontFamily: SANS, outline: "none",
+            borderRadius: RADIUS.lg, fontSize: 14, fontFamily: SANS,
             transition: "border-color 0.15s", boxSizing: "border-box",
           }}
         />
@@ -119,7 +121,7 @@ export default function EmailSubscribeForm({
         </button>
       </form>
       {status === "error" && error && (
-        <p style={{ fontSize: 12, color: COLORS.errorAccent, margin: "8px 0 0", fontFamily: SANS }}>{error}</p>
+        <p id="subscribe-error" role="alert" style={{ fontSize: 12, color: COLORS.errorAccent, margin: "8px 0 0", fontFamily: SANS }}>{error}</p>
       )}
       <p style={{ fontSize: 11, color: COLORS.textPlaceholder, margin: "10px 0 0", fontFamily: SANS }}>No spam. Unsubscribe anytime.</p>
     </div>

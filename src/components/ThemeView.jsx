@@ -42,7 +42,7 @@ export default function ThemeView({ themeId, onArticleClick }) {
                 <div>
                   <p style={{ fontWeight: 600, color: "#1a1a1a", margin: 0, fontSize: 15 }}>Article {num}</p>
                   <p style={{ color: "#4a5568", fontSize: 14, margin: "2px 0 0" }}>{title}</p>
-                  <p style={{ color: "#6b7c93", fontSize: 12.5, margin: "8px 0 0", lineHeight: 1.5 }}>{truncateText(text, 150)}</p>
+                  <p style={{ color: "#566b82", fontSize: 12.5, margin: "8px 0 0", lineHeight: 1.5 }}>{truncateText(text, 150)}</p>
                 </div>
                 {relatedRecitals?.length > 0 && (
                   <span style={{ flexShrink: 0, fontSize: 11, color: "#8b6914", background: "#fdf8ef", padding: "3px 10px", borderRadius: 12, fontWeight: 500 }}>

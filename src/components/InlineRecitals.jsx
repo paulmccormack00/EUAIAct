@@ -62,14 +62,14 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                       {linkedArticles.filter((a) => a !== articleNumber).slice(0, 4).map((a) => (
-                        <span key={a} onClick={(e) => { e.stopPropagation(); onArticleClick && onArticleClick(a); }}
-                          style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec" }}
+                        <button key={a} onClick={(e) => { e.stopPropagation(); onArticleClick && onArticleClick(a); }}
+                          style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec", fontFamily: "inherit", lineHeight: "inherit" }}
                           title={`Also linked to Article ${a}`}>
                           Art {a}
-                        </span>
+                        </button>
                       ))}
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2"
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
                       style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s", flexShrink: 0 }}>
                       <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -83,7 +83,7 @@ export default function InlineRecitals({ articleNumber, onArticleClick }) {
                   </div>
                 )}
                 {isOpen && !displayText && (
-                  <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#6b7c93", fontStyle: "italic", fontFamily: SANS }}>
+                  <div style={{ padding: "0 12px 12px", fontSize: 13, color: "#566b82", fontStyle: "italic", fontFamily: SANS }}>
                     Full text available in the official regulation (OJ L 2024/1689).
                   </div>
                 )}

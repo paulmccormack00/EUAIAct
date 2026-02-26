@@ -33,7 +33,7 @@ export default function RecitalCard({ recital, isExpanded, onToggle, onArticleCl
         <p style={{ flex: 1, margin: 0, fontSize: 13.5, lineHeight: 1.65, color: "#374151", fontFamily: SANS }}>
           {renderHighlightedParts(renderedText)}
         </p>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2" style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>

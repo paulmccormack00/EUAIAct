@@ -118,7 +118,7 @@ export default function ProhibitedPracticesView({ article, onThemeClick, onArtic
                 <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: "#1a1a1a", fontFamily: SANS }}>
                   {p.label}
                 </span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
                   <path d="M6 9l6 6 6-6" />
                 </svg>
               </button>

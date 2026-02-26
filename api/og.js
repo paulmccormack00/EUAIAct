@@ -12,8 +12,16 @@ function getFont() {
   return fontData;
 }
 
+import rateLimit from "./_rate-limit.js";
+
 export default async function handler(req, res) {
-  const { title = "EU AI Act Navigator", type = "page" } = req.query;
+  if (!rateLimit(req, res, { limit: 30, windowMs: 60_000 })) return;
+  if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+
+  let { title = "EU AI Act Navigator", type = "page" } = req.query;
+  // Input validation: limit title length to prevent abuse
+  if (typeof title !== "string" || title.length > 200) title = "EU AI Act Navigator";
+  if (typeof type !== "string" || !["article", "theme", "blog", "annex", "tool", "page"].includes(type)) type = "page";
 
   const typeLabel = {
     article: "ARTICLE",

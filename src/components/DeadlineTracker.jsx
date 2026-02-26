@@ -137,9 +137,9 @@ function getStatusColor(status) {
     case "current": return { bg: "#f0f4ff", border: "#c7d6ec", dot: "#1e3a5f", text: "#1e3a5f" };
     case "upcoming": return { bg: "#fffbeb", border: "#fde68a", dot: "#d97706", text: "#92400e" };
     case "critical": return { bg: "#fef2f2", border: "#fecaca", dot: "#dc2626", text: "#991b1b" };
-    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#6b7c93", text: "#64748b" };
+    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#566b82", text: "#64748b" };
     case "tentative": return { bg: "#faf5ff", border: "#e9d5ff", dot: "#7c3aed", text: "#5b21b6" };
-    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#6b7c93", text: "#64748b" };
+    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#566b82", text: "#64748b" };
   }
 }
 
@@ -217,47 +217,56 @@ export default function DeadlineTracker({ onArticleClick }) {
               }} />
 
               {/* Card */}
-              <button
-                onClick={() => setExpandedIdx(expanded ? null : idx)}
+              <div
                 style={{
-                  width: "100%", textAlign: "left", padding: "20px 24px",
+                  width: "100%", textAlign: "left",
                   background: expanded ? colors.bg : "white",
                   border: `1px solid ${expanded ? colors.border : "#e8e4de"}`,
-                  borderRadius: 14, cursor: "pointer", fontFamily: SANS,
+                  borderRadius: 14, fontFamily: SANS,
                   transition: "all 0.2s", boxShadow: expanded ? "0 4px 16px rgba(0,0,0,0.06)" : "none",
                   borderLeft: deadline.highlight ? `4px solid ${colors.dot}` : `1px solid ${expanded ? colors.border : "#e8e4de"}`,
+                  overflow: "hidden",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a" }}>{deadline.date}</span>
-                      <span style={{
-                        fontSize: 11, fontWeight: 600, padding: "2px 10px", borderRadius: 20,
-                        background: colors.bg, color: colors.text, border: `1px solid ${colors.border}`,
-                      }}>
-                        {getStatusLabel(status)}
-                      </span>
-                      {!isPast && status !== "passed" && (
-                        <span style={{ fontSize: 11, color: "#6b7c93" }}>
-                          {days} days
+                <button
+                  onClick={() => setExpandedIdx(expanded ? null : idx)}
+                  aria-expanded={expanded}
+                  style={{
+                    width: "100%", textAlign: "left", padding: "20px 24px",
+                    background: "transparent", border: "none", cursor: "pointer", fontFamily: SANS,
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a" }}>{deadline.date}</span>
+                        <span style={{
+                          fontSize: 11, fontWeight: 600, padding: "2px 10px", borderRadius: 20,
+                          background: colors.bg, color: colors.text, border: `1px solid ${colors.border}`,
+                        }}>
+                          {getStatusLabel(status)}
                         </span>
-                      )}
+                        {!isPast && status !== "passed" && (
+                          <span style={{ fontSize: 11, color: "#566b82" }}>
+                            {days} days
+                          </span>
+                        )}
+                      </div>
+                      <h3 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h3>
+                      <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
                     </div>
-                    <h3 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h3>
-                    <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
+                    <svg
+                      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
+                      style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "none" }}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
                   </div>
-                  <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="2"
-                    style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "none" }}
-                  >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
+                </button>
 
                 {expanded && (
-                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${colors.border}` }}>
-                    <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: "#374151", lineHeight: 1.8 }}>
+                  <div style={{ padding: "0 24px 20px", borderTop: `1px solid ${colors.border}` }}>
+                    <ul style={{ margin: "16px 0 0", paddingLeft: 20, fontSize: 13, color: "#374151", lineHeight: 1.8 }}>
                       {deadline.details.map((detail, i) => (
                         <li key={i}>{detail}</li>
                       ))}
@@ -270,7 +279,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                           return (
                             <button
                               key={art}
-                              onClick={(e) => { e.stopPropagation(); if (artNum) onArticleClick?.(artNum); }}
+                              onClick={() => { if (artNum) onArticleClick?.(artNum); }}
                               style={{
                                 padding: "4px 12px", background: "white", border: "1px solid #c7d6ec",
                                 borderRadius: 6, fontSize: 12, color: "#1e3a5f", fontWeight: 500,
@@ -285,7 +294,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                     )}
                     {deadline.links && deadline.links.length > 0 && (
                       <div style={{ marginTop: 12 }}>
-                        <p style={{ fontSize: 11, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
+                        <p style={{ fontSize: 11, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
                         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                           {deadline.links.map((link) => (
                             <a
@@ -293,7 +302,6 @@ export default function DeadlineTracker({ onArticleClick }) {
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
                               style={{ fontSize: 12, color: "#1e3a5f", textDecoration: "underline", fontFamily: SANS }}
                             >
                               {link.label} ↗
@@ -304,7 +312,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                     )}
                   </div>
                 )}
-              </button>
+              </div>
             </div>
           );
         })}

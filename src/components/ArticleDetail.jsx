@@ -34,12 +34,12 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
         {article.chapter && (
           <p style={{ fontSize: 11, color: "#6b5a42", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>{article.chapter}</p>
         )}
-        <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
+        <h1 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Article {articleNum}
-        </h2>
-        <h3 className="view-subtitle" style={{ fontSize: 20, color: "#4a5568", margin: "4px 0 0", fontFamily: SERIF, fontWeight: 400 }}>
+        </h1>
+        <p className="view-subtitle" style={{ fontSize: 20, color: "#4a5568", margin: "4px 0 0", fontFamily: SERIF, fontWeight: 400 }}>
           {article.title}
-        </h3>
+        </p>
         {articleNum === 27 && (
           <div style={{ marginTop: 12 }}>
             <span className="fria-countdown" style={{

@@ -3,7 +3,7 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
 import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
-export default function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick }) {
+export default function HomeView({ onArticleClick, onThemeClick, activeRole, setActiveRole, onChatOpen, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick, onRecitalsClick, onAnnexesClick }) {
   const primaryRoles = ["provider", "deployer", "affected"];
   const supplyChainRoles = ["importer", "distributor", "authRep"];
 
@@ -56,7 +56,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 >
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: t.color, flexShrink: 0 }} />
                   <span style={{ flex: 1 }}>{t.name}</span>
-                  <span style={{ fontSize: 11, color: "#6b7c93", fontWeight: 500 }}>{t.ref}</span>
+                  <span style={{ fontSize: 11, color: "#566b82", fontWeight: 500 }}>{t.ref}</span>
                 </a>
               ))}
             </div>
@@ -253,7 +253,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Divider */}
       <div className="home-divider" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
-        <span style={{ fontSize: 12, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>The Act at a Glance</span>
+        <span style={{ fontSize: 12, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>The Act at a Glance</span>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
       </div>
 
@@ -261,15 +261,26 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, marginBottom: 44 }}>
         {[
           { label: "Articles", value: "113", bg: "#f0f4ff", accent: "#1e3a5f" },
-          { label: "Recitals", value: "180", bg: "#fdf8ef", accent: "#8b6914" },
-          { label: "Annexes", value: "13", bg: "#fff7ed", accent: "#9a3412" },
+          { label: "Recitals", value: "180", bg: "#fdf8ef", accent: "#8b6914", href: "/recitals", onClick: onRecitalsClick },
+          { label: "Annexes", value: "13", bg: "#fff7ed", accent: "#9a3412", href: "/annexes", onClick: onAnnexesClick },
           { label: "Themes", value: String(EU_AI_ACT_DATA.themes.length), bg: "#f5f3ff", accent: "#5b21b6" },
           { label: "Cross-refs", value: "242+", bg: "#f0fdf4", accent: "#166534" },
-        ].map(({ label, value, bg, accent }) => (
-          <div key={label} style={{ padding: "20px 24px", borderRadius: 16, background: bg, textAlign: "center" }}>
-            <p className="stat-value" style={{ fontSize: 30, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>{value}</p>
-            <p style={{ fontSize: 13, color: accent, margin: "2px 0 0", fontFamily: SANS, fontWeight: 500 }}>{label}</p>
-          </div>
+        ].map(({ label, value, bg, accent, href, onClick }) => (
+          href && onClick ? (
+            <a key={label} href={href} onClick={(e) => { e.preventDefault(); onClick(); }}
+              style={{ padding: "20px 24px", borderRadius: 16, background: bg, textAlign: "center", textDecoration: "none", display: "block", transition: "transform 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "none"}
+            >
+              <p className="stat-value" style={{ fontSize: 30, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>{value}</p>
+              <p style={{ fontSize: 13, color: accent, margin: "2px 0 0", fontFamily: SANS, fontWeight: 500 }}>{label}</p>
+            </a>
+          ) : (
+            <div key={label} style={{ padding: "20px 24px", borderRadius: 16, background: bg, textAlign: "center" }}>
+              <p className="stat-value" style={{ fontSize: 30, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF }}>{value}</p>
+              <p style={{ fontSize: 13, color: accent, margin: "2px 0 0", fontFamily: SANS, fontWeight: 500 }}>{label}</p>
+            </div>
+          )
         ))}
       </div>
 
@@ -289,7 +300,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             >
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: theme.color }} />
               {theme.name}
-              <span style={{ fontSize: 11, color: "#6b7c93", marginLeft: 2 }}>{theme.articles.length}</span>
+              <span style={{ fontSize: 11, color: "#566b82", marginLeft: 2 }}>{theme.articles.length}</span>
             </a>
             );
           })}
@@ -350,7 +361,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               background: status === "done" ? "#16a34a" : status === "current" ? "#1e3a5f" : "#cbd5e1",
               boxShadow: status === "current" ? "0 0 0 4px rgba(30,58,95,0.15)" : "none",
             }} />
-            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#6b7c93" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
+            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#566b82" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
             <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
           </div>
           );

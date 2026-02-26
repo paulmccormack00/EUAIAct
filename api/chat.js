@@ -16,6 +16,9 @@ export default async function handler(req, res) {
 
   const { messages, context, sessionId, question } = req.body || {};
   if (!messages || !question) return res.status(400).json({ error: "Missing required fields" });
+  if (sessionId && (typeof sessionId !== "string" || sessionId.length > 50 || !/^[a-z0-9_]+$/i.test(sessionId))) {
+    return res.status(400).json({ error: "Invalid session ID" });
+  }
   if (!process.env.ANTHROPIC_API_KEY) return res.status(500).json({ error: "API key not configured" });
 
   // Input validation: limit message count and length

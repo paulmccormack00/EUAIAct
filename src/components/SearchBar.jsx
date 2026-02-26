@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import { SANS, COLORS, RADIUS, SHADOWS } from "../constants.js";
 
-export default function SearchBar({ query, setQuery, resultCount }) {
+export default memo(function SearchBar({ query, setQuery, resultCount }) {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function SearchBar({ query, setQuery, resultCount }) {
         onFocus={(e) => { e.currentTarget.style.borderColor = COLORS.primary; e.currentTarget.style.boxShadow = SHADOWS.focus; }}
         onBlur={(e) => { e.currentTarget.style.borderColor = COLORS.borderSubtle; e.currentTarget.style.boxShadow = "none"; }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={COLORS.textPlaceholder} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 12, flexShrink: 0 }}>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={COLORS.textPlaceholder} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 12, flexShrink: 0 }}>
           <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
         </svg>
         <input
@@ -41,12 +41,12 @@ export default function SearchBar({ query, setQuery, resultCount }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           style={{
-            flex: 1, outline: "none", border: "none", background: "transparent",
+            flex: 1, border: "none", background: "transparent",
             fontSize: 14, fontFamily: SANS, color: COLORS.textPrimary,
           }}
         />
         {query ? (
-          <button onClick={() => setQuery("")} aria-label="Clear search" style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 4 }}>
+          <button onClick={() => setQuery("")} aria-label="Clear search" style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 8, minWidth: 32, minHeight: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         ) : (
@@ -54,10 +54,10 @@ export default function SearchBar({ query, setQuery, resultCount }) {
         )}
       </div>
       {query && (
-        <div style={{ position: "absolute", right: 16, top: "100%", marginTop: 4, fontSize: 12, color: COLORS.textMuted, fontFamily: SANS }}>
+        <div aria-live="polite" aria-atomic="true" style={{ position: "absolute", right: 16, top: "100%", marginTop: 4, fontSize: 12, color: COLORS.textMuted, fontFamily: SANS }}>
           {resultCount} result{resultCount !== 1 ? "s" : ""}
         </div>
       )}
     </div>
   );
-}
+})

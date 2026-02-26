@@ -4,12 +4,15 @@ import { truncateText } from "../utils.jsx";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { ROLES } from "../data/roles.js";
 import { ANNEXES } from "../data/annexes.js";
+import useFocusTrap from "../hooks/useFocusTrap.js";
 
 export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
   const [expandedSections, setExpandedSections] = useState(new Set());
+
+  const mobileTrapRef = useFocusTrap(isMobileOpen);
 
   const toggleChapter = (id) => setExpandedChapters((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleSection = (id) => setExpandedSections((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -28,12 +31,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
   return (
     <>
       <style>{`@media (min-width: 1024px) { .sidebar-container { transform: translateX(0) !important; position: relative !important; } }`}</style>
-      <nav className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
+      <nav ref={mobileTrapRef} className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
         {/* Title */}
         <div style={{ flexShrink: 0, padding: "20px 20px 16px", borderBottom: `1px solid ${COLORS.warmBorder}` }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
-              <h2 style={{ fontSize: 20, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF }}>EU AI Act</h2>
+              <p style={{ fontSize: 20, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF }}>EU AI Act</p>
               <p style={{ fontSize: 11, color: COLORS.warmText, margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
             </div>
           </div>
@@ -84,12 +87,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                   onMouseEnter={e => { if (!isExp) e.currentTarget.style.background = "#faf8f5"; }}
                   onMouseLeave={e => { if (!isExp) e.currentTarget.style.background = "transparent"; }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isExp ? "#1e3a5f" : "#6b7c93"} strokeWidth="2.5" style={{ transition: "transform 0.15s", transform: isExp ? "rotate(90deg)" : "none", flexShrink: 0 }}><path d="M9 5l7 7-7 7" /></svg>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isExp ? "#1e3a5f" : "#566b82"} strokeWidth="2.5" style={{ transition: "transform 0.15s", transform: isExp ? "rotate(90deg)" : "none", flexShrink: 0 }}><path d="M9 5l7 7-7 7" /></svg>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontSize: 10, fontWeight: 700, color: isExp ? "#1e3a5f" : "#6b5a42", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0 }}>{chapter.id}</p>
                     <p style={{ fontSize: 13, color: isExp ? "#1a1a1a" : "#374151", fontWeight: isExp ? 600 : 500, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{chapter.title}</p>
                   </div>
-                  <span style={{ fontSize: 11, color: isExp ? "#1e3a5f" : "#6b7c93", fontWeight: isExp ? 600 : 400, background: isExp ? "#e0eaf5" : "transparent", padding: isExp ? "2px 8px" : "0", borderRadius: 10 }}>{allArts.length}</span>
+                  <span style={{ fontSize: 11, color: isExp ? "#1e3a5f" : "#566b82", fontWeight: isExp ? 600 : 400, background: isExp ? "#e0eaf5" : "transparent", padding: isExp ? "2px 8px" : "0", borderRadius: 10 }}>{allArts.length}</span>
                 </button>
                 {isExp && (
                   <div style={{ marginLeft: 18, marginTop: 2 }}>
@@ -100,7 +103,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                         <div key={sKey}>
                           <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
                             style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "5px 8px", textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
-                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#6b7c93" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
                             <span style={{ fontSize: 12, color: "#64748b" }}>{sec.title}</span>
                           </button>
                           {secExp && <div style={{ marginLeft: 16 }}>
@@ -122,7 +125,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                     transition: "all 0.1s",
                                     borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                                   }}>
-                                  <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#6b7c93" }}>{art.title}</span>
+                                  <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{art.title}</span>
                                 </a>
                               );
                             })}
@@ -147,7 +150,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                             transition: "all 0.1s",
                             borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                           }}>
-                          <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#6b7c93" }}>{art.title}</span>
+                          <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{art.title}</span>
                         </a>
                       );
                     })}
@@ -169,7 +172,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                       <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: theme.color, flexShrink: 0 }} />
                       <span style={{ fontSize: 13, fontWeight: isActive ? 600 : 500, color: isActive ? "#1a1a1a" : "#374151" }}>{theme.name}</span>
                     </div>
-                    <p style={{ fontSize: 11, color: "#6b7c93", margin: "2px 0 0 18px" }}>{theme.articles.length} article{theme.articles.length !== 1 ? "s" : ""}</p>
+                    <p style={{ fontSize: 11, color: "#566b82", margin: "2px 0 0 18px" }}>{theme.articles.length} article{theme.articles.length !== 1 ? "s" : ""}</p>
                   </a>
                 );
               })}
@@ -224,7 +227,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                     onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
                   >
                     <span style={{ fontWeight: 600, color: isActive ? "#c7d6ec" : "#1a1a1a" }}>Annex {annex.number}</span>{" "}
-                    <span style={{ color: isActive ? "#c7d6ec" : "#6b7c93" }}>{truncateText(annex.title, 55)}</span>
+                    <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{truncateText(annex.title, 55)}</span>
                   </a>
                 );
               })}
@@ -234,7 +237,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
         {/* Tools Section */}
         <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4" }}>
-          <p style={{ fontSize: 10, color: "#6b7c93", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
+          <p style={{ fontSize: 10, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {[
               { label: "Role Identifier", viewId: "role-identifier", href: "/role-identifier", onClick: () => { onRoleIdentifierClick?.(); setIsMobileOpen(false); }, color: "#8b5cf6" },
@@ -274,7 +277,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               About this tool
             </button>
           )}
-          <p style={{ fontSize: 11, color: "#6b7c93", textAlign: "center", margin: 0, fontFamily: SANS }}>
+          <p style={{ fontSize: 11, color: "#566b82", textAlign: "center", margin: 0, fontFamily: SANS }}>
             OJ L, 2024/1689 · In force 1 Aug 2024
           </p>
         </div>

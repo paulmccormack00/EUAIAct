@@ -44,6 +44,17 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/article/:path*/", "destination": "/article/:path*", "statusCode": 301 },
+    { "source": "/theme/:path*/", "destination": "/theme/:path*", "statusCode": 301 },
+    { "source": "/blog/:path*/", "destination": "/blog/:path*", "statusCode": 301 },
+    { "source": "/annex/:path*/", "destination": "/annex/:path*", "statusCode": 301 },
+    { "source": "/recitals/", "destination": "/recitals", "statusCode": 301 },
+    { "source": "/fria/", "destination": "/fria", "statusCode": 301 },
+    { "source": "/timeline/", "destination": "/timeline", "statusCode": 301 },
+    { "source": "/role-identifier/", "destination": "/role-identifier", "statusCode": 301 },
+    { "source": "/annexes/", "destination": "/annexes", "statusCode": 301 }
+  ],
   "rewrites": [
     { "source": "/article/:path*", "destination": "/index.html" },
     { "source": "/theme/:path*", "destination": "/index.html" },

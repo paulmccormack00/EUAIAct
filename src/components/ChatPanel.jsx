@@ -250,11 +250,11 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {questionCount > 0 && (
-              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#6b7c93", fontFamily: SANS, fontWeight: 500 }}>
+              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#566b82", fontFamily: SANS, fontWeight: 500 }}>
                 {questionCount}/{FREE_LIMIT}
               </span>
             )}
-          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#6b7c93" }}>
+          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#566b82" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
           </div>
@@ -306,10 +306,10 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
               <div style={{ display: "flex", gap: 4 }}>
                 {[0, 1, 2].map((i) => (
-                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#6b7c93", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
+                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#566b82", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
                 ))}
               </div>
-              <span style={{ fontSize: 12, color: "#6b7c93", fontFamily: SANS }}>Analysing…</span>
+              <span style={{ fontSize: 12, color: "#566b82", fontFamily: SANS }}>Analysing…</span>
               <style>{`@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`}</style>
             </div>
           )}
@@ -329,7 +329,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               rows={1}
               style={{
                 flex: 1, padding: "10px 14px", border: `1.5px solid ${COLORS.borderLight}`, borderRadius: RADIUS.xl, fontSize: 14, fontFamily: SANS,
-                resize: "none", outline: "none", lineHeight: 1.5, maxHeight: 120, minHeight: 40,
+                resize: "none", lineHeight: 1.5, maxHeight: 120, minHeight: 40,
                 transition: "border-color 0.15s",
               }}
               onFocus={e => e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline}
@@ -344,7 +344,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
             </button>
           </div>
-          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#6b7c93", textAlign: "center", fontFamily: SANS }}>
+          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#566b82", textAlign: "center", fontFamily: SANS }}>
             Responses are AI-generated and may not reflect the latest guidance
           </p>
         </div>

@@ -42,9 +42,9 @@ export default function AnnexView({ annexId, onArticleClick, onAnnexClick }) {
         <p style={{ fontSize: 11, color: COLORS.warmText, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>
           Annex {annex.number}
         </p>
-        <h2 className="view-title" style={{ fontSize: 28, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
+        <h1 className="view-title" style={{ fontSize: 28, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           {annex.title}
-        </h2>
+        </h1>
         {annex.subtitle && (
           <p style={{ fontSize: 14, color: COLORS.textMuted, margin: "6px 0 0", fontFamily: SANS }}>{annex.subtitle}</p>
         )}
@@ -225,9 +225,9 @@ function AnnexList({ onAnnexClick, onArticleClick }) {
   return (
     <div style={{ maxWidth: "100%" }}>
       <div style={{ marginBottom: 28 }}>
-        <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
+        <h1 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Annexes
-        </h2>
+        </h1>
         <p style={{ fontSize: 15, color: COLORS.textSecondary, margin: "8px 0 0", fontFamily: SANS, lineHeight: 1.6 }}>
           The EU AI Act contains 13 Annexes that provide detailed technical, procedural, and classificatory substance supporting the main regulatory articles.
         </p>

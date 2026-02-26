@@ -73,8 +73,8 @@ export default function BlogView({ onBlogPostClick }) {
               <span style={{ padding: "3px 10px", background: "#f0f4ff", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1e3a5f" }}>
                 {post.category}
               </span>
-              <span style={{ fontSize: 12, color: "#6b7c93" }}>{post.readTime}</span>
-              <span style={{ fontSize: 12, color: "#6b7c93" }}>
+              <span style={{ fontSize: 12, color: "#566b82" }}>{post.readTime}</span>
+              <span style={{ fontSize: 12, color: "#566b82" }}>
                 {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
               </span>
             </div>

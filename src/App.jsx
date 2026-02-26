@@ -330,6 +330,10 @@ export default function App() {
         keywords = [`Article ${selectedArticle}`, art?.title, ...themes, "EU AI Act"].filter(Boolean).join(", ");
       } else if (view === "fria") {
         keywords = "FRIA, fundamental rights impact assessment, Article 27, EU AI Act, high-risk AI, screening tool";
+      } else if (view === "timeline") {
+        keywords = "EU AI Act timeline, compliance deadlines, FRIA deadline, GPAI deadline, Article 113, 2025, 2026, 2027";
+      } else if (view === "role-identifier") {
+        keywords = "EU AI Act roles, provider, deployer, importer, distributor, authorised representative, role identifier";
       } else if (view === "annex" && selectedAnnex) {
         const annex = ANNEXES.find(a => a.id === selectedAnnex);
         keywords = annex ? `Annex ${annex.number}, ${annex.title}, EU AI Act` : keywords;
@@ -340,10 +344,30 @@ export default function App() {
     // Update og:image — dynamic PNG via satori + resvg
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (ogImage) {
-      const ogType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
-      const ogTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
-      ogImage.setAttribute("content", `${BASE_URL}/api/og?title=${ogTitle}&type=${ogType}`);
+      const ogImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
+      const ogImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
+      const ogImageUrl = `${BASE_URL}/api/og?title=${ogImgTitle}&type=${ogImgType}`;
+      ogImage.setAttribute("content", ogImageUrl);
     }
+
+    // Update og:image:width/height
+    let ogWidth = document.querySelector('meta[property="og:image:width"]');
+    if (ogWidth) ogWidth.setAttribute("content", "1200");
+    let ogHeight = document.querySelector('meta[property="og:image:height"]');
+    if (ogHeight) ogHeight.setAttribute("content", "630");
+
+    // Update twitter:title, twitter:description, twitter:image
+    const twitterMeta = { "twitter:title": title, "twitter:description": description };
+    for (const [name, content] of Object.entries(twitterMeta)) {
+      let el = document.querySelector(`meta[name="${name}"]`);
+      if (!el) { el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    }
+    let twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (!twitterImage) { twitterImage = document.createElement("meta"); twitterImage.setAttribute("name", "twitter:image"); document.head.appendChild(twitterImage); }
+    const twImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
+    const twImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
+    twitterImage.setAttribute("content", `${BASE_URL}/api/og?title=${twImgTitle}&type=${twImgType}`);
 
     // --- Dynamic JSON-LD ---
     let jsonLdEl = document.getElementById("dynamic-jsonld");
@@ -361,7 +385,7 @@ export default function App() {
       const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: `Article ${selectedArticle}: ${art?.title || ""}`, item: BASE_URL + path });
       jsonLdEl.textContent = JSON.stringify([
-        { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": art ? art.text.substring(0, 300).replace(/\n/g, " ") : "", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": art ? (() => { const t = art.text.replace(/\n/g, " "); const idx = t.lastIndexOf(".", 300); return idx > 100 ? t.substring(0, idx + 1) : t.substring(0, 300); })() : "", "url": BASE_URL + path },
         { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
       ]);
     } else if (view === "theme" && selectedTheme) {
@@ -595,7 +619,7 @@ export default function App() {
 
           {/* Site Logo */}
           <a href="/" onClick={(e) => { e.preventDefault(); handleHomeClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
-            <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" style={{ width: 34, height: 34, borderRadius: 8 }} />
+            <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" width="34" height="34" style={{ width: 34, height: 34, borderRadius: 8 }} />
             <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
           </a>
 
@@ -631,7 +655,7 @@ export default function App() {
             </>}
             {(view === "blog" || view === "blogpost") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#6b7c93" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
+              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#566b82" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
               {view === "blogpost" && blogSlug && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{BLOG_POSTS.find(p => p.slug === blogSlug)?.title?.substring(0, 40) || "Article"}...</span>
@@ -639,7 +663,7 @@ export default function App() {
             </>}
             {(view === "annexes" || view === "annex") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#6b7c93" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
+              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#566b82" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
               {view === "annex" && selectedAnnex && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>
@@ -785,7 +809,7 @@ export default function App() {
               </a>
             </div>
           ) : (
-            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
+            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
           )}
 
           </Suspense>
