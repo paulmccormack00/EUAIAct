@@ -12,7 +12,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Hero */}
       <div className="hero-home" style={{ textAlign: "center", padding: "48px 0 40px" }}>
         <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: COLORS.primaryLight, border: `1px solid ${COLORS.primaryLightBorder}`, borderRadius: RADIUS.round, fontSize: 12, color: COLORS.primary, fontWeight: 500, marginBottom: 24, fontFamily: SANS }}>
-          🇪🇺 In force since 1 August 2024
+          <span aria-hidden="true">🇪🇺</span> In force since 1 August 2024
         </div>
         <h1 className="hero-title" style={{ fontSize: 42, fontWeight: 400, lineHeight: 1.15, color: COLORS.textPrimary, maxWidth: 660, margin: "0 auto 16px", fontFamily: SERIF }}>
           Navigate the EU AI Act by what matters to you
@@ -28,18 +28,14 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
           return (
-          <div key={roleId} className="persona-card" role="button" tabIndex={0} aria-pressed={isActive} aria-label={isActive ? `Deselect ${role.label} role` : `Select ${role.label} role`}
-            onClick={() => { setActiveRole(isActive ? "all" : roleId); }}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActiveRole(isActive ? "all" : roleId); } }}
+          <div key={roleId} className="persona-card"
             style={{ textAlign: "left",
               background: isActive ? role.colorBg : "white", borderRadius: 20,
               border: `2px solid ${isActive ? role.color : role.colorBorder}`,
-              padding: "28px 24px", cursor: "pointer",
+              padding: "28px 24px",
               transition: "all 0.25s", position: "relative",
               boxShadow: isActive ? "0 8px 32px rgba(0,0,0,0.08)" : "none",
             }}
-            onMouseEnter={e => { if (!isActive) { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor = role.color; }}}
-            onMouseLeave={e => { if (!isActive) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = role.colorBorder; }}}
           >
             {isActive && <div className="persona-check" style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderRadius: "50%", background: role.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
@@ -47,7 +43,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{role.icon}</div>
             <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
             <span className="persona-desc" style={{ display: "inline-block", padding: "2px 8px", background: isActive ? "white" : role.colorBg, borderRadius: RADIUS.sm, fontSize: 11, color: role.color, fontWeight: 600, fontFamily: SANS, marginBottom: 10, border: `1px solid ${role.colorBorder}` }}>{role.legalBasis}</span>
-            <p className="persona-desc" style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
+            <p className="persona-desc" style={{ fontSize: 13.5, color: "#546478", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
             <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
               {role.keyArticleGroups.map((t) => (
                 <a key={t.name} href={`/article/${t.articleNum}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); onArticleClick(t.articleNum); }}
@@ -57,13 +53,16 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 >
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: t.color, flexShrink: 0 }} />
                   <span style={{ flex: 1 }}>{t.name}</span>
-                  <span style={{ fontSize: 11, color: "#566b82", fontWeight: 500 }}>{t.ref}</span>
+                  <span style={{ fontSize: 11, color: "#4a5f74", fontWeight: 500 }}>{t.ref}</span>
                 </a>
               ))}
             </div>
-            <div className="persona-cta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: role.color, fontFamily: SANS }}>
-              {isActive ? "✓ Viewing as " + role.label : "Explore as " + role.label + " →"}
-            </div>
+            <button className="persona-cta" onClick={() => setActiveRole(isActive ? "all" : roleId)}
+              aria-pressed={isActive}
+              style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 18, fontSize: 13, fontWeight: 600, color: role.color, fontFamily: SANS, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+              <span aria-hidden="true">{isActive ? "✓" : ""}</span> {isActive ? "Viewing as " + role.label : "Explore as " + role.label}
+              {!isActive && <span aria-hidden="true"> →</span>}
+            </button>
           </div>
           );
         })}
@@ -91,7 +90,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <div style={{ width: 40, height: 40, borderRadius: 10, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{role.icon}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h3 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 2px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
-                <p style={{ fontSize: 12, color: "#64748b", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
+                <p style={{ fontSize: 12, color: "#546478", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
               </div>
               <span style={{ fontSize: 12, fontWeight: 600, color: role.color, fontFamily: SANS, flexShrink: 0 }}>
                 {isActive ? "✓" : "→"}
@@ -214,7 +213,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /><path d="M9 14l2 2 4-4" /></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
+              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
             </a>
           )}
@@ -229,7 +228,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Compliance Timeline</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
+              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Every EU AI Act deadline from 2024 to 2027, with alerts.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#dc2626" }}>View timeline &rarr;</span>
             </a>
           )}
@@ -244,7 +243,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>Practitioner Insights</h3>
-              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
+              <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.5, margin: "0 0 12px" }}>Deep dives on FRIA, DPIA, risk classification, and more.</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: "#1e3a5f" }}>Read articles &rarr;</span>
             </a>
           )}
@@ -254,7 +253,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Divider */}
       <div className="home-divider" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
-        <span style={{ fontSize: 12, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>The Act at a Glance</span>
+        <span style={{ fontSize: 12, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500, fontFamily: SANS }}>The Act at a Glance</span>
         <div style={{ flex: 1, height: 1, background: "#e8e4de" }} />
       </div>
 
@@ -288,7 +287,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       {/* Theme Map */}
       <div className="themes-section" style={{ textAlign: "center", marginBottom: 44 }}>
         <h2 style={{ fontSize: 24, fontWeight: 400, margin: "0 0 8px", fontFamily: SERIF }}>Browse by Theme</h2>
-        <p style={{ fontSize: 14, color: "#64748b", marginBottom: 24, fontFamily: SANS }}>19 thematic groupings across the full Regulation</p>
+        <p style={{ fontSize: 14, color: "#546478", marginBottom: 24, fontFamily: SANS }}>19 thematic groupings across the full Regulation</p>
         <div className="themes-grid" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
           {EU_AI_ACT_DATA.themes.map((theme) => {
             const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
@@ -301,7 +300,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             >
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: theme.color }} />
               {theme.name}
-              <span style={{ fontSize: 11, color: "#566b82", marginLeft: 2 }}>{theme.articles.length}</span>
+              <span style={{ fontSize: 11, color: "#4a5f74", marginLeft: 2 }}>{theme.articles.length}</span>
             </a>
             );
           })}
@@ -362,8 +361,8 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               background: status === "done" ? "#16a34a" : status === "current" ? "#1e3a5f" : "#cbd5e1",
               boxShadow: status === "current" ? "0 0 0 4px rgba(30,58,95,0.15)" : "none",
             }} />
-            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#566b82" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
-            <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
+            <p style={{ fontSize: 14, fontWeight: status === "future" ? 400 : 600, color: status === "future" ? "#4a5f74" : "#1a1a1a", margin: "0 0 4px", fontFamily: SANS }}>{item.date}</p>
+            <p style={{ fontSize: 12, color: "#546478", lineHeight: 1.5, fontFamily: SANS }}>{item.event}</p>
           </div>
           );
         })}

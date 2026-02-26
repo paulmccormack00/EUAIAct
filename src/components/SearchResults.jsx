@@ -22,7 +22,7 @@ export default function SearchResults({ query, onArticleClick }) {
   return (
     <div style={{ maxWidth: "100%" }}>
       <h2 style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Search Results</h2>
-      <p style={{ fontSize: 14, color: "#64748b", margin: "0 0 28px", fontFamily: SANS }}>
+      <p style={{ fontSize: 14, color: "#546478", margin: "0 0 28px", fontFamily: SANS }}>
         {results.articles.length + results.recitals.length} result{(results.articles.length + results.recitals.length) !== 1 ? "s" : ""} for "{query}"
       </p>
 
@@ -35,7 +35,7 @@ export default function SearchResults({ query, onArticleClick }) {
                 style={{ textAlign: "left", padding: 18, background: "white", border: "1px solid #e2e0dc", borderRadius: 12, cursor: "pointer", fontFamily: SANS }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = "#93b3d4"} onMouseLeave={e => e.currentTarget.style.borderColor = "#e2e0dc"}>
                 <p style={{ fontWeight: 600, color: "#1a1a1a", margin: 0, fontSize: 15 }}>Article {num} — {renderHighlightedParts(highlightText(title, query))}</p>
-                <p style={{ color: "#566b82", fontSize: 13, margin: "6px 0 0", lineHeight: 1.5 }}>{renderHighlightedParts(highlightText(truncateText(text, 200), query))}</p>
+                <p style={{ color: "#4a5f74", fontSize: 13, margin: "6px 0 0", lineHeight: 1.5 }}>{renderHighlightedParts(highlightText(truncateText(text, 200), query))}</p>
               </button>
             ))}
           </div>
@@ -71,7 +71,7 @@ export default function SearchResults({ query, onArticleClick }) {
       {results.articles.length === 0 && results.recitals.length === 0 && (
         <div style={{ textAlign: "center", padding: "64px 0" }}>
           <img src={ASTRO_LOST} alt="" width="140" height="140" aria-hidden="true" style={{ height: 140, opacity: 0.4, margin: "0 auto 16px", display: "block" }} />
-          <p style={{ color: "#566b82", fontSize: 16, fontFamily: SANS }}>No results found for "{query}"</p>
+          <p style={{ color: "#4a5f74", fontSize: 16, fontFamily: SANS }}>No results found for "{query}"</p>
           <p style={{ color: "#cbd5e1", fontSize: 14, marginTop: 4, fontFamily: SANS }}>Try different keywords</p>
         </div>
       )}

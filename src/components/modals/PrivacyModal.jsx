@@ -17,7 +17,7 @@ export default function PrivacyModal({ onClose, onKeyDown }) {
         </button>
 
         <h2 id="privacy-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Privacy Notice</h2>
-        <p style={{ fontSize: 13, color: "#6b5a42", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
+        <p style={{ fontSize: 13, color: "#5c4d38", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
 
         <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, margin: "0 0 20px", fontFamily: SANS }}>
           We appreciate that not everyone is a privacy geek &mdash; but we are! For that reason, we&rsquo;ve tried to make this short, simple, and transparent. This notice explains what data is collected when you use the EU AI Act Navigator and how it is handled.

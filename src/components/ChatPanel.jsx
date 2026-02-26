@@ -15,13 +15,18 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   const inputRef = useRef(null);
   const trapRef = useFocusTrap(isOpen);
   const readerRef = useRef(null);
+  const controllerRef = useRef(null);
 
-  // Cancel any active stream when panel closes
+  // Cancel any active stream when panel closes or unmounts
   useEffect(() => {
-    if (!isOpen && readerRef.current) {
-      readerRef.current.cancel().catch(() => {});
-      readerRef.current = null;
+    if (!isOpen) {
+      if (readerRef.current) { readerRef.current.cancel().catch(() => {}); readerRef.current = null; }
+      if (controllerRef.current) { controllerRef.current.abort(); controllerRef.current = null; }
     }
+    return () => {
+      if (readerRef.current) { readerRef.current.cancel().catch(() => {}); readerRef.current = null; }
+      if (controllerRef.current) { controllerRef.current.abort(); controllerRef.current = null; }
+    };
   }, [isOpen]);
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
@@ -51,6 +56,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       const contextArticle = currentArticle ? `The user is currently viewing Article ${currentArticle} ("${EU_AI_ACT_DATA.articles[String(currentArticle)]?.title || ""}").` : "";
 
       const controller = new AbortController();
+      controllerRef.current = controller;
       const timeout = setTimeout(() => controller.abort(), 30000);
 
       const resp = await fetch("/api/chat", {
@@ -265,7 +271,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         {/* Header */}
         <div style={{ flexShrink: 0, padding: "16px 20px", borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }}>⚖</div>
+            <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }} aria-hidden="true">⚖</div>
             <div>
               <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>AI Act Advisor</h3>
               <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Claude</p>
@@ -273,11 +279,11 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {questionCount > 0 && (
-              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#566b82", fontFamily: SANS, fontWeight: 500 }}>
+              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#4a5f74", fontFamily: SANS, fontWeight: 500 }}>
                 {questionCount}/{FREE_LIMIT}
               </span>
             )}
-          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#566b82" }}>
+          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#4a5f74" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
           </div>
@@ -294,7 +300,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <div style={{ textAlign: "center", padding: "32px 0" }}>
               <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: COLORS.primaryLight, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
               <h4 style={{ margin: "0 0 6px", fontSize: 16, color: "#1a1a1a", fontFamily: SANS }}>Ask about the EU AI Act</h4>
-              <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b", fontFamily: SANS, lineHeight: 1.5 }}>
+              <p style={{ margin: "0 0 20px", fontSize: 13, color: "#546478", fontFamily: SANS, lineHeight: 1.5 }}>
                 Get plain-English answers about obligations, classifications, timelines, and compliance requirements.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -326,13 +332,13 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           ))}
 
           {loading && (
-            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
+            <div aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
               <div style={{ display: "flex", gap: 4 }}>
                 {[0, 1, 2].map((i) => (
-                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#566b82", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
+                  <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#4a5f74", animation: `chatBounce 1.2s ${i * 0.15}s infinite ease-in-out` }} />
                 ))}
               </div>
-              <span style={{ fontSize: 12, color: "#566b82", fontFamily: SANS }}>Analysing…</span>
+              <span style={{ fontSize: 12, color: "#4a5f74", fontFamily: SANS }}>Analysing…</span>
               <style>{`@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`}</style>
             </div>
           )}
@@ -367,7 +373,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
             </button>
           </div>
-          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#566b82", textAlign: "center", fontFamily: SANS }}>
+          <p style={{ margin: "8px 0 0", fontSize: 10, color: "#4a5f74", textAlign: "center", fontFamily: SANS }}>
             Responses are AI-generated and may not reflect the latest guidance
           </p>
         </div>

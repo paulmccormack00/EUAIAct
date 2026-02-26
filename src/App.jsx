@@ -41,6 +41,7 @@ function parseRoute(pathname) {
     if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null, annexId: null };
     return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
+  if (p === "/definitions") return { view: "article", selectedArticle: 3, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/recitals") return { view: "recitals", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/fria") return { view: "fria", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   if (p === "/timeline") return { view: "timeline", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
@@ -80,6 +81,7 @@ export default function App() {
   const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
   const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
   const mainRef = useRef(null);
+  const menuBtnRef = useRef(null);
 
   // Debounce search query by 200ms
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function App() {
   }, [navigateTo]);
 
   const handleThemeClick = useCallback((tid) => {
-    setSelectedTheme(tid); setView("theme");
+    setSelectedTheme(tid); setView("theme"); setSearchQuery("");
     navigateTo(`/theme/${tid}`, { view: "theme", selectedTheme: tid });
   }, [navigateTo]);
 
@@ -122,22 +124,22 @@ export default function App() {
   }, [navigateTo]);
 
   const handleRecitalsClick = useCallback(() => {
-    setView("recitals");
+    setView("recitals"); setSearchQuery("");
     navigateTo("/recitals", { view: "recitals" });
   }, [navigateTo]);
 
   const handleFRIAClick = useCallback(() => {
-    setView("fria");
+    setView("fria"); setSearchQuery("");
     navigateTo("/fria", { view: "fria" });
   }, [navigateTo]);
 
   const handleTimelineClick = useCallback(() => {
-    setView("timeline");
+    setView("timeline"); setSearchQuery("");
     navigateTo("/timeline", { view: "timeline" });
   }, [navigateTo]);
 
   const handleBlogClick = useCallback(() => {
-    setView("blog"); setBlogSlug(null);
+    setView("blog"); setBlogSlug(null); setSearchQuery("");
     navigateTo("/blog", { view: "blog" });
   }, [navigateTo]);
 
@@ -199,10 +201,15 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  // Close mobile sidebar on Escape
+  // Close mobile sidebar on Escape and return focus to menu button
   useEffect(() => {
     if (!isMobileOpen) return;
-    const handler = (e) => { if (e.key === "Escape") setIsMobileOpen(false); };
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        setIsMobileOpen(false);
+        requestAnimationFrame(() => menuBtnRef.current?.focus());
+      }
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [isMobileOpen]);
@@ -397,7 +404,10 @@ export default function App() {
       ]);
     } else if (view === "recitals") {
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Recitals", item: BASE_URL + path });
-      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "CollectionPage", "name": "EU AI Act Recitals", "description": "All 180 recitals of the EU AI Act, cross-referenced with articles.", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+      ]);
     } else if (view === "blogpost" && blogSlug) {
       const post = BLOG_POSTS.find(p => p.slug === blogSlug);
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Blog", item: BASE_URL + "/blog" });
@@ -441,7 +451,10 @@ export default function App() {
       }
     } else if (view === "blog") {
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Blog", item: BASE_URL + path });
-      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "CollectionPage", "name": "EU AI Act Insights", "description": "Practitioner-led analysis of the EU AI Act.", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+      ]);
     } else if (view === "fria") {
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "FRIA Screening Tool", item: BASE_URL + path });
       jsonLdEl.textContent = JSON.stringify([
@@ -455,6 +468,12 @@ export default function App() {
           "applicationCategory": "BusinessApplication",
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
         }
+      ]);
+    } else if (view === "timeline") {
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Compliance Timeline", item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "ItemList", "name": "EU AI Act Compliance Timeline", "description": "Every EU AI Act deadline from 2024 to 2027.", "url": BASE_URL + path, "numberOfItems": 7 },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
       ]);
     } else if (view === "annex" && selectedAnnex) {
       const annex = ANNEXES.find(a => a.id === selectedAnnex);
@@ -597,7 +616,7 @@ export default function App() {
         }
       `}</style>
 
-      {isMobileOpen && <div role="presentation" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 20 }} onClick={() => setIsMobileOpen(false)} />}
+      {isMobileOpen && <div role="presentation" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 20 }} onClick={() => { setIsMobileOpen(false); requestAnimationFrame(() => menuBtnRef.current?.focus()); }} />}
 
       <Sidebar view={view} setView={setView} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme}
         selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle}
@@ -606,10 +625,10 @@ export default function App() {
         onAnnexesClick={handleAnnexesClick} onAnnexClick={handleAnnexClick} selectedAnnex={selectedAnnex}
         onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }} aria-hidden={isMobileOpen || undefined}>
         {/* Top Bar */}
         <header className="top-bar" style={{ flexShrink: 0, background: COLORS.white, borderBottom: `1px solid ${COLORS.borderDefault}`, padding: "10px 24px", display: "flex", alignItems: "center", gap: 12 }}>
-          <button onClick={() => setIsMobileOpen(true)}
+          <button ref={menuBtnRef} onClick={() => setIsMobileOpen(true)}
             aria-label="Open navigation menu"
             style={{ display: "none", padding: 8, border: "none", background: "none", cursor: "pointer", color: COLORS.textMuted }}
             className="mobile-menu-btn">
@@ -655,7 +674,7 @@ export default function App() {
             </>}
             {(view === "blog" || view === "blogpost") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#566b82" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
+              <button onClick={handleBlogClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "blogpost" ? "#4a5f74" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "blogpost" ? 400 : 600, padding: 0 }}>Blog</button>
               {view === "blogpost" && blogSlug && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{BLOG_POSTS.find(p => p.slug === blogSlug)?.title?.substring(0, 40) || "Article"}...</span>
@@ -663,7 +682,7 @@ export default function App() {
             </>}
             {(view === "annexes" || view === "annex") && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#566b82" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
+              <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#4a5f74" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
               {view === "annex" && selectedAnnex && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
                 <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>

@@ -17,7 +17,7 @@ export default function TermsModal({ onClose, onKeyDown }) {
         </button>
 
         <h2 id="terms-modal-title" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: "#1a1a1a" }}>Terms of Use</h2>
-        <p style={{ fontSize: 13, color: "#6b5a42", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
+        <p style={{ fontSize: 13, color: "#5c4d38", margin: "0 0 24px", fontFamily: SANS }}>Last updated: February 2026</p>
 
         {[
           { title: "About this tool", text: "The EU AI Act Navigator (\u201cTool\u201d) is provided by Paul McCormack as a free, informational reference tool. It is designed to help users navigate the EU Artificial Intelligence Act (Regulation (EU) 2024/1689). The Tool is not a law firm product and is not authorised or regulated by any legal professional body." },

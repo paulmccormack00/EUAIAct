@@ -137,9 +137,9 @@ function getStatusColor(status) {
     case "current": return { bg: "#f0f4ff", border: "#c7d6ec", dot: "#1e3a5f", text: "#1e3a5f" };
     case "upcoming": return { bg: "#fffbeb", border: "#fde68a", dot: "#d97706", text: "#92400e" };
     case "critical": return { bg: "#fef2f2", border: "#fecaca", dot: "#dc2626", text: "#991b1b" };
-    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#566b82", text: "#64748b" };
+    case "future": return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#546478" };
     case "tentative": return { bg: "#faf5ff", border: "#e9d5ff", dot: "#7c3aed", text: "#5b21b6" };
-    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#566b82", text: "#64748b" };
+    default: return { bg: "#f8fafc", border: "#e2e8f0", dot: "#4a5f74", text: "#546478" };
   }
 }
 
@@ -166,13 +166,13 @@ export default function DeadlineTracker({ onArticleClick }) {
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 20, fontSize: 12, color: "#991b1b", fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           {daysToFria} days until full application
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           EU AI Act Compliance Timeline
         </h1>
-        <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
+        <p style={{ fontSize: 15, color: "#546478", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
           Every deadline you need to know — from prohibited practices to full application. Track milestones, understand obligations, and prepare your organisation.
         </p>
       </div>
@@ -247,16 +247,16 @@ export default function DeadlineTracker({ onArticleClick }) {
                           {getStatusLabel(status)}
                         </span>
                         {!isPast && status !== "passed" && (
-                          <span style={{ fontSize: 11, color: "#566b82" }}>
+                          <span style={{ fontSize: 11, color: "#4a5f74" }}>
                             {days} days
                           </span>
                         )}
                       </div>
                       <h2 style={{ fontSize: 17, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{deadline.title}</h2>
-                      <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
+                      <p style={{ fontSize: 13, color: "#546478", lineHeight: 1.6, margin: 0 }}>{deadline.description}</p>
                     </div>
                     <svg
-                      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
+                      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" aria-hidden="true"
                       style={{ flexShrink: 0, marginTop: 4, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "none" }}
                     >
                       <path d="M6 9l6 6 6-6" />
@@ -294,7 +294,7 @@ export default function DeadlineTracker({ onArticleClick }) {
                     )}
                     {deadline.links && deadline.links.length > 0 && (
                       <div style={{ marginTop: 12 }}>
-                        <p style={{ fontSize: 11, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
+                        <p style={{ fontSize: 11, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 700, margin: "0 0 6px", fontFamily: SANS }}>Resources</p>
                         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                           {deadline.links.map((link) => (
                             <a

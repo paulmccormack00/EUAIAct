@@ -90,7 +90,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
         <h1 className="view-title" style={{ fontSize: 24, fontWeight: 400, color: "#1a1a1a", margin: "0 0 4px", fontFamily: SERIF }}>Recitals</h1>
-        <p style={{ fontSize: 14, color: "#64748b", margin: 0, fontFamily: SANS }}>
+        <p style={{ fontSize: 14, color: "#546478", margin: 0, fontFamily: SANS }}>
           The EU AI Act contains 180 recitals providing interpretive guidance for the articles. Click any Article reference to navigate directly.
         </p>
       </div>
@@ -98,7 +98,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       {/* Search + Filters */}
       <div className="recitals-controls" style={{ display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ position: "relative", flex: "1 1 240px", minWidth: 200 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" aria-hidden="true" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" aria-hidden="true" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }}>
             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input type="text" placeholder="Search recitals by number, keyword, or article..."
@@ -109,7 +109,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
 
         <select value={articleFilter ?? ""} onChange={(e) => setArticleFilter(e.target.value ? parseInt(e.target.value) : null)}
           aria-label="Filter recitals by article"
-          style={{ padding: "10px 12px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 14, background: "white", color: articleFilter ? "#1a1a1a" : "#566b82", cursor: "pointer", minWidth: 180, fontFamily: SANS }}>
+          style={{ padding: "10px 12px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 14, background: "white", color: articleFilter ? "#1a1a1a" : "#4a5f74", cursor: "pointer", minWidth: 180, fontFamily: SANS }}>
           <option value="">Filter by Article...</option>
           {allArticles.map((a) => (
             <option key={a} value={a}>Article {a} ({(ARTICLE_TO_RECITAL_MAP[a] || []).length} recitals)</option>
@@ -123,7 +123,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
       </div>
 
       {/* Results Count */}
-      <div style={{ fontSize: 13, color: "#64748b", marginBottom: 12, display: "flex", alignItems: "center", gap: 8, fontFamily: SANS }}>
+      <div aria-live="polite" aria-atomic="true" style={{ fontSize: 13, color: "#546478", marginBottom: 12, display: "flex", alignItems: "center", gap: 8, fontFamily: SANS }}>
         Showing {filteredRecitals.length} of {allRecitals.length} recitals
         {articleFilter && (
           <button onClick={() => setArticleFilter(null)}
@@ -152,7 +152,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                     {num}
                   </span>
                   {!isOpen && previewText && (
-                    <span style={{ fontSize: 13, color: "#64748b", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <span style={{ fontSize: 13, color: "#546478", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {previewText}
                     </span>
                   )}
@@ -172,14 +172,14 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                       </button>
                     ))}
                     {linkedArticles.length > 5 && (
-                      <span style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0ebe4", color: "#6b5a42", fontWeight: 500 }}>
+                      <span style={{ fontSize: 11, padding: "2px 6px", borderRadius: 4, background: "#f0ebe4", color: "#5c4d38", fontWeight: 500 }}>
                         +{linkedArticles.length - 5}
                       </span>
                     )}
                   </div>
                   <button onClick={() => toggleRecital(num)} aria-hidden="true" tabIndex={-1}
                     style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2"
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2"
                       style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}>
                       <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -193,16 +193,16 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                   {displayText ? (
                     <div style={{ fontSize: 14, lineHeight: 1.75, color: "#374151", fontFamily: SANS }}>
                       {renderTextWithLinks(displayText)}
-                      {!isFullText && <p style={{ fontSize: 11, color: "#6b5a42", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
+                      {!isFullText && <p style={{ fontSize: 11, color: "#5c4d38", marginTop: 8, marginBottom: 0, fontStyle: "italic" }}>Summary — full text in OJ L 2024/1689</p>}
                     </div>
                   ) : (
-                    <div style={{ fontSize: 14, color: "#566b82", fontStyle: "italic", fontFamily: SANS }}>
+                    <div style={{ fontSize: 14, color: "#4a5f74", fontStyle: "italic", fontFamily: SANS }}>
                       Recital text pending — full text is available in the official regulation (OJ L 2024/1689).
                     </div>
                   )}
                   {/* Cross-reference footer */}
                   <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #f0ebe4", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 12, color: "#6b5a42", fontWeight: 500, fontFamily: SANS }}>Cross-references:</span>
+                    <span style={{ fontSize: 12, color: "#5c4d38", fontWeight: 500, fontFamily: SANS }}>Cross-references:</span>
                     {linkedArticles.map((a) => (
                       <button key={a} onClick={() => onArticleClick && onArticleClick(a)}
                         style={{ fontSize: 12, padding: "3px 10px", borderRadius: 14, border: "1px solid #c7d6ec", background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, fontFamily: SANS, transition: "all 0.15s" }}
@@ -219,7 +219,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
         })}
 
         {filteredRecitals.length === 0 && (
-          <div style={{ textAlign: "center", padding: "40px 20px", color: "#566b82", fontSize: 14, fontFamily: SANS }}>
+          <div style={{ textAlign: "center", padding: "40px 20px", color: "#4a5f74", fontSize: 14, fontFamily: SANS }}>
             No recitals match your search. Try a different keyword or clear filters.
           </div>
         )}

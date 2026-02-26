@@ -78,11 +78,11 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
     <div style={{ maxWidth: "100%" }}>
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <p style={{ fontSize: 11, color: "#6b5a42", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>CHAPTER I · Article 3</p>
-        <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
+        <p style={{ fontSize: 11, color: "#5c4d38", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>CHAPTER I · Article 3</p>
+        <h1 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Definitions
-        </h2>
-        <p style={{ fontSize: 15, color: "#64748b", margin: "8px 0 0", fontFamily: SANS }}>
+        </h1>
+        <p style={{ fontSize: 15, color: "#546478", margin: "8px 0 0", fontFamily: SANS }}>
           {definitions.length} defined terms used throughout the AI Act
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
       {/* Search + controls */}
       <div className="def-controls" style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
         <div className="def-search-wrap" style={{ flex: 1, minWidth: 250, display: "flex", alignItems: "center", background: "white", border: "1.5px solid #e2e0dc", borderRadius: 10, padding: "8px 14px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" aria-hidden="true" style={{ marginRight: 10, flexShrink: 0 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" aria-hidden="true" style={{ marginRight: 10, flexShrink: 0 }}>
             <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
           </svg>
           <input
@@ -102,7 +102,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
             style={{ flex: 1, border: "none", background: "transparent", fontSize: 14, fontFamily: SANS, color: "#1e293b" }}
           />
           {defSearch && (
-            <button onClick={() => setDefSearch("")} aria-label="Clear filter" style={{ background: "none", border: "none", cursor: "pointer", color: "#566b82", padding: 2 }}>
+            <button onClick={() => setDefSearch("")} aria-label="Clear filter" style={{ background: "none", border: "none", cursor: "pointer", color: "#4a5f74", padding: 2 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
           )}
@@ -131,7 +131,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
 
       {/* Showing count */}
       {defSearch && (
-        <p style={{ fontSize: 13, color: "#64748b", marginBottom: 16, fontFamily: SANS }}>
+        <p style={{ fontSize: 13, color: "#546478", marginBottom: 16, fontFamily: SANS }}>
           {filtered.length} definition{filtered.length !== 1 ? "s" : ""} matching "{defSearch}"
         </p>
       )}
@@ -140,7 +140,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
       {letters.map(letter => (
         <div key={letter} id={`def-letter-${letter}`} style={{ marginBottom: 28 }}>
           <div style={{ position: "sticky", top: 0, zIndex: 5, background: "#f7f5f2", padding: "8px 0 6px", borderBottom: "2px solid #1e3a5f" }}>
-            <h3 style={{ fontSize: 20, fontWeight: 400, color: "#1e3a5f", margin: 0, fontFamily: SERIF }}>{letter}</h3>
+            <h2 style={{ fontSize: 20, fontWeight: 400, color: "#1e3a5f", margin: 0, fontFamily: SERIF }}>{letter}</h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 10 }}>
             {grouped[letter].map(def => {
@@ -165,7 +165,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
                         : def.term
                       }
                     </span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
                       <path d="M6 9l6 6 6-6" />
                     </svg>
                   </button>
@@ -189,7 +189,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
       {filtered.length === 0 && (
         <div style={{ textAlign: "center", padding: "48px 0" }}>
           <img src={ASTRO_LOST} alt="" width="120" height="120" aria-hidden="true" style={{ height: 120, opacity: 0.35, margin: "0 auto 12px", display: "block" }} />
-          <p style={{ color: "#566b82", fontSize: 15, fontFamily: SANS }}>No definitions matching "{defSearch}"</p>
+          <p style={{ color: "#4a5f74", fontSize: 15, fontFamily: SANS }}>No definitions matching "{defSearch}"</p>
         </div>
       )}
     </div>

@@ -154,7 +154,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
                   }}>
                     {step.badge && <span style={{ position: "absolute", top: -10, left: 16, padding: "2px 8px", background: step.type === "yes" ? "#16a34a" : "#dc2626", color: "white", borderRadius: 4, fontSize: 10, fontWeight: 700 }}>{step.badge}</span>}
                     {step.text}
-                    {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#566b82", marginTop: 2 }}>{step.ref}</span>}
+                    {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#4a5f74", marginTop: 2 }}>{step.ref}</span>}
                   </div>
                   {i < block.steps.length - 1 && (
                     <div style={{ width: 2, height: 20, background: "#cbd5e1" }} />
@@ -163,7 +163,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
               ))}
             </div>
             {block.caption && (
-              <p style={{ fontSize: 11, color: "#566b82", textAlign: "center", margin: "16px 0 0", fontStyle: "italic", fontFamily: SANS }}>{block.caption}</p>
+              <p style={{ fontSize: 11, color: "#4a5f74", textAlign: "center", margin: "16px 0 0", fontStyle: "italic", fontFamily: SANS }}>{block.caption}</p>
             )}
           </div>
         );
@@ -189,19 +189,19 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
           <span style={{ padding: "4px 12px", background: "#f0f4ff", borderRadius: 6, fontSize: 12, fontWeight: 600, color: "#1e3a5f", fontFamily: SANS }}>
             {post.category}
           </span>
-          <span style={{ fontSize: 13, color: "#566b82", fontFamily: SANS }}>{post.readTime}</span>
+          <span style={{ fontSize: 13, color: "#4a5f74", fontFamily: SANS }}>{post.readTime}</span>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SERIF, lineHeight: 1.2 }}>
           {post.title}
         </h1>
-        <p style={{ fontSize: 16, color: "#64748b", lineHeight: 1.6, margin: "0 0 20px", fontFamily: SANS }}>
+        <p style={{ fontSize: 16, color: "#546478", lineHeight: 1.6, margin: "0 0 20px", fontFamily: SANS }}>
           {post.subtitle}
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid #e8e4de" }}>
           <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#f0f4ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 600, color: "#1e3a5f", fontFamily: SANS }}>P</div>
           <div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a", margin: 0, fontFamily: SANS }}>{post.author}</p>
-            <p style={{ fontSize: 12, color: "#566b82", margin: 0, fontFamily: SANS }}>
+            <p style={{ fontSize: 12, color: "#4a5f74", margin: 0, fontFamily: SANS }}>
               {post.authorRole} &middot; {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
             </p>
           </div>
@@ -215,10 +215,10 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
 
       {/* Tags */}
       <div style={{ marginTop: 36, paddingTop: 24, borderTop: "1px solid #e8e4de" }}>
-        <p style={{ fontSize: 12, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 10, fontFamily: SANS }}>Tags</p>
+        <p style={{ fontSize: 12, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 10, fontFamily: SANS }}>Tags</p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {post.tags.map(tag => (
-            <span key={tag} style={{ padding: "4px 12px", background: "#f7f5f2", borderRadius: 6, fontSize: 12, color: "#6b5a42", fontFamily: SANS }}>{tag}</span>
+            <span key={tag} style={{ padding: "4px 12px", background: "#f7f5f2", borderRadius: 6, fontSize: 12, color: "#5c4d38", fontFamily: SANS }}>{tag}</span>
           ))}
         </div>
       </div>
@@ -231,7 +231,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
         <h3 style={{ fontSize: 18, fontWeight: 500, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SERIF }}>
           Not sure if you need a FRIA?
         </h3>
-        <p style={{ fontSize: 14, color: "#64748b", margin: "0 0 16px", fontFamily: SANS }}>
+        <p style={{ fontSize: 14, color: "#546478", margin: "0 0 16px", fontFamily: SANS }}>
           Use our free FRIA Screening Tool to find out in under 5 minutes.
         </p>
       </div>

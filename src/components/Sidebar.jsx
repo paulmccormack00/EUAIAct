@@ -30,7 +30,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
   return (
     <>
-      <style>{`@media (min-width: 1024px) { .sidebar-container { transform: translateX(0) !important; position: relative !important; } }`}</style>
+      <style>{`@media (min-width: 1024px) { .sidebar-container { transform: translateX(0) !important; position: relative !important; } } @media (max-width: 1023px) { .sidebar-close-btn { display: block !important; } }`}</style>
       <nav ref={mobileTrapRef} className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
         {/* Title */}
         <div style={{ flexShrink: 0, padding: "20px 20px 16px", borderBottom: `1px solid ${COLORS.warmBorder}` }}>
@@ -39,6 +39,10 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               <p style={{ fontSize: 20, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF }}>EU AI Act</p>
               <p style={{ fontSize: 11, color: COLORS.warmText, margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
             </div>
+            <button className="sidebar-close-btn" onClick={() => setIsMobileOpen(false)} aria-label="Close navigation"
+              style={{ display: "none", padding: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, borderRadius: 8 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
           </div>
         </div>
 
@@ -55,11 +59,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               return (
                 <button key={id}
                   onClick={() => { if (id === "recitals") { onRecitalsClick(); } else if (id === "annexes") { onAnnexesClick?.(); } else { setView(id === "themes" ? "theme" : id); } }}
+                  aria-pressed={isActive}
                   style={{
                     flex: 1, padding: "8px 6px", fontSize: 12, fontWeight: isActive ? 600 : 500,
                     borderRadius: 8, border: "none", cursor: "pointer", fontFamily: SANS,
                     background: isActive ? "white" : "transparent",
-                    color: isActive ? "#1a1a1a" : "#6b5a42",
+                    color: isActive ? "#1a1a1a" : "#5c4d38",
                     boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
                     transition: "all 0.15s",
                   }}
@@ -87,12 +92,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                   onMouseEnter={e => { if (!isExp) e.currentTarget.style.background = "#faf8f5"; }}
                   onMouseLeave={e => { if (!isExp) e.currentTarget.style.background = "transparent"; }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isExp ? "#1e3a5f" : "#566b82"} strokeWidth="2.5" style={{ transition: "transform 0.15s", transform: isExp ? "rotate(90deg)" : "none", flexShrink: 0 }}><path d="M9 5l7 7-7 7" /></svg>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isExp ? "#1e3a5f" : "#4a5f74"} strokeWidth="2.5" style={{ transition: "transform 0.15s", transform: isExp ? "rotate(90deg)" : "none", flexShrink: 0 }}><path d="M9 5l7 7-7 7" /></svg>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 10, fontWeight: 700, color: isExp ? "#1e3a5f" : "#6b5a42", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0 }}>{chapter.id}</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, color: isExp ? "#1e3a5f" : "#5c4d38", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0 }}>{chapter.id}</p>
                     <p style={{ fontSize: 13, color: isExp ? "#1a1a1a" : "#374151", fontWeight: isExp ? 600 : 500, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{chapter.title}</p>
                   </div>
-                  <span style={{ fontSize: 11, color: isExp ? "#1e3a5f" : "#566b82", fontWeight: isExp ? 600 : 400, background: isExp ? "#e0eaf5" : "transparent", padding: isExp ? "2px 8px" : "0", borderRadius: 10 }}>{allArts.length}</span>
+                  <span style={{ fontSize: 11, color: isExp ? "#1e3a5f" : "#4a5f74", fontWeight: isExp ? 600 : 400, background: isExp ? "#e0eaf5" : "transparent", padding: isExp ? "2px 8px" : "0", borderRadius: 10 }}>{allArts.length}</span>
                 </button>
                 {isExp && (
                   <div style={{ marginLeft: 18, marginTop: 2 }}>
@@ -103,8 +108,8 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                         <div key={sKey}>
                           <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
                             style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "5px 8px", textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
-                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
-                            <span style={{ fontSize: 12, color: "#64748b" }}>{sec.title}</span>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
+                            <span style={{ fontSize: 12, color: "#546478" }}>{sec.title}</span>
                           </button>
                           {secExp && <div style={{ marginLeft: 16 }}>
                             {sec.articles.map((num) => {
@@ -125,7 +130,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                     transition: "all 0.1s",
                                     borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                                   }}>
-                                  <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{art.title}</span>
+                                  <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#4a5f74" }}>{art.title}</span>
                                 </a>
                               );
                             })}
@@ -150,7 +155,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                             transition: "all 0.1s",
                             borderLeft: isActive ? "3px solid #1e3a5f" : "3px solid transparent",
                           }}>
-                          <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{art.title}</span>
+                          <span style={{ fontWeight: 600 }}>Art. {num}</span> <span style={{ color: isActive ? "#c7d6ec" : "#4a5f74" }}>{art.title}</span>
                         </a>
                       );
                     })}
@@ -172,12 +177,12 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                       <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: theme.color, flexShrink: 0 }} />
                       <span style={{ fontSize: 13, fontWeight: isActive ? 600 : 500, color: isActive ? "#1a1a1a" : "#374151" }}>{theme.name}</span>
                     </div>
-                    <p style={{ fontSize: 11, color: "#566b82", margin: "2px 0 0 18px" }}>{theme.articles.length} article{theme.articles.length !== 1 ? "s" : ""}</p>
+                    <p style={{ fontSize: 11, color: "#4a5f74", margin: "2px 0 0 18px" }}>{theme.articles.length} article{theme.articles.length !== 1 ? "s" : ""}</p>
                   </a>
                 );
               })}
               <div style={{ borderTop: "1px solid #f0ebe4", margin: "12px 0", paddingTop: 12 }}>
-                <p style={{ fontSize: 10, fontWeight: 600, color: "#6b5a42", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 12px", fontFamily: SANS }}>Cross-cutting</p>
+                <p style={{ fontSize: 10, fontWeight: 600, color: "#5c4d38", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 12px", fontFamily: SANS }}>Cross-cutting</p>
                 {themes.filter(t => t.cross_cutting).map((theme) => (
                   <a key={theme.id} href={`/theme/${theme.id}`} onClick={(e) => { e.preventDefault(); handleThemeClick(theme.id); }}
                     aria-current={selectedTheme === theme.id ? "page" : undefined}
@@ -194,7 +199,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
           {view === "recitals" && (
             <div>
-              <p style={{ fontSize: 10, fontWeight: 600, color: "#6b5a42", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Recitals (1–180)</p>
+              <p style={{ fontSize: 10, fontWeight: 600, color: "#5c4d38", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Recitals (1–180)</p>
               {Object.values(EU_AI_ACT_DATA.recitals).sort((a, b) => a.number - b.number).map((r) => (
                 <button key={r.number} onClick={() => { setSelectedRecital(r.number); setView("recitals"); }}
                   style={{ width: "100%", textAlign: "left", padding: "5px 10px", borderRadius: 6, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12, background: "transparent", color: "#4a5568" }}
@@ -208,7 +213,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
           {(view === "annexes" || view === "annex") && (
             <div>
-              <p style={{ fontSize: 10, fontWeight: 600, color: "#6b5a42", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Annexes (I–XIII)</p>
+              <p style={{ fontSize: 10, fontWeight: 600, color: "#5c4d38", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Annexes (I–XIII)</p>
               {ANNEXES.map((annex) => {
                 const isActive = selectedAnnex === annex.id;
                 return (
@@ -227,7 +232,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                     onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
                   >
                     <span style={{ fontWeight: 600, color: isActive ? "#c7d6ec" : "#1a1a1a" }}>Annex {annex.number}</span>{" "}
-                    <span style={{ color: isActive ? "#c7d6ec" : "#566b82" }}>{truncateText(annex.title, 55)}</span>
+                    <span style={{ color: isActive ? "#c7d6ec" : "#4a5f74" }}>{truncateText(annex.title, 55)}</span>
                   </a>
                 );
               })}
@@ -237,7 +242,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
         {/* Tools Section */}
         <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4" }}>
-          <p style={{ fontSize: 10, color: "#566b82", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
+          <p style={{ fontSize: 10, color: "#4a5f74", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, margin: "0 0 8px", fontFamily: SANS }}>Tools</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {[
               { label: "Role Identifier", viewId: "role-identifier", href: "/role-identifier", onClick: () => { onRoleIdentifierClick?.(); setIsMobileOpen(false); }, color: "#8b5cf6" },
@@ -254,7 +259,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                     background: isActive ? "#f0f4ff" : "transparent",
                     textDecoration: "none", borderRadius: 8, cursor: "pointer",
                     fontSize: 13, fontWeight: isActive ? 600 : 500,
-                    color: isActive ? "#1e3a5f" : "#64748b",
+                    color: isActive ? "#1e3a5f" : "#546478",
                     fontFamily: SANS, textAlign: "left", width: "100%",
                     transition: "all 0.15s",
                   }}
@@ -273,11 +278,11 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
         <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: "1px solid #f0ebe4", background: "#faf9f7" }}>
           {onAboutClick && (
             <button className="sidebar-about-btn" onClick={() => { onAboutClick(); setIsMobileOpen(false); }}
-              style={{ display: "none", width: "100%", padding: "8px 12px", marginBottom: 8, background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 12, color: "#64748b", fontFamily: SANS, textAlign: "center" }}>
+              style={{ display: "none", width: "100%", padding: "8px 12px", marginBottom: 8, background: "none", border: "1px solid #e2e0dc", borderRadius: 8, cursor: "pointer", fontSize: 12, color: "#546478", fontFamily: SANS, textAlign: "center" }}>
               About this tool
             </button>
           )}
-          <p style={{ fontSize: 11, color: "#566b82", textAlign: "center", margin: 0, fontFamily: SANS }}>
+          <p style={{ fontSize: 11, color: "#4a5f74", textAlign: "center", margin: 0, fontFamily: SANS }}>
             OJ L, 2024/1689 · In force 1 Aug 2024
           </p>
         </div>

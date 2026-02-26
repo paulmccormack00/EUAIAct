@@ -38,7 +38,7 @@ const COLORS = {
   primaryLinkUnderline: "#93b3d4",
 
   // Warm
-  warmText: "#6b5a42",
+  warmText: "#5c4d38",
   warmGold: "#d4c5a9",
   warmAccent: "#8b6914",
   warmBorder: "#f0ebe4",
@@ -54,8 +54,8 @@ const COLORS = {
   textPrimary: "#1a1a1a",
   textBody: "#374151",
   textSecondary: "#4a5568",
-  textMuted: "#64748b",
-  textPlaceholder: "#566b82",
+  textMuted: "#546478",
+  textPlaceholder: "#4a5f74",
   textFaint: "#cbd5e1",
 
   // Borders

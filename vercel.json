@@ -16,7 +16,7 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://euai.app data:; connect-src 'self' https://api.anthropic.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://euai.app data:; connect-src 'self' https://api.anthropic.com https://vitals.vercel-insights.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" },
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
         { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" }
       ]
@@ -31,6 +31,12 @@
       "source": "/fonts/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/((?!assets|fonts|api).*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400" }
       ]
     },
     {
@@ -55,7 +61,9 @@
     { "source": "/fria/", "destination": "/fria", "statusCode": 301 },
     { "source": "/timeline/", "destination": "/timeline", "statusCode": 301 },
     { "source": "/role-identifier/", "destination": "/role-identifier", "statusCode": 301 },
-    { "source": "/annexes/", "destination": "/annexes", "statusCode": 301 }
+    { "source": "/annexes/", "destination": "/annexes", "statusCode": 301 },
+    { "source": "/definitions/", "destination": "/definitions", "statusCode": 301 },
+    { "source": "/definitions", "destination": "/article/3", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/article/:path*", "destination": "/index.html" },

@@ -63,7 +63,7 @@ export default function ProhibitedPracticesView({ article, onThemeClick, onArtic
     <div style={{ maxWidth: "100%" }}>
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <p style={{ fontSize: 11, color: "#6b5a42", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>CHAPTER II · Prohibited AI Practices</p>
+        <p style={{ fontSize: 11, color: "#5c4d38", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>CHAPTER II · Prohibited AI Practices</p>
         <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Article 5
         </h2>
@@ -118,7 +118,7 @@ export default function ProhibitedPracticesView({ article, onThemeClick, onArtic
                 <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: "#1a1a1a", fontFamily: SANS }}>
                   {p.label}
                 </span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#566b82" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
                   <path d="M6 9l6 6 6-6" />
                 </svg>
               </button>
