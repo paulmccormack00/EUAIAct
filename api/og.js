@@ -1,4 +1,18 @@
-export default function handler(req, res) {
+import satori from "satori";
+import { Resvg } from "@resvg/resvg-js";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+// Cache font at module scope for warm function reuse
+let fontData;
+function getFont() {
+  if (!fontData) {
+    fontData = readFileSync(join(process.cwd(), "public", "fonts", "Inter-Bold.ttf"));
+  }
+  return fontData;
+}
+
+export default async function handler(req, res) {
   const { title = "EU AI Act Navigator", type = "page" } = req.query;
 
   const typeLabel = {
@@ -19,68 +33,166 @@ export default function handler(req, res) {
     page: "#003399",
   }[type] || "#003399";
 
-  // Truncate title for display
   const displayTitle = title.length > 80 ? title.substring(0, 77) + "..." : title;
   const fontSize = displayTitle.length > 50 ? 40 : 52;
 
-  const svg = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0a1628"/>
-      <stop offset="100%" stop-color="#0d1f3c"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-
-  <!-- Type badge -->
-  <rect x="60" y="60" width="${typeLabel.length * 12 + 32}" height="36" rx="18" fill="${typeBadgeColor}"/>
-  <text x="76" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="white" letter-spacing="1.5">${escapeXml(typeLabel)}</text>
-
-  <!-- Title -->
-  <text x="60" y="${fontSize === 40 ? 160 : 170}" font-family="Georgia, serif" font-size="${fontSize}" font-weight="700" fill="white" width="1080">
-    ${wrapText(escapeXml(displayTitle), fontSize === 40 ? 42 : 32)}
-  </text>
-
-  <!-- Bottom bar -->
-  <line x1="60" y1="540" x2="1140" y2="540" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
-
-  <!-- EU badge -->
-  <rect x="60" y="562" width="40" height="40" rx="10" fill="#003399"/>
-  <text x="68" y="589" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#ffd700">EU</text>
-
-  <!-- Site name -->
-  <text x="112" y="590" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" fill="rgba(255,255,255,0.9)">EU AI Act Navigator</text>
-
-  <!-- URL -->
-  <text x="1140" y="590" font-family="system-ui, sans-serif" font-size="18" fill="rgba(255,255,255,0.5)" text-anchor="end">euai.app</text>
-</svg>`;
-
-  res.setHeader("Content-Type", "image/svg+xml");
-  res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800");
-  res.status(200).send(svg);
-}
-
-function escapeXml(str) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-function wrapText(text, maxCharsPerLine) {
-  const words = text.split(" ");
-  const lines = [];
-  let current = "";
-
-  for (const word of words) {
-    if ((current + " " + word).trim().length > maxCharsPerLine && current) {
-      lines.push(current.trim());
-      current = word;
-    } else {
-      current = current ? current + " " + word : word;
+  const svg = await satori(
+    {
+      type: "div",
+      props: {
+        style: {
+          width: "1200px",
+          height: "630px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "60px",
+          background: "linear-gradient(135deg, #0a1628, #0d1f3c)",
+          fontFamily: "Inter",
+        },
+        children: [
+          // Top section: badge + title
+          {
+            type: "div",
+            props: {
+              style: { display: "flex", flexDirection: "column" },
+              children: [
+                // Type badge
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "32px",
+                    },
+                    children: [
+                      {
+                        type: "div",
+                        props: {
+                          style: {
+                            background: typeBadgeColor,
+                            borderRadius: "18px",
+                            padding: "8px 20px",
+                            fontSize: "14px",
+                            fontWeight: 700,
+                            color: "white",
+                            letterSpacing: "1.5px",
+                          },
+                          children: typeLabel,
+                        },
+                      },
+                    ],
+                  },
+                },
+                // Title
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      fontSize: `${fontSize}px`,
+                      fontWeight: 700,
+                      color: "white",
+                      lineHeight: 1.3,
+                      maxWidth: "1080px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    },
+                    children: displayTitle,
+                  },
+                },
+              ],
+            },
+          },
+          // Bottom section: EU badge + site name + URL
+          {
+            type: "div",
+            props: {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                borderTop: "2px solid rgba(255,255,255,0.15)",
+                paddingTop: "20px",
+              },
+              children: [
+                {
+                  type: "div",
+                  props: {
+                    style: { display: "flex", alignItems: "center" },
+                    children: [
+                      // EU badge
+                      {
+                        type: "div",
+                        props: {
+                          style: {
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "10px",
+                            background: "#003399",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginRight: "12px",
+                            fontSize: "17px",
+                            fontWeight: 700,
+                            color: "#ffd700",
+                          },
+                          children: "EU",
+                        },
+                      },
+                      // Site name
+                      {
+                        type: "div",
+                        props: {
+                          style: {
+                            fontSize: "22px",
+                            fontWeight: 600,
+                            color: "rgba(255,255,255,0.9)",
+                          },
+                          children: "EU AI Act Navigator",
+                        },
+                      },
+                    ],
+                  },
+                },
+                // URL
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      fontSize: "18px",
+                      color: "rgba(255,255,255,0.5)",
+                    },
+                    children: "euai.app",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      width: 1200,
+      height: 630,
+      fonts: [
+        {
+          name: "Inter",
+          data: getFont(),
+          weight: 700,
+          style: "normal",
+        },
+      ],
     }
-  }
-  if (current) lines.push(current.trim());
+  );
 
-  return lines
-    .slice(0, 3)
-    .map((line, i) => `<tspan x="60" dy="${i === 0 ? 0 : '1.3em'}">${line}</tspan>`)
-    .join("");
+  const resvg = new Resvg(svg, {
+    fitTo: { mode: "width", value: 1200 },
+  });
+  const png = resvg.render().asPng();
+
+  res.setHeader("Content-Type", "image/png");
+  res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800");
+  res.status(200).send(Buffer.from(png));
 }

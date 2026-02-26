@@ -258,9 +258,13 @@ export default function App() {
       metaKeywords.setAttribute("content", keywords);
     }
 
-    // Update og:image — SVG endpoint for browsers, static PNG fallback for social crawlers
+    // Update og:image — dynamic PNG via satori + resvg
     let ogImage = document.querySelector('meta[property="og:image"]');
-    if (ogImage) ogImage.setAttribute("content", `${BASE_URL}/og-image.png`);
+    if (ogImage) {
+      const ogType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
+      const ogTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
+      ogImage.setAttribute("content", `${BASE_URL}/api/og?title=${ogTitle}&type=${ogType}`);
+    }
 
     // --- Dynamic JSON-LD ---
     let jsonLdEl = document.getElementById("dynamic-jsonld");
@@ -324,7 +328,7 @@ export default function App() {
             "mainEntityOfPage": BASE_URL + path,
             "articleBody": articleBody,
             "keywords": post.metaKeywords || post.tags?.join(", ") || "",
-            "image": `${BASE_URL}/og-image.png`,
+            "image": `${BASE_URL}/api/og?title=${encodeURIComponent(post.title)}&type=blog`,
             "url": BASE_URL + path
           },
           { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }

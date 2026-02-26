@@ -14,9 +14,11 @@
     "@capacitor/cli": "^8.1.0",
     "@capacitor/core": "^8.1.0",
     "@capacitor/ios": "^8.1.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@vercel/analytics": "^1.6.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "satori": "^0.19.2"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",

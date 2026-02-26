@@ -1,4 +1,11 @@
 {
+  "functions": {
+    "api/og.js": {
+      "memory": 1024,
+      "maxDuration": 10,
+      "includeFiles": "public/fonts/Inter-Bold.ttf"
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
