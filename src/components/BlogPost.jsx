@@ -7,7 +7,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
   if (!post) {
     return (
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 0", textAlign: "center" }}>
-        <h2 style={{ fontSize: 22, fontWeight: 400, color: "#1a1a1a", fontFamily: SERIF }}>Article not found</h2>
+        <h1 style={{ fontSize: 22, fontWeight: 400, color: "#1a1a1a", fontFamily: SERIF }}>Article not found</h1>
         <button onClick={onBlogClick} style={{ marginTop: 16, padding: "10px 20px", background: "#1e3a5f", color: "white", border: "none", borderRadius: 8, fontSize: 14, cursor: "pointer", fontFamily: SANS }}>
           Back to Blog
         </button>

@@ -165,7 +165,7 @@ export default function DefinitionsView({ onArticleClick, searchQuery: globalSea
                         : def.term
                       }
                     </span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0, transition: "transform 0.2s", transform: isExpanded ? "rotate(180deg)" : "none" }}>
                       <path d="M6 9l6 6 6-6" />
                     </svg>
                   </button>

@@ -107,7 +107,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                       return (
                         <div key={sKey}>
                           <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
-                            style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "5px 8px", textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
+                            style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "8px 10px", minHeight: 36, textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
                             <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
                             <span style={{ fontSize: 12, color: "#546478" }}>{sec.title}</span>
                           </button>
@@ -122,7 +122,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                 <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                                   aria-current={isActive ? "page" : undefined}
                                   style={{
-                                    display: "block", width: "100%", textAlign: "left", padding: "8px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                                    display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 36, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                                     background: isActive ? "#1e3a5f" : "transparent",
                                     color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                                     fontWeight: isActive ? 600 : 400,
@@ -147,7 +147,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                         <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                           aria-current={isActive ? "page" : undefined}
                           style={{
-                            display: "block", width: "100%", textAlign: "left", padding: "8px 10px", borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                            display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 36, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                             background: isActive ? "#1e3a5f" : "transparent",
                             color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                             fontWeight: isActive ? 600 : 400,

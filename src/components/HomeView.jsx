@@ -41,7 +41,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
             </div>}
             <div className="persona-icon" style={{ width: 52, height: 52, borderRadius: 14, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 18 }}>{role.icon}</div>
-            <h3 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
+            <h2 className="persona-title" style={{ fontSize: 19, fontWeight: 600, margin: "0 0 4px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h2>
             <span className="persona-desc" style={{ display: "inline-block", padding: "2px 8px", background: isActive ? "white" : role.colorBg, borderRadius: RADIUS.sm, fontSize: 11, color: role.color, fontWeight: 600, fontFamily: SANS, marginBottom: 10, border: `1px solid ${role.colorBorder}` }}>{role.legalBasis}</span>
             <p className="persona-desc" style={{ fontSize: 13.5, color: "#546478", lineHeight: 1.6, marginBottom: 18, fontFamily: SANS }}>{role.identifyAs}</p>
             <div className="persona-themes" style={{ display: "flex", flexDirection: "column", gap: 7 }}>
@@ -89,7 +89,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             >
               <div style={{ width: 40, height: 40, borderRadius: 10, background: isActive ? "white" : role.colorBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{role.icon}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 2px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h3>
+                <h2 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 2px", fontFamily: SANS, color: "#1a1a1a" }}>{role.label}</h2>
                 <p style={{ fontSize: 12, color: "#546478", margin: 0, fontFamily: SANS, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{role.articles.length} articles · {role.legalBasis}</p>
               </div>
               <span style={{ fontSize: 12, fontWeight: 600, color: role.color, fontFamily: SANS, flexShrink: 0 }}>
@@ -378,7 +378,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
             className="hero-section"
           >
             <div>
-              <h3 style={{ fontSize: 21, fontWeight: 500, margin: "0 0 8px", fontFamily: SANS }}>Not sure where to start?</h3>
+              <h2 style={{ fontSize: 21, fontWeight: 500, margin: "0 0 8px", fontFamily: SANS }}>Not sure where to start?</h2>
               <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.6, maxWidth: 500, margin: 0, fontFamily: SANS }}>
                 Ask the AI Advisor — get plain-English answers about your obligations, classification questions, timelines, and compliance requirements. Powered by Claude.
               </p>

@@ -4,12 +4,19 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP, ARTICLE_TO_RECITAL_MAP, RECITAL_SUMMARIES, getRecitalDisplayText } from "../data/recital-maps.js";
 
 export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) {
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [articleFilter, setArticleFilter] = useState(null);
   const [expandedRecitals, setExpandedRecitals] = useState({});
   const [expandAll, setExpandAll] = useState(false);
   const recitalRefs = useRef({});
   const lastProcessedRecital = useRef(null);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setSearchQuery(searchInput), 200);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   // Auto-expand and scroll to initial recital (deferred to avoid sync setState in effect)
   useEffect(() => {
@@ -103,7 +110,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
           </svg>
           <input type="text" placeholder="Search recitals by number, keyword, or article..."
             aria-label="Search recitals by number, keyword, or article"
-            value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
             style={{ width: "100%", padding: "10px 12px 10px 34px", border: "1px solid #e8e0d8", borderRadius: 10, fontSize: 14, background: "white", color: "#1a1a1a", fontFamily: SANS, boxSizing: "border-box" }} />
         </div>
 
@@ -164,7 +171,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                   <div className="recital-chips" style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
                     {linkedArticles.slice(0, 5).map((a) => (
                       <button key={a} onClick={() => onArticleClick && onArticleClick(a)}
-                        style={{ fontSize: 11, padding: "2px 7px", borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec", transition: "background 0.15s", fontFamily: "inherit", lineHeight: "inherit" }}
+                        style={{ fontSize: 11, padding: "6px 10px", minHeight: 28, borderRadius: 4, background: "#f0f4ff", color: "#1e3a5f", cursor: "pointer", fontWeight: 500, whiteSpace: "nowrap", border: "1px solid #c7d6ec", transition: "background 0.15s", fontFamily: "inherit", lineHeight: "inherit" }}
                         title={`Navigate to Article ${a}`}
                         onMouseEnter={(e) => (e.target.style.background = "#dbe5f5")}
                         onMouseLeave={(e) => (e.target.style.background = "#f0f4ff")}>

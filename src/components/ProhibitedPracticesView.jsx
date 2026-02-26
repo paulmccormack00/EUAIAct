@@ -64,12 +64,12 @@ export default function ProhibitedPracticesView({ article, onThemeClick, onArtic
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontSize: 11, color: "#5c4d38", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8, fontFamily: SANS }}>CHAPTER II · Prohibited AI Practices</p>
-        <h2 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
+        <h1 className="view-title" style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: 0, fontFamily: SERIF, lineHeight: 1.2 }}>
           Article 5
-        </h2>
-        <h3 className="view-subtitle" style={{ fontSize: 20, color: "#4a5568", margin: "4px 0 0", fontFamily: SERIF, fontWeight: 400 }}>
+        </h1>
+        <h2 className="view-subtitle" style={{ fontSize: 20, color: "#4a5568", margin: "4px 0 0", fontFamily: SERIF, fontWeight: 400 }}>
           Prohibited AI practices
-        </h3>
+        </h2>
         {articleThemes.length > 0 && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
             {articleThemes.map((theme) => (

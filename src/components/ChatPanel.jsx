@@ -4,6 +4,8 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP } from "../data/recital-maps.js";
 import useFocusTrap from "../hooks/useFocusTrap.js";
 
+const CHAT_BOUNCE_STYLE = `@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`;
+
 export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -273,7 +275,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }} aria-hidden="true">⚖</div>
             <div>
-              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>AI Act Advisor</h3>
+              <h2 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>AI Act Advisor</h2>
               <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Claude</p>
             </div>
           </div>
@@ -299,7 +301,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
               <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: COLORS.primaryLight, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
-              <h4 style={{ margin: "0 0 6px", fontSize: 16, color: "#1a1a1a", fontFamily: SANS }}>Ask about the EU AI Act</h4>
+              <h3 style={{ margin: "0 0 6px", fontSize: 16, color: "#1a1a1a", fontFamily: SANS }}>Ask about the EU AI Act</h3>
               <p style={{ margin: "0 0 20px", fontSize: 13, color: "#546478", fontFamily: SANS, lineHeight: 1.5 }}>
                 Get plain-English answers about obligations, classifications, timelines, and compliance requirements.
               </p>
@@ -339,7 +341,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
                 ))}
               </div>
               <span style={{ fontSize: 12, color: "#4a5f74", fontFamily: SANS }}>Analysing…</span>
-              <style>{`@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`}</style>
+              <style>{CHAT_BOUNCE_STYLE}</style>
             </div>
           )}
           <div ref={messagesEndRef} />

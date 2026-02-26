@@ -12,6 +12,7 @@ export default defineConfig({
           'eu-ai-act-data': ['./src/data/eu-ai-act-data.js'],
           'plain-summaries': ['./src/data/plain-summaries.js'],
           'annexes-data': ['./src/data/annexes.js'],
+          'recital-maps': ['./src/data/recital-maps.js'],
         },
       },
     },

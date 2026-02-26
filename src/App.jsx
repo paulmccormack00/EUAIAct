@@ -144,16 +144,17 @@ export default function App() {
   }, [navigateTo]);
 
   const handleBlogPostClick = useCallback((slug) => {
-    setView("blogpost"); setBlogSlug(slug);
+    setView("blogpost"); setBlogSlug(slug); setSearchQuery("");
     navigateTo(`/blog/${slug}`, { view: "blogpost", blogSlug: slug });
   }, [navigateTo]);
 
   const handleAnnexesClick = useCallback(() => {
-    setView("annexes"); setSelectedAnnex(null);
+    setView("annexes"); setSelectedAnnex(null); setSearchQuery("");
     navigateTo("/annexes", { view: "annexes" });
   }, [navigateTo]);
 
   const handleAnnexClick = useCallback((annexId) => {
+    setSearchQuery("");
     if (annexId === null) {
       setView("annexes"); setSelectedAnnex(null);
       navigateTo("/annexes", { view: "annexes" });
@@ -164,7 +165,7 @@ export default function App() {
   }, [navigateTo]);
 
   const handleRoleIdentifierClick = useCallback(() => {
-    setView("role-identifier");
+    setView("role-identifier"); setSearchQuery("");
     navigateTo("/role-identifier", { view: "role-identifier" });
   }, [navigateTo]);
 
@@ -514,7 +515,7 @@ export default function App() {
         @media (max-width: 1023px) {
           .mobile-menu-btn { display: block !important; }
           .role-bar { padding: 8px 14px !important; gap: 6px !important; }
-          .role-bar button { padding: 5px 10px !important; font-size: 12px !important; }
+          .role-bar button { padding: 8px 12px !important; font-size: 12px !important; min-height: 36px !important; }
           .role-bar .role-label { display: none !important; }
           .role-desc { padding: 8px 14px !important; }
           .role-desc p { font-size: 12px !important; }
@@ -526,7 +527,7 @@ export default function App() {
           .hero-astro { display: none !important; }
           .hero-title { font-size: 28px !important; }
           .hero-desc { font-size: 14px !important; }
-          .stats-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 20px !important; }
+          .stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; margin-bottom: 20px !important; }
           .stats-grid > div { padding: 10px 8px !important; }
           .stats-grid .stat-value { font-size: 18px !important; }
           .key-articles-grid { grid-template-columns: 1fr !important; }
@@ -557,8 +558,13 @@ export default function App() {
           .persona-cta { display: none !important; }
           .persona-check { position: static !important; width: 18px !important; height: 18px !important; margin-left: auto !important; }
           .persona-check svg { width: 10px !important; height: 10px !important; }
-          .home-timeline { display: none !important; }
-          .advisor-cta { display: none !important; }
+          .home-timeline { grid-template-columns: 1fr !important; border-radius: 12px !important; }
+          .home-timeline > div { border-right: none !important; border-bottom: 1px solid #e8e4de !important; padding: 14px 16px !important; display: flex !important; align-items: center !important; gap: 12px !important; text-align: left !important; }
+          .home-timeline > div:last-child { border-bottom: none !important; }
+          .home-timeline > div > div:first-child { margin: 0 !important; }
+          .advisor-cta { margin-bottom: 8px !important; }
+          .advisor-cta .hero-section { padding: 20px 16px !important; flex-direction: column !important; text-align: center !important; border-radius: 16px !important; }
+          .advisor-cta .hero-section button { width: 100% !important; }
           .hero-home { padding: 20px 0 16px !important; }
           .hero-badge { margin-bottom: 12px !important; }
           .hero-title { margin-bottom: 8px !important; }
@@ -587,10 +593,10 @@ export default function App() {
           .role-result-actions button { width: 100% !important; justify-content: center !important; }
         }
         @media (max-width: 480px) {
-          .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
           .stats-grid .stat-value { font-size: 16px !important; }
           .role-bar { display: flex !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
-          .role-bar button { font-size: 11px !important; padding: 5px 8px !important; white-space: nowrap !important; }
+          .role-bar button { font-size: 11px !important; padding: 7px 10px !important; min-height: 36px !important; white-space: nowrap !important; }
           .main-content { padding: 16px 12px 32px !important; }
           .recitals-controls input { font-size: 13px !important; }
           .recitals-controls select { font-size: 13px !important; }

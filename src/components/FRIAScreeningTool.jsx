@@ -459,7 +459,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#ea580c", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, color: "#9a3412", margin: 0, fontFamily: SANS }}>High-Risk AI System</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: "#9a3412", margin: 0, fontFamily: SANS }}>High-Risk AI System</h2>
             </div>
             <p style={{ fontSize: 14, color: "#9a3412", lineHeight: 1.7, margin: 0, fontFamily: SANS }}>
               Based on your selection{answers.useCases.length > 1 ? "s" : ""} (<strong>{answers.useCases.map(id => ANNEX_III_CATEGORIES.find(c => c.id === id)?.label).filter(Boolean).join(", ")}</strong>), your AI system is classified as <strong>high-risk</strong> under Article 6(2) and Annex III. This means additional obligations apply, including the requirement for a Fundamental Rights Impact Assessment (FRIA) under Article 27.
@@ -471,7 +471,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, color: "#166534", margin: 0, fontFamily: SANS }}>Not High-Risk</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: "#166534", margin: 0, fontFamily: SANS }}>Not High-Risk</h2>
             </div>
             <p style={{ fontSize: 14, color: "#166534", lineHeight: 1.7, margin: 0, fontFamily: SANS }}>
               Your AI system does not appear to fall under the high-risk classification in Annex III. Limited-risk or minimal-risk obligations may still apply (e.g., transparency obligations under Article 50). A FRIA is <strong>not required</strong> for non-high-risk systems.
@@ -683,9 +683,9 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg>
             )}
           </div>
-          <h3 className="fria-results-title" style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
+          <h2 className="fria-results-title" style={{ fontSize: 22, fontWeight: 500, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
             {friaRequired ? "FRIA is Required" : "FRIA is Not Required"}
-          </h3>
+          </h2>
           <p style={{ fontSize: 14, color: "#546478", fontFamily: SANS }}>
             {friaRequired
               ? "Under Article 27, your organisation must conduct a Fundamental Rights Impact Assessment before deploying this AI system."
@@ -722,7 +722,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
         {/* Rights Heatmap */}
         <div style={{ marginBottom: 24 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SANS }}>Fundamental Rights Impact Heatmap</h4>
+          <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", margin: "0 0 12px", fontFamily: SANS }}>Fundamental Rights Impact Heatmap</h3>
           <div className="fria-heatmap" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
             {FUNDAMENTAL_RIGHTS.map((right) => {
               const impacted = answers.selectedRights.includes(right.id);
@@ -744,7 +744,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
         {/* Next Steps */}
         <div style={{ padding: "24px", background: "#f0f4ff", borderRadius: 12, border: "1px solid #c7d6ec", marginBottom: 24 }}>
-          <h4 style={{ fontSize: 15, fontWeight: 600, color: "#1e3a5f", margin: "0 0 16px", fontFamily: SANS }}>Next Steps</h4>
+          <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1e3a5f", margin: "0 0 16px", fontFamily: SANS }}>Next Steps</h3>
           <ol style={{ margin: 0, paddingLeft: 20, fontFamily: SANS, fontSize: 14, color: "#374151", lineHeight: 2 }}>
             {friaRequired && <li>Conduct a full FRIA covering all 10 sections (90 questions)</li>}
             {friaRequired && <li>Document your assessment per Article 27(1) requirements</li>}
@@ -758,9 +758,9 @@ export default function FRIAScreeningTool({ onArticleClick }) {
 
         {/* Email gate + download */}
         <div style={{ padding: "24px", background: "white", borderRadius: 12, border: "2px solid #1e3a5f" }}>
-          <h4 style={{ fontSize: 15, fontWeight: 600, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SANS }}>
+          <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1e3a5f", margin: "0 0 8px", fontFamily: SANS }}>
             Save Your Results
-          </h4>
+          </h3>
           <p style={{ fontSize: 13, color: "#546478", margin: "0 0 16px", fontFamily: SANS }}>
             Enter your email to receive a copy of this screening summary, plus updates when the official FRIA template is published.
           </p>

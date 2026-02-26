@@ -46,7 +46,7 @@ export default memo(function SearchBar({ query, setQuery, resultCount }) {
           }}
         />
         {query ? (
-          <button onClick={() => setQuery("")} aria-label="Clear search" style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 8, minWidth: 32, minHeight: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button onClick={() => setQuery("")} aria-label="Clear search" style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textPlaceholder, padding: 8, minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         ) : (
