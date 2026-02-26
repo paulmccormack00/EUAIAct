@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 
 const ANNEX_III_CATEGORIES = [
@@ -824,6 +824,60 @@ export default function FRIAScreeningTool({ onArticleClick }) {
       </div>
     );
   }
+
+  // FAQPage structured data for FRIA screening questions
+  useEffect(() => {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my system an AI system under Article 3(1) of the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "An AI system under Article 3(1) is a machine-based system that operates with some level of autonomy, uses machine learning, logic, or statistics-based approaches, generates outputs such as predictions, recommendations, decisions, or content, and is designed for explicit or implicit objectives." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my AI system fall under a high-risk use case in Annex III of the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Annex III lists 8 high-risk categories: biometric identification, critical infrastructure, education and vocational training, employment and worker management, essential public and private services, law enforcement, migration and border control, and administration of justice and democratic processes." }
+        },
+        {
+          "@type": "Question",
+          "name": "What type of organisation deployer am I under Article 27?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Article 27(1) distinguishes four deployer types: public authorities or bodies, private entities providing public services, entities using AI for credit scoring or life/health insurance assessment, and other private entities. Only the first three are obligated to conduct a FRIA." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which fundamental rights could my AI system impact?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The EU Charter of Fundamental Rights covers seven title areas: Human Dignity (Articles 1-5), Freedoms (Articles 6-19), Equality and Non-Discrimination (Articles 20-26), Solidarity (Articles 27-38), Citizens' Rights (Articles 39-46), Justice (Articles 47-50), and General Provisions (Articles 51-54)." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to do a FRIA under the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A Fundamental Rights Impact Assessment (FRIA) is mandatory under Article 27 for deployers of high-risk AI systems who are public bodies, private entities providing public services, or entities using AI for creditworthiness or life/health insurance assessment. The deadline is 2 August 2026." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reuse my existing DPIA for the FRIA?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Article 27(4) creates a bridge between the FRIA and the GDPR Article 35 DPIA. If you have already conducted a DPIA for the same AI system, you can reuse relevant sections. A comprehensive DPIA may cover 30-40% of FRIA requirements." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the deadline for conducting a FRIA under the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The FRIA obligation applies from 2 August 2026 — the date when the full provisions on high-risk AI systems become applicable. Deployers already using high-risk AI systems on that date must conduct their FRIA as soon as possible." }
+        }
+      ]
+    };
+    let el = document.getElementById("fria-faq-jsonld");
+    if (!el) {
+      el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.id = "fria-faq-jsonld";
+      document.head.appendChild(el);
+    }
+    el.textContent = JSON.stringify(faqSchema);
+    return () => { el.remove(); };
+  }, []);
 
   return (
     <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 0" }}>

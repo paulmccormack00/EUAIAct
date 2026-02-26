@@ -7,7 +7,7 @@ import ThemeBadge from "./ThemeBadge.jsx";
 import InlineRecitals from "./InlineRecitals.jsx";
 
 export default function ArticleDetail({ articleNum, article, onThemeClick, onArticleClick, searchQuery }) {
-  const [showPlainLanguage, setShowPlainLanguage] = useState(false);
+  const [showPlainLanguage, setShowPlainLanguage] = useState(true);
 
   const formattedText = formatArticleText(article.text);
   const paragraphs = formattedText.split(/\n\n+/).filter(Boolean);

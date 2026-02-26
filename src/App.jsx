@@ -237,6 +237,33 @@ export default function App() {
     let ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute("content", description);
 
+    // Update meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      let keywords = "EU AI Act, AI regulation, Regulation 2024/1689";
+      if (view === "blogpost" && blogSlug) {
+        const post = BLOG_POSTS.find(p => p.slug === blogSlug);
+        if (post?.metaKeywords) keywords = post.metaKeywords;
+        else if (post?.tags) keywords = post.tags.join(", ");
+      } else if (view === "article" && selectedArticle) {
+        const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
+        const themes = (art?.themes || []).map(tid => EU_AI_ACT_DATA.themes.find(t => t.id === tid)?.name).filter(Boolean);
+        keywords = [`Article ${selectedArticle}`, art?.title, ...themes, "EU AI Act"].filter(Boolean).join(", ");
+      } else if (view === "fria") {
+        keywords = "FRIA, fundamental rights impact assessment, Article 27, EU AI Act, high-risk AI, screening tool";
+      } else if (view === "annex" && selectedAnnex) {
+        const annex = ANNEXES.find(a => a.id === selectedAnnex);
+        keywords = annex ? `Annex ${annex.number}, ${annex.title}, EU AI Act` : keywords;
+      }
+      metaKeywords.setAttribute("content", keywords);
+    }
+
+    // Update og:image — dynamic per-page OG image
+    let ogImage = document.querySelector('meta[property="og:image"]');
+    const pageType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : (view === "fria" || view === "timeline" || view === "role-identifier") ? "tool" : "page";
+    const ogImageUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""))}&type=${pageType}`;
+    if (ogImage) ogImage.setAttribute("content", ogImageUrl);
+
     // --- Dynamic JSON-LD ---
     let jsonLdEl = document.getElementById("dynamic-jsonld");
     if (!jsonLdEl) {
@@ -266,10 +293,79 @@ export default function App() {
     } else if (view === "recitals") {
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Recitals", item: BASE_URL + path });
       jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+    } else if (view === "blogpost" && blogSlug) {
+      const post = BLOG_POSTS.find(p => p.slug === blogSlug);
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Blog", item: BASE_URL + "/blog" });
+      if (post) {
+        breadcrumbItems.push({ "@type": "ListItem", position: 3, name: post.title, item: BASE_URL + path });
+        // Extract first 500 chars of plain text from content blocks
+        const articleBody = post.content
+          .filter(b => b.type === "paragraph" || b.type === "lead")
+          .map(b => b.text)
+          .join(" ")
+          .substring(0, 500);
+        jsonLdEl.textContent = JSON.stringify([
+          {
+            ...jsonLd,
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.metaDescription || "",
+            "datePublished": post.date,
+            "dateModified": post.date,
+            "author": {
+              "@type": "Person",
+              "name": post.author,
+              "jobTitle": post.authorRole,
+              "url": "https://euai.app"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "EU AI Act Navigator",
+              "url": "https://euai.app"
+            },
+            "mainEntityOfPage": BASE_URL + path,
+            "articleBody": articleBody,
+            "keywords": post.metaKeywords || post.tags?.join(", ") || "",
+            "image": `${BASE_URL}/api/og?title=${encodeURIComponent(post.title)}&type=blog`,
+            "url": BASE_URL + path
+          },
+          { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+        ]);
+      } else {
+        jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+      }
+    } else if (view === "blog") {
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Blog", item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
+    } else if (view === "fria") {
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "FRIA Screening Tool", item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems },
+        {
+          ...jsonLd,
+          "@type": "WebApplication",
+          "name": "FRIA Screening Tool",
+          "description": "Free interactive screening tool to determine if you need a Fundamental Rights Impact Assessment (FRIA) under Article 27 of the EU AI Act.",
+          "url": BASE_URL + path,
+          "applicationCategory": "BusinessApplication",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+        }
+      ]);
+    } else if (view === "annex" && selectedAnnex) {
+      const annex = ANNEXES.find(a => a.id === selectedAnnex);
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Annexes", item: BASE_URL + "/annexes" });
+      if (annex) breadcrumbItems.push({ "@type": "ListItem", position: 3, name: `Annex ${annex.number}: ${annex.title}`, item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify([
+        { ...jsonLd, "@type": "Legislation", "name": annex ? `Annex ${annex.number}: ${annex.title}` : "Annex", "legislationIdentifier": "Regulation (EU) 2024/1689", "description": annex?.summary || "", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
+      ]);
+    } else if (view === "annexes") {
+      breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Annexes", item: BASE_URL + path });
+      jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
     } else {
       jsonLdEl.textContent = JSON.stringify({ ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems });
     }
-  }, [view, selectedArticle, selectedTheme, blogSlug]);
+  }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
 
   const isSearching = searchQuery.length >= 2;
   const searchResultCount = useMemo(() => {

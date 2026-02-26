@@ -33,3 +33,4 @@ dist-ssr
 ios/App/Pods/
 ios/App/build/
 ios/App/DerivedData/
+.env*.local
