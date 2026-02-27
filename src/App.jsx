@@ -864,6 +864,29 @@ export default function App() {
                   Official EUR-Lex Source
                 </a>
               </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{ fontSize: 11, color: "#3d4f5f", fontFamily: SANS }}>Share</span>
+                <a
+                  href="https://www.linkedin.com/sharing/share-offsite/?url=https://euai.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Share on LinkedIn"
+                  style={{ color: "#3d4f5f", display: "flex", alignItems: "center", transition: "color 0.15s" }}
+                  onMouseEnter={e => e.currentTarget.style.color = COLORS.primary}
+                  onMouseLeave={e => e.currentTarget.style.color = "#3d4f5f"}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a
+                  href="mailto:?subject=EU%20AI%20Act%20Navigator&body=Interactive%20reference%20for%20the%20EU%20AI%20Act%3A%20https%3A%2F%2Feuai.app"
+                  aria-label="Share via Email"
+                  style={{ color: "#3d4f5f", display: "flex", alignItems: "center", transition: "color 0.15s" }}
+                  onMouseEnter={e => e.currentTarget.style.color = COLORS.primary}
+                  onMouseLeave={e => e.currentTarget.style.color = "#3d4f5f"}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+              </div>
             </div>
           </footer>
 
