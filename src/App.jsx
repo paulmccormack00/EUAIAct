@@ -277,6 +277,9 @@ export default function App() {
       path = "/";
     }
 
+    // Social title: shorter for OG/Twitter on homepage, same as title elsewhere
+    const socialTitle = path === "/" ? "EU AI Act Navigator" : title;
+
     document.title = title;
 
     // Add noindex for 404 pages
@@ -297,7 +300,7 @@ export default function App() {
 
     // Update og:title
     let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute("content", title);
+    if (ogTitle) ogTitle.setAttribute("content", socialTitle);
 
     // Update og:description
     let ogDesc = document.querySelector('meta[property="og:description"]');
@@ -350,13 +353,17 @@ export default function App() {
       metaKeywords.setAttribute("content", keywords);
     }
 
-    // Update og:image — dynamic PNG via satori + resvg
+    // Update og:image — static branded image for homepage, dynamic for everything else
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (ogImage) {
-      const ogImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
-      const ogImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
-      const ogImageUrl = `${BASE_URL}/api/og?title=${ogImgTitle}&type=${ogImgType}`;
-      ogImage.setAttribute("content", ogImageUrl);
+      if (path === "/") {
+        ogImage.setAttribute("content", `${BASE_URL}/og-image.png`);
+      } else {
+        const ogImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
+        const ogImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
+        const ogImageUrl = `${BASE_URL}/api/og?title=${ogImgTitle}&type=${ogImgType}`;
+        ogImage.setAttribute("content", ogImageUrl);
+      }
     }
 
     // Update og:image:width/height
@@ -366,7 +373,7 @@ export default function App() {
     if (ogHeight) ogHeight.setAttribute("content", "630");
 
     // Update twitter:title, twitter:description, twitter:image
-    const twitterMeta = { "twitter:title": title, "twitter:description": description };
+    const twitterMeta = { "twitter:title": socialTitle, "twitter:description": description };
     for (const [name, content] of Object.entries(twitterMeta)) {
       let el = document.querySelector(`meta[name="${name}"]`);
       if (!el) { el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
@@ -374,9 +381,13 @@ export default function App() {
     }
     let twitterImage = document.querySelector('meta[name="twitter:image"]');
     if (!twitterImage) { twitterImage = document.createElement("meta"); twitterImage.setAttribute("name", "twitter:image"); document.head.appendChild(twitterImage); }
-    const twImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
-    const twImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
-    twitterImage.setAttribute("content", `${BASE_URL}/api/og?title=${twImgTitle}&type=${twImgType}`);
+    if (path === "/") {
+      twitterImage.setAttribute("content", `${BASE_URL}/og-image.png`);
+    } else {
+      const twImgType = view === "article" ? "article" : view === "theme" ? "theme" : view === "blogpost" ? "blog" : view === "annex" ? "annex" : view === "fria" || view === "timeline" || view === "role-identifier" ? "tool" : "page";
+      const twImgTitle = encodeURIComponent(title.replace(/ — EU AI Act Navigator$/, ""));
+      twitterImage.setAttribute("content", `${BASE_URL}/api/og?title=${twImgTitle}&type=${twImgType}`);
+    }
 
     // --- Dynamic JSON-LD ---
     let jsonLdEl = document.getElementById("dynamic-jsonld");
