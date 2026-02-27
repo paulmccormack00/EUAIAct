@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" fill="#003399"/>
+  <g transform="translate(90,90)">
+    <!-- Crosshair ticks (outside circle only) -->
+    <line x1="0" y1="-72" x2="0" y2="-62" stroke="#FFD617" stroke-width="1.5"/>
+    <line x1="0" y1="62" x2="0" y2="72" stroke="#FFD617" stroke-width="1.5"/>
+    <line x1="-72" y1="0" x2="-62" y2="0" stroke="#FFD617" stroke-width="1.5"/>
+    <line x1="62" y1="0" x2="72" y2="0" stroke="#FFD617" stroke-width="1.5"/>
+    <!-- Circle -->
+    <circle cx="0" cy="0" r="62" fill="none" stroke="#FFD617" stroke-width="2.5"/>
+    <!-- 6-pointed star (hexagram) -->
+    <polygon points="0,-48 12,-21 42,-24 24,0 42,24 12,21 0,48 -12,21 -42,24 -24,0 -42,-24 -12,-21" fill="#FFD617"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="7" fill="#003399"/>
+    <circle cx="0" cy="0" r="4" fill="#FFD617"/>
+  </g>
+</svg>

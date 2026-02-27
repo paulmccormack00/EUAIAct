@@ -843,7 +843,7 @@ export default function App() {
           {/* Footer */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${COLORS.borderDefault}` }}>
             <p style={{ fontSize: 11, color: COLORS.textPlaceholder, lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
-              Built by Paul McCormack — dual-qualified lawyer (England &amp; Wales / New York Bar), Product Leader, and founder of Kormoon (acquired by Privitar/Informatica). An independent resource to help organisations prepare for the EU AI Act.
+              Built by Paul McCormack — lawyer, product leader, and founder of Kormoon. This site is an independent informational resource only and does not constitute legal advice. No reliance should be placed on its contents. For the authoritative text, refer to the official EUR-Lex source linked in the Annexes tab, or consult your legal advisor.
             </p>
             <div className="footer-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <p style={{ fontSize: 12, color: COLORS.textPlaceholder, margin: 0, fontFamily: SANS }}>
