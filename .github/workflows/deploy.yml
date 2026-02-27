@@ -44,7 +44,13 @@ jobs:
           test -f .vercel/output/static/article/6/index.html && echo "article/6 OK" || echo "article/6 MISSING"
           test -f .vercel/output/static/fria/index.html && echo "fria OK" || echo "fria MISSING"
           test -f .vercel/output/static/blog/index.html && echo "blog OK" || echo "blog MISSING"
-          find .vercel/output/static -name "index.html" | wc -l | xargs -I{} echo "Total prerendered HTML files: {}"
+          COUNT=$(find .vercel/output/static -name "index.html" | wc -l)
+          echo "Total prerendered HTML files: $COUNT"
+          if [ "$COUNT" -lt 50 ]; then
+            echo "ERROR: Only $COUNT prerendered files found (expected 50+). Aborting deploy."
+            exit 1
+          fi
+          echo "Prerender verification passed."
 
       - name: Deploy to Vercel
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

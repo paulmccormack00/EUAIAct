@@ -23,7 +23,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       </div>
 
       {/* Row 1 — Primary Role Cards */}
-      <div className="key-articles-grid persona-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: activeRole !== "all" ? 0 : 20 }}>
+      <div className="key-articles-grid persona-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 20 }}>
         {primaryRoles.map((roleId) => {
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
@@ -69,7 +69,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
       </div>
 
       {/* Row 2 — Supply Chain Role Cards (compact) */}
-      <div className="key-articles-grid supply-chain-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: activeRole !== "all" ? 0 : 48 }}>
+      <div className="key-articles-grid supply-chain-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: 16 }}>
         {supplyChainRoles.map((roleId) => {
           const role = ROLES[roleId];
           const isActive = activeRole === roleId;
@@ -214,7 +214,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>FRIA Screening Tool</h3>
               <p style={{ fontSize: 13, color: "#4d5d71", lineHeight: 1.5, margin: "0 0 12px" }}>Am I required to do a FRIA? Answer 7 questions to find out.</p>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#ea580c" }}>Start screening &rarr;</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#c2410c" }}>Start screening &rarr;</span>
             </a>
           )}
           {onTimelineClick && (
@@ -323,7 +323,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
               <h2 className="fria-heading" style={{ fontSize: 22, fontWeight: 500, color: COLORS.primary, margin: 0, fontFamily: SERIF }}>
                 The FRIA Deadline is 2 August 2026
               </h2>
-              <span className="fria-countdown" style={{
+              <span className="fria-countdown" suppressHydrationWarning style={{
                 display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px",
                 background: COLORS.primary, color: COLORS.warmGold, borderRadius: RADIUS.round, fontSize: 12, fontWeight: 600,
                 fontFamily: SANS, whiteSpace: "nowrap", letterSpacing: "0.02em",
@@ -352,7 +352,7 @@ export default function HomeView({ onArticleClick, onThemeClick, activeRole, set
           const isNext = futureDates.length > 0 && item.isoDate === futureDates[0].isoDate;
           const status = isPast ? "done" : isNext ? "current" : "future";
           return (
-          <div key={item.date} style={{
+          <div key={item.date} suppressHydrationWarning style={{
             padding: "24px 16px", textAlign: "center", borderRight: i < 4 ? "1px solid #e8e4de" : "none",
             background: status === "done" ? "#f0fdf4" : status === "current" ? "#f0f4ff" : "white",
           }}>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from "react";
-import { FONT_FACE_CSS, SANS, SERIF, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
 import { EU_AI_ACT_DATA } from "./data/eu-ai-act-data.js";
 import { ROLES } from "./data/roles.js";
 import SearchBar from "./components/SearchBar.jsx";
@@ -14,7 +14,8 @@ const ProhibitedPracticesView = lazy(() => import("./components/ProhibitedPracti
 const ArticleDetail = lazy(() => import("./components/ArticleDetail.jsx"));
 const ThemeView = lazy(() => import("./components/ThemeView.jsx"));
 const EnhancedRecitalsTab = lazy(() => import("./components/EnhancedRecitalsTab.jsx"));
-const HomeView = lazy(() => import("./components/HomeView.jsx"));
+// HomeView loaded eagerly for LCP performance
+import HomeView from "./components/HomeView.jsx";
 const ChatPanel = lazy(() => import("./components/ChatPanel.jsx"));
 const AboutModal = lazy(() => import("./components/modals/AboutModal.jsx"));
 const TermsModal = lazy(() => import("./components/modals/TermsModal.jsx"));
@@ -502,7 +503,6 @@ export default function App() {
 
   return (
     <div style={{ height: "100vh", display: "flex", background: COLORS.pageBg, fontFamily: SANS }}>
-      <style>{FONT_FACE_CSS}</style>
       <style>{FOCUS_CSS}</style>
       <style>{`body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }`}</style>
       {/* Skip navigation link */}
@@ -776,7 +776,7 @@ export default function App() {
         {/* Content */}
         <div ref={mainRef} tabIndex={-1} className="main-content" style={{ flex: 1, overflowY: "auto", padding: "28px 32px 60px", outline: "none" }}>
         <main id="main-content">
-          <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "80px 0" }}><div style={{ width: 32, height: 32, border: `3px solid ${COLORS.borderDefault}`, borderTopColor: COLORS.primary, borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style></div>}>
+          <Suspense fallback={<div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "calc(100vh - 120px)" }}><div style={{ width: 32, height: 32, border: `3px solid ${COLORS.borderDefault}`, borderTopColor: COLORS.primary, borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style></div>}>
           {isSearching ? (
             <SearchResults query={debouncedQuery} onArticleClick={handleArticleClick} />
           ) : view === "article" && selectedArticle === 3 ? (
@@ -837,16 +837,13 @@ export default function App() {
             <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
           )}
 
-          </Suspense>
-        </main>
-
           {/* Footer */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: `1px solid ${COLORS.borderDefault}` }}>
-            <p style={{ fontSize: 11, color: COLORS.textPlaceholder, lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
+            <p style={{ fontSize: 11, color: "#3d4f5f", lineHeight: 1.6, margin: "0 0 14px", fontFamily: SANS }}>
               Built by Paul McCormack — lawyer, product leader, and founder of Kormoon. This site is an independent informational resource only and does not constitute legal advice. No reliance should be placed on its contents. For the authoritative text, refer to the official EUR-Lex source linked in the Annexes tab, or consult your legal advisor.
             </p>
             <div className="footer-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <p style={{ fontSize: 12, color: COLORS.textPlaceholder, margin: 0, fontFamily: SANS }}>
+              <p style={{ fontSize: 12, color: "#3d4f5f", margin: 0, fontFamily: SANS }}>
                 © 2026 Paul McCormack. All rights reserved.
               </p>
               <div style={{ display: "flex", gap: 16 }}>
@@ -869,6 +866,9 @@ export default function App() {
               </div>
             </div>
           </footer>
+
+          </Suspense>
+        </main>
         </div>
       </div>
 

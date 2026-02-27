@@ -10,71 +10,151 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "0" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://euai.app data:; connect-src 'self' https://api.anthropic.com https://vitals.vercel-insights.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "0"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://euai.app data:; connect-src 'self' https://api.anthropic.com https://vitals.vercel-insights.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/fonts/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/((?!assets|fonts|api).*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+        }
       ]
     },
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate"
+        }
       ]
     },
     {
       "source": "/api/og",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800"
+        }
       ]
     }
   ],
   "redirects": [
-    { "source": "/article/:path*/", "destination": "/article/:path*", "statusCode": 301 },
-    { "source": "/theme/:path*/", "destination": "/theme/:path*", "statusCode": 301 },
-    { "source": "/blog/:path*/", "destination": "/blog/:path*", "statusCode": 301 },
-    { "source": "/annex/:path*/", "destination": "/annex/:path*", "statusCode": 301 },
-    { "source": "/recitals/", "destination": "/recitals", "statusCode": 301 },
-    { "source": "/fria/", "destination": "/fria", "statusCode": 301 },
-    { "source": "/timeline/", "destination": "/timeline", "statusCode": 301 },
-    { "source": "/role-identifier/", "destination": "/role-identifier", "statusCode": 301 },
-    { "source": "/annexes/", "destination": "/annexes", "statusCode": 301 },
-    { "source": "/definitions/", "destination": "/definitions", "statusCode": 301 },
-    { "source": "/definitions", "destination": "/article/3", "statusCode": 301 }
+    {
+      "source": "/article/:path*/",
+      "destination": "/article/:path*",
+      "statusCode": 301
+    },
+    {
+      "source": "/theme/:path*/",
+      "destination": "/theme/:path*",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/:path*/",
+      "destination": "/blog/:path*",
+      "statusCode": 301
+    },
+    {
+      "source": "/annex/:path*/",
+      "destination": "/annex/:path*",
+      "statusCode": 301
+    },
+    {
+      "source": "/recitals/",
+      "destination": "/recitals",
+      "statusCode": 301
+    },
+    {
+      "source": "/fria/",
+      "destination": "/fria",
+      "statusCode": 301
+    },
+    {
+      "source": "/timeline/",
+      "destination": "/timeline",
+      "statusCode": 301
+    },
+    {
+      "source": "/role-identifier/",
+      "destination": "/role-identifier",
+      "statusCode": 301
+    },
+    {
+      "source": "/annexes/",
+      "destination": "/annexes",
+      "statusCode": 301
+    },
+    {
+      "source": "/definitions/",
+      "destination": "/definitions",
+      "statusCode": 301
+    },
+    {
+      "source": "/definitions",
+      "destination": "/article/3",
+      "statusCode": 301
+    }
   ],
   "rewrites": [
-    { "source": "/article/:path*", "destination": "/index.html" },
-    { "source": "/theme/:path*", "destination": "/index.html" },
-    { "source": "/recitals", "destination": "/index.html" },
-    { "source": "/fria", "destination": "/index.html" },
-    { "source": "/timeline", "destination": "/index.html" },
-    { "source": "/role-identifier", "destination": "/index.html" },
-    { "source": "/blog", "destination": "/index.html" },
-    { "source": "/blog/:path*", "destination": "/index.html" },
-    { "source": "/annexes", "destination": "/index.html" },
-    { "source": "/annex/:path*", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

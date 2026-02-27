@@ -155,8 +155,8 @@ async function main() {
 
 main().catch((err) => {
   if (err.message && err.message.includes("Executable doesn't exist")) {
-    console.warn("Prerender skipped: Playwright browsers not installed. Run 'npx playwright install chromium' to enable prerendering.");
-    process.exit(0);
+    console.error("Prerender FAILED: Playwright browsers not installed. Run 'npx playwright install chromium'.");
+    process.exit(1);
   }
   console.error("Prerender failed:", err);
   process.exit(1);
