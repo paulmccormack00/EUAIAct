@@ -9,6 +9,30 @@ import useFocusTrap from "../hooks/useFocusTrap.js";
 const COLLAPSED_WIDTH = 56;
 const EXPANDED_WIDTH = 310;
 
+function IconTooltip({ label, children }) {
+  const [show, setShow] = useState(false);
+  return (
+    <div style={{ position: "relative" }}
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+      {children}
+      {show && (
+        <div style={{
+          position: "absolute", left: "calc(100% + 8px)", top: "50%", transform: "translateY(-50%)",
+          background: "#1e293b", color: "#fff", fontSize: 12, fontFamily: SANS, fontWeight: 500,
+          padding: "5px 10px", borderRadius: 6, whiteSpace: "nowrap", pointerEvents: "none",
+          zIndex: 50, boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+        }}>
+          {label}
+          <div style={{
+            position: "absolute", right: "100%", top: "50%", transform: "translateY(-50%)",
+            border: "5px solid transparent", borderRightColor: "#1e293b",
+          }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 const KEY_ARTICLES = [
   { num: 5, title: "Prohibited AI practices", color: "#dc2626" },
   { num: 6, title: "High-risk classification", color: "#ea580c" },
@@ -100,25 +124,27 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
       {NAV_TABS.map(({ id, label, icon }) => {
         const isActive = (view === id || (view === "theme" && id === "themes") || (view === "article" && id === "chapters") || (view === "home" && id === "chapters") || (view === "annex" && id === "annexes"));
         return (
-          <button key={id} title={label}
-            onClick={() => {
-              onExpand?.();
-              if (id === "recitals") onRecitalsClick();
-              else if (id === "annexes") onAnnexesClick?.();
-              else setView(id === "themes" ? "theme" : id);
-            }}
-            style={{
-              width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
-              borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 4,
-              background: isActive ? "#f0f4ff" : "transparent",
-              color: isActive ? "#1e3a5f" : "#4a5f74",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f5f2ed"; }}
-            onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
-          >
-            {icon}
-          </button>
+          <IconTooltip key={id} label={label}>
+            <button
+              onClick={() => {
+                onExpand?.();
+                if (id === "recitals") onRecitalsClick();
+                else if (id === "annexes") onAnnexesClick?.();
+                else setView(id === "themes" ? "theme" : id);
+              }}
+              style={{
+                width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
+                borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 4,
+                background: isActive ? "#f0f4ff" : "transparent",
+                color: isActive ? "#1e3a5f" : "#4a5f74",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f5f2ed"; }}
+              onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+            >
+              {icon}
+            </button>
+          </IconTooltip>
         );
       })}
 
@@ -129,32 +155,36 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
       {TOOL_ITEMS.map(({ viewId, label, icon, color }) => {
         const isActive = view === viewId || (viewId === "blog" && view === "blogpost");
         return (
-          <button key={viewId} title={label}
-            onClick={() => toolClickHandlers[viewId]?.()}
-            style={{
-              width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
-              borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 4,
-              background: isActive ? "#f0f4ff" : "transparent",
-              color: isActive ? color : "#4a5f74",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f5f2ed"; }}
-            onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
-          >
-            {icon}
-          </button>
+          <IconTooltip key={viewId} label={label}>
+            <button
+              onClick={() => toolClickHandlers[viewId]?.()}
+              style={{
+                width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
+                borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 4,
+                background: isActive ? "#f0f4ff" : "transparent",
+                color: isActive ? color : "#4a5f74",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f5f2ed"; }}
+              onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+            >
+              {icon}
+            </button>
+          </IconTooltip>
         );
       })}
 
       {/* Expand button at bottom */}
       <div style={{ flex: 1 }} />
-      <button title="Expand sidebar" onClick={() => onExpand?.()}
-        style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "none", cursor: "pointer", background: "transparent", color: "#4a5f74", marginBottom: 12, transition: "all 0.15s" }}
-        onMouseEnter={e => e.currentTarget.style.background = "#f5f2ed"}
-        onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7" /><polyline points="6 17 11 12 6 7" /></svg>
-      </button>
+      <IconTooltip label="Expand sidebar">
+        <button onClick={() => onExpand?.()}
+          style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "none", cursor: "pointer", background: "transparent", color: "#4a5f74", marginBottom: 12, transition: "all 0.15s" }}
+          onMouseEnter={e => e.currentTarget.style.background = "#f5f2ed"}
+          onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7" /><polyline points="6 17 11 12 6 7" /></svg>
+        </button>
+      </IconTooltip>
     </div>
   );
 
