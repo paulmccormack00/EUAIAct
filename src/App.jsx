@@ -645,7 +645,7 @@ export default function App() {
         onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick}
         onAnnexesClick={handleAnnexesClick} onAnnexClick={handleAnnexClick} selectedAnnex={selectedAnnex}
         onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick}
-        collapsed={sidebarCollapsed} onExpand={() => setSidebarCollapsed(false)} />
+        collapsed={sidebarCollapsed} onExpand={() => setSidebarCollapsed(false)} onCollapse={() => setSidebarCollapsed(true)} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }} aria-hidden={isMobileOpen || undefined}>
         {/* Top Bar */}

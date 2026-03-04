@@ -35,12 +35,13 @@ const TOOL_ITEMS = [
 
 const TOOL_VIEWS = ["home", "fria", "timeline", "role-identifier", "blog", "blogpost"];
 
-export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick, collapsed, onExpand }) {
+export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick, collapsed, onExpand, onCollapse }) {
   const chapters = EU_AI_ACT_DATA.chapters;
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
   const [expandedSections, setExpandedSections] = useState(new Set());
   const hoverTimerRef = useRef(null);
+  const hoverExpandedRef = useRef(false);
 
   const mobileTrapRef = useFocusTrap(isMobileOpen);
 
@@ -86,10 +87,17 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
 
   const handleMouseEnter = () => {
     if (!isDesktopCollapsed) return;
-    hoverTimerRef.current = setTimeout(() => onExpand?.(), 300);
+    hoverTimerRef.current = setTimeout(() => {
+      hoverExpandedRef.current = true;
+      onExpand?.();
+    }, 300);
   };
   const handleMouseLeave = () => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    if (hoverExpandedRef.current) {
+      hoverExpandedRef.current = false;
+      onCollapse?.();
+    }
   };
 
   // ── Collapsed sidebar (desktop only) ──
@@ -202,9 +210,11 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
           }
           .sidebar-collapsed-content { display: ${isDesktopCollapsed ? "flex" : "none"} !important; }
           .sidebar-expanded-content { display: ${isDesktopCollapsed ? "none" : "flex"} !important; }
+          .sidebar-collapse-btn { display: ${isDesktopCollapsed ? "none" : "block"} !important; }
         }
         @media (max-width: 1023px) {
           .sidebar-close-btn { display: block !important; }
+          .sidebar-collapse-btn { display: none !important; }
           .sidebar-collapsed-content { display: none !important; }
           .sidebar-expanded-content { display: flex !important; }
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
@@ -227,10 +237,21 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                 <p style={{ fontSize: 20, fontWeight: 400, color: COLORS.textPrimary, margin: 0, fontFamily: SERIF }}>EU AI Act</p>
                 <p style={{ fontSize: 11, color: COLORS.warmText, margin: "2px 0 0", fontFamily: SANS }}>Regulation (EU) 2024/1689</p>
               </div>
-              <button className="sidebar-close-btn" onClick={() => setIsMobileOpen(false)} aria-label="Close navigation"
-                style={{ display: "none", padding: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, borderRadius: 8 }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-              </button>
+              <div style={{ display: "flex", gap: 4 }}>
+                {/* Desktop collapse button */}
+                <button className="sidebar-collapse-btn" onClick={() => { hoverExpandedRef.current = false; onCollapse?.(); }} aria-label="Collapse sidebar"
+                  title="Collapse sidebar"
+                  style={{ display: "none", padding: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, borderRadius: 8, transition: "all 0.15s" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "#f5f2ed"}
+                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="11 17 6 12 11 7" /><polyline points="18 17 13 12 18 7" /></svg>
+                </button>
+                {/* Mobile close button */}
+                <button className="sidebar-close-btn" onClick={() => setIsMobileOpen(false)} aria-label="Close navigation"
+                  style={{ display: "none", padding: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, borderRadius: 8 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                </button>
+              </div>
             </div>
           </div>
 
