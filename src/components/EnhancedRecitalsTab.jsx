@@ -164,7 +164,7 @@ export default function EnhancedRecitalsTab({ onArticleClick, initialRecital }) 
                     </span>
                   )}
                   {!isOpen && !previewText && (
-                    <span style={{ fontSize: 13, color: "#cbd5e1", fontStyle: "italic" }}>Recital {num}</span>
+                    <span style={{ fontSize: 13, color: "#7c8ca0", fontStyle: "italic" }}>Recital {num}</span>
                   )}
                 </button>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>

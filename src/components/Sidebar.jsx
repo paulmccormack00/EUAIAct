@@ -509,7 +509,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                     onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "#f7f5f2"; }}
                     onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
                   >
-                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: isActive ? color : "#cbd5e1", flexShrink: 0 }} />
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: isActive ? color : "#b0bac8", flexShrink: 0 }} />
                     {label}
                   </a>
                 );

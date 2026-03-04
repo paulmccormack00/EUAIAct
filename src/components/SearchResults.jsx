@@ -72,7 +72,7 @@ export default function SearchResults({ query, onArticleClick }) {
         <div style={{ textAlign: "center", padding: "64px 0" }}>
           <img src={ASTRO_LOST} alt="" width="140" height="140" aria-hidden="true" style={{ height: 140, opacity: 0.4, margin: "0 auto 16px", display: "block" }} />
           <p style={{ color: "#4a5f74", fontSize: 16, fontFamily: SANS }}>No results found for "{query}"</p>
-          <p style={{ color: "#cbd5e1", fontSize: 14, marginTop: 4, fontFamily: SANS }}>Try different keywords</p>
+          <p style={{ color: "#7c8ca0", fontSize: 14, marginTop: 4, fontFamily: SANS }}>Try different keywords</p>
         </div>
       )}
     </div>

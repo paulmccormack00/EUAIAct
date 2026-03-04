@@ -56,7 +56,8 @@ const COLORS = {
   textSecondary: "#4a5568",
   textMuted: "#4d5d71",
   textPlaceholder: "#4a5f74",
-  textFaint: "#cbd5e1",
+  textFaint: "#7c8ca0",
+  borderFaint: "#b0bac8",
 
   // Borders
   borderDefault: "#e8e4de",

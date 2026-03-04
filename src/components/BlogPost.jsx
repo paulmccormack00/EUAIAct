@@ -157,7 +157,7 @@ export default function BlogPost({ slug, onBlogClick, onArticleClick }) {
                     {step.ref && <span style={{ display: "block", fontSize: 11, color: step.type === "start" ? "#b0b8d4" : "#4a5f74", marginTop: 2 }}>{step.ref}</span>}
                   </div>
                   {i < block.steps.length - 1 && (
-                    <div style={{ width: 2, height: 20, background: "#cbd5e1" }} />
+                    <div style={{ width: 2, height: 20, background: "#b0bac8" }} />
                   )}
                 </div>
               ))}

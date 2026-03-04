@@ -199,7 +199,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
   .heatmap-item.impacted { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-weight: 600; }
   .heatmap-item.clear { background: #f8fafc; border: 1px solid #e5e7eb; color: #9ca3af; }
   .heatmap-item.impacted .dot { background: #dc2626; }
-  .heatmap-item.clear .dot { background: #cbd5e1; }
+  .heatmap-item.clear .dot { background: #b0bac8; }
   .next-steps { background: #f0f4ff; border: 1px solid #c7d6ec; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; page-break-before: always; }
   .next-steps ol { padding-left: 20px; font-size: 13px; color: #374151; }
   .next-steps li { margin-bottom: 4px; }
@@ -360,7 +360,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
+                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#1e3a5f" : "#b0bac8"}`,
                 background: selected ? "#1e3a5f" : "white", display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, marginTop: 1, transition: "all 0.15s",
               }}>
@@ -422,7 +422,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
+                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#1e3a5f" : "#b0bac8"}`,
                 background: selected ? "#1e3a5f" : "white", display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, marginTop: 1, transition: "all 0.15s",
               }}>
@@ -508,7 +508,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 20, height: 20, borderRadius: "50%", border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
+                width: 20, height: 20, borderRadius: "50%", border: `2px solid ${selected ? "#1e3a5f" : "#b0bac8"}`,
                 background: selected ? "#1e3a5f" : "white", display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, marginTop: 2,
               }}>
@@ -556,7 +556,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#dc2626" : "#cbd5e1"}`,
+                width: 22, height: 22, borderRadius: 6, border: `2px solid ${selected ? "#dc2626" : "#b0bac8"}`,
                 background: selected ? "#dc2626" : "white", display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, marginTop: 1,
               }}>
@@ -607,7 +607,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
               }}
             >
               <div style={{
-                width: 20, height: 20, borderRadius: "50%", border: `2px solid ${selected ? "#1e3a5f" : "#cbd5e1"}`,
+                width: 20, height: 20, borderRadius: "50%", border: `2px solid ${selected ? "#1e3a5f" : "#b0bac8"}`,
                 background: selected ? "#1e3a5f" : "white", display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0,
               }}>
@@ -733,7 +733,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
                   border: `1px solid ${impacted ? "#fecaca" : "#e2e8f0"}`,
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: impacted ? "#dc2626" : "#cbd5e1" }} />
+                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: impacted ? "#dc2626" : "#b0bac8" }} />
                     <span style={{ fontSize: 13, fontWeight: 500, color: impacted ? "#991b1b" : "#4a5f74", fontFamily: SANS }}>{right.label}</span>
                   </div>
                 </div>
