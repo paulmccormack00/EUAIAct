@@ -40,9 +40,6 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
   const themes = EU_AI_ACT_DATA.themes;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
   const [expandedSections, setExpandedSections] = useState(new Set());
-  const hoverTimerRef = useRef(null);
-  const hoverExpandedRef = useRef(false);
-
   const mobileTrapRef = useFocusTrap(isMobileOpen);
 
   const toggleChapter = (id) => setExpandedChapters((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -85,20 +82,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
     transition: "transform 0.3s ease, width 0.25s ease",
   };
 
-  const handleMouseEnter = () => {
-    if (!isDesktopCollapsed) return;
-    hoverTimerRef.current = setTimeout(() => {
-      hoverExpandedRef.current = true;
-      onExpand?.();
-    }, 300);
-  };
-  const handleMouseLeave = () => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    if (hoverExpandedRef.current) {
-      hoverExpandedRef.current = false;
-      onCollapse?.();
-    }
-  };
+  // No hover-to-expand — use explicit click interactions only
 
   // ── Collapsed sidebar (desktop only) ──
   const collapsedContent = (
@@ -220,8 +204,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
         }
       `}</style>
-      <nav ref={mobileTrapRef} className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}
-        onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <nav ref={mobileTrapRef} className="sidebar-container" aria-label="EU AI Act navigation" style={sidebarStyle}>
 
         {/* Collapsed view (desktop only) */}
         <div className="sidebar-collapsed-content" style={{ display: "none", flexDirection: "column", height: "100%" }}>
@@ -239,7 +222,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
               </div>
               <div style={{ display: "flex", gap: 4 }}>
                 {/* Desktop collapse button */}
-                <button className="sidebar-collapse-btn" onClick={() => { hoverExpandedRef.current = false; onCollapse?.(); }} aria-label="Collapse sidebar"
+                <button className="sidebar-collapse-btn" onClick={() => onCollapse?.()} aria-label="Collapse sidebar"
                   title="Collapse sidebar"
                   style={{ display: "none", padding: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, borderRadius: 8, transition: "all 0.15s" }}
                   onMouseEnter={e => e.currentTarget.style.background = "#f5f2ed"}
