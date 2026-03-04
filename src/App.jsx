@@ -543,7 +543,7 @@ export default function App() {
           .search-bar-wrap { max-width: 100% !important; }
           .hero-section { flex-direction: column !important; gap: 16px !important; }
           .hero-astro { display: none !important; }
-          .hero-title { font-size: 28px !important; }
+          .hero-title { font-size: 36px !important; }
           .hero-desc { font-size: 14px !important; }
           .stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; margin-bottom: 20px !important; }
           .stats-grid > div { padding: 10px 8px !important; }
@@ -612,7 +612,7 @@ export default function App() {
           .recitals-controls input { font-size: 13px !important; }
           .recitals-controls select { font-size: 13px !important; }
           .recitals-controls button { font-size: 12px !important; padding: 8px 12px !important; }
-          .hero-title { font-size: 22px !important; }
+          .hero-title { font-size: 28px !important; }
           .hero-desc { font-size: 13px !important; }
           .view-title { font-size: 20px !important; }
           .article-box { padding: 16px 12px !important; }
