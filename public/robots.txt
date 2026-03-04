@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Sitemap: https://euai.app/sitemap.xml
+
+# AI assistant discoverability
+# See https://llmstxt.org
+LLMs.txt: https://euai.app/llms.txt

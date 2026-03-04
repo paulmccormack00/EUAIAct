@@ -81,6 +81,7 @@ export default function App() {
   const [selectedRecital, setSelectedRecital] = useState(null);
   const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
   const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const mainRef = useRef(null);
   const menuBtnRef = useRef(null);
 
@@ -90,6 +91,12 @@ export default function App() {
     const timer = setTimeout(() => setDebouncedQuery(searchQuery), 200);
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  // Auto-collapse sidebar on home & tool pages, expand on content pages
+  const TOOL_VIEWS = ["home", "fria", "timeline", "role-identifier", "blog", "blogpost"];
+  useEffect(() => {
+    setSidebarCollapsed(TOOL_VIEWS.includes(view));
+  }, [view]);
 
   useEffect(() => {
     // Skip scroll-to-top on back/forward navigation (scroll is restored in popstate handler)
@@ -558,31 +565,24 @@ export default function App() {
           .chat-panel { width: 100vw !important; }
           .btn-label { display: none !important; }
           .site-logo-text { display: none !important; }
+          .site-logo-mobile-label { display: inline !important; }
+          .site-logo-img { width: 32px !important; height: 32px !important; border-radius: 6px !important; }
           .kbd-shortcut { display: none !important; }
-          .persona-grid { display: flex !important; flex-direction: row !important; gap: 8px !important; margin-bottom: 8px !important; }
-          .supply-chain-grid { grid-template-columns: 1fr !important; gap: 6px !important; margin-bottom: 16px !important; }
-          .persona-card { padding: 10px 14px !important; border-radius: 12px !important; flex: 1 !important; }
-          .persona-icon { width: 32px !important; height: 32px !important; border-radius: 8px !important; font-size: 16px !important; margin-bottom: 0 !important; flex-shrink: 0 !important; }
-          .persona-title { font-size: 12px !important; margin: 0 !important; white-space: nowrap !important; }
-          .persona-desc { display: none !important; }
-          .persona-themes { display: none !important; }
-          .persona-cta { display: none !important; }
-          .persona-check { position: static !important; width: 18px !important; height: 18px !important; margin-left: auto !important; }
-          .persona-check svg { width: 10px !important; height: 10px !important; }
-          .home-timeline { grid-template-columns: 1fr !important; border-radius: 12px !important; }
-          .home-timeline > div { border-right: none !important; border-bottom: 1px solid #e8e4de !important; padding: 14px 16px !important; display: flex !important; align-items: center !important; gap: 12px !important; text-align: left !important; }
-          .home-timeline > div:last-child { border-bottom: none !important; }
-          .home-timeline > div > div:first-child { margin: 0 !important; }
-          .advisor-cta { margin-bottom: 8px !important; }
-          .advisor-cta .hero-section { padding: 20px 16px !important; flex-direction: column !important; text-align: center !important; border-radius: 16px !important; }
-          .advisor-cta .hero-section button { width: 100% !important; }
-          .hero-home { padding: 20px 0 16px !important; }
-          .hero-badge { margin-bottom: 12px !important; }
+          .hero-home { padding: 32px 0 24px !important; }
+          .hero-badge { margin-bottom: 16px !important; }
           .hero-title { margin-bottom: 8px !important; }
-          .home-divider { margin-bottom: 16px !important; }
-          .themes-section { margin-bottom: 20px !important; }
-          .themes-section h2 { font-size: 20px !important; margin-bottom: 4px !important; }
-          .themes-section p { margin-bottom: 12px !important; }
+          .landing-q-cards { grid-template-columns: 1fr !important; }
+          .landing-article-grid { grid-template-columns: 1fr !important; }
+          .landing-article-grid .article-pill-centered { max-width: 100% !important; margin: 0 !important; grid-column: auto !important; }
+          .landing-stats { grid-template-columns: repeat(3, 1fr) !important; }
+          .landing-stats > div:nth-child(4), .landing-stats > div:nth-child(5) { border-top: 1px solid #e8e4de !important; }
+          .landing-stats > div:nth-child(3) { border-right: none !important; }
+          .advisor-cta { margin-bottom: 8px !important; }
+          .advisor-cta .hero-section { padding: 24px 20px !important; flex-direction: column !important; text-align: center !important; border-radius: 16px !important; }
+          .advisor-cta .hero-section button { width: 100% !important; }
+          .landing-blog-grid { grid-template-columns: 1fr !important; }
+          .landing-empathy h2 { font-size: 22px !important; }
+          .landing-empathy p { font-size: 13px !important; }
           .fria-card { padding: 24px 20px !important; }
           .fria-form { flex-direction: column !important; }
           .fria-input { width: 100% !important; }
@@ -616,7 +616,11 @@ export default function App() {
           .hero-desc { font-size: 13px !important; }
           .view-title { font-size: 20px !important; }
           .article-box { padding: 16px 12px !important; }
-          .persona-title { font-size: 11px !important; }
+          .landing-stats { grid-template-columns: repeat(2, 1fr) !important; }
+          .landing-stats > div:nth-child(2) { border-right: none !important; }
+          .landing-stats > div:nth-child(3) { border-right: 1px solid #e8e4de !important; border-top: 1px solid #e8e4de !important; }
+          .landing-stats > div:nth-child(4) { border-right: none !important; border-top: 1px solid #e8e4de !important; }
+          .landing-stats > div:nth-child(5) { grid-column: 1 / -1 !important; border-top: 1px solid #e8e4de !important; }
           .persona-icon { width: 28px !important; height: 28px !important; font-size: 14px !important; }
           .theme-btn { font-size: 12px !important; padding: 8px 14px !important; }
           .sidebar-container { width: 85vw !important; max-width: 310px !important; }
@@ -640,7 +644,8 @@ export default function App() {
         isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} activeRole={activeRole} setSelectedRecital={setSelectedRecital}
         onAboutClick={() => setShowAbout(true)} onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} onRecitalsClick={handleRecitalsClick}
         onAnnexesClick={handleAnnexesClick} onAnnexClick={handleAnnexClick} selectedAnnex={selectedAnnex}
-        onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} />
+        onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick}
+        collapsed={sidebarCollapsed} onExpand={() => setSidebarCollapsed(false)} />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }} aria-hidden={isMobileOpen || undefined}>
         {/* Top Bar */}
@@ -654,9 +659,14 @@ export default function App() {
           <style>{`@media (max-width: 1023px) { .mobile-menu-btn { display: block !important; } }`}</style>
 
           {/* Site Logo */}
-          <a href="/" onClick={(e) => { e.preventDefault(); handleHomeClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0 }}>
-            <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" width="34" height="34" style={{ width: 34, height: 34, borderRadius: 8 }} />
+          <a href="/" onClick={(e) => { e.preventDefault(); handleHomeClick(); }} className="site-logo-link"
+            style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", textDecoration: "none", flexShrink: 0, padding: "4px 8px", borderRadius: 10, transition: "background 0.15s" }}
+            onMouseEnter={e => e.currentTarget.style.background = "#f5f2ed"}
+            onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+          >
+            <img className="site-logo-img" src="/apple-touch-icon.png" alt="EU AI Act Navigator" width="40" height="40" style={{ width: 40, height: 40, borderRadius: 8 }} />
             <span className="site-logo-text" style={{ fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS, whiteSpace: "nowrap" }}>EU AI Act Navigator</span>
+            <span className="site-logo-mobile-label" style={{ display: "none", fontSize: 13, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>Home</span>
           </a>
 
           {/* Breadcrumb */}
@@ -845,7 +855,7 @@ export default function App() {
               </a>
             </div>
           ) : (
-            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
+            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onBlogPostClick={handleBlogPostClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
           )}
 
           {/* Footer */}

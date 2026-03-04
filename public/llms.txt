@@ -1,0 +1,47 @@
+# EU AI Act Navigator
+
+> Interactive guide to Regulation (EU) 2024/1689 — the European Union Artificial Intelligence Act. Browse all 113 articles, 180 recitals, and 13 annexes with plain-English summaries, cross-references, role-based filtering, compliance tools, and an AI-powered advisor.
+
+Website: https://euai.app
+Author: Paul McCormack, Kormoon (https://kormoon.ai)
+Source regulation: Regulation (EU) 2024/1689, Official Journal of the European Union
+
+## Key Pages
+
+- [Homepage](https://euai.app/): Overview, role-based navigation, search, and compliance tools
+- [FRIA Screening Tool](https://euai.app/fria): 7-question tool to determine if you need a Fundamental Rights Impact Assessment under Article 27
+- [Compliance Timeline](https://euai.app/timeline): Every EU AI Act deadline from February 2025 to August 2027
+- [Role Identifier](https://euai.app/role-identifier): Guided questionnaire to identify your role (provider, deployer, importer, distributor, authorised representative, or affected person)
+- [Blog / Insights](https://euai.app/blog): Practitioner-led analysis and commentary on EU AI Act compliance
+- [Annexes](https://euai.app/annexes): All 13 annexes — high-risk classifications, conformity procedures, technical documentation
+- [Recitals](https://euai.app/recitals): All 180 recitals, searchable and cross-referenced with articles
+
+## Content
+
+- **113 Articles**: Full legislative text with plain-English summaries, related recitals, cross-references, and role-based relevance tagging
+- **180 Recitals**: Searchable recital text cross-referenced to relevant articles
+- **13 Annexes**: High-risk AI classifications (Annex III), technical documentation (Annex IV), conformity assessment (Annexes VI-VII), and more
+- **19 Thematic Groupings**: Articles organised by topic — prohibited practices, high-risk classification, transparency, GPAI, governance, penalties, and more
+- **6 Stakeholder Roles**: Provider, Deployer, Importer, Distributor, Authorised Representative, Affected Person — each with role-specific article filtering
+- **AI Advisor**: Claude-powered chat assistant for plain-English EU AI Act answers
+
+## Interactive Tools
+
+- **FRIA Screening Tool**: Determine FRIA obligations under Article 27 — answer 7 questions
+- **Role Identifier**: Guided questionnaire to discover your role under the EU AI Act
+- **Compliance Timeline**: Visual timeline of all key deadlines and milestones (2024–2027)
+- **Full-Text Search**: Search across all articles and recitals
+- **Theme Browser**: Browse articles grouped by 19 regulatory themes
+
+## Blog Posts
+
+- [Article 5 Explained: The 8 Prohibited AI Practices You Need to Know](https://euai.app/blog/prohibited-ai-practices-article-5-guide)
+- [Is Your AI System High-Risk? A Practical Guide to Article 6 and Annex III](https://euai.app/blog/high-risk-ai-classification-guide)
+- [General-Purpose AI Models: What Articles 53 and 55 Require](https://euai.app/blog/gpai-obligations-article-53-55-guide)
+- [EU AI Act Compliance Timeline: Every Deadline from 2024 to 2027](https://euai.app/blog/eu-ai-act-compliance-timeline-2024-2027)
+- [Article 27 Deep Dive: FRIA Requirements Explained](https://euai.app/blog/article-27-fria-requirements-explained)
+- [FRIA vs DPIA: What's the Difference and How They Work Together](https://euai.app/blog/fria-vs-dpia-difference)
+
+## Optional
+
+- [llms-full.txt](https://euai.app/llms-full.txt): Extended version with full article index, annex details, theme listings, and role definitions
