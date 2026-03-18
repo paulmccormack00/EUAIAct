@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS, API_BASE } from "../constants.js";
 
 const ANNEX_III_CATEGORIES = [
   { id: "biometrics", label: "Biometric identification & categorisation", description: "Real-time or post remote biometric identification systems, emotion recognition, biometric categorisation", examples: "Facial recognition, fingerprint scanners, emotion detection in workplaces", articles: "Annex III, 1" },
@@ -141,7 +141,7 @@ export default function FRIAScreeningTool({ onArticleClick }) {
     }
     setEmailStatus("loading");
     try {
-      const res = await fetch("/api/subscribe", {
+      const res = await fetch(`${API_BASE}/api/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

@@ -153,4 +153,6 @@ button:focus:not(:focus-visible), input:focus:not(:focus-visible), textarea:focu
 }
 `;
 
-export { FONT_FACE_CSS, SERIF, SANS, COLORS, RADIUS, SHADOWS, FOCUS_CSS };
+const API_BASE = "https://euai.app";
+
+export { FONT_FACE_CSS, SERIF, SANS, COLORS, RADIUS, SHADOWS, FOCUS_CSS, API_BASE };

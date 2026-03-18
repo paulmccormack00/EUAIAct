@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, SHADOWS, API_BASE } from "../constants.js";
 import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import { RECITAL_TO_ARTICLE_MAP } from "../data/recital-maps.js";
 import useFocusTrap from "../hooks/useFocusTrap.js";
 
-const CHAT_BOUNCE_STYLE = `@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }`;
+const CHAT_BOUNCE_STYLE = `@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+.chat-panel-header { padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top, 16px)); }
+.chat-panel-footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }`;
 
 export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
@@ -61,7 +63,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       controllerRef.current = controller;
       const timeout = setTimeout(() => controller.abort(), 30000);
 
-      const resp = await fetch("/api/chat", {
+      const resp = await fetch(`${API_BASE}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,
@@ -250,7 +252,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
 
   useEffect(() => {
     if (!isOpen) return;
-    fetch("/api/trending").then(r => r.json()).then(data => {
+    fetch(`${API_BASE}/api/trending`).then(r => r.json()).then(data => {
       if (data.prompts && data.prompts.length === 4) setSuggestedQuestions(data.prompts);
     }).catch(() => {});
   }, [isOpen]);
@@ -271,7 +273,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         transition: "transform 0.3s ease",
       }}>
         {/* Header */}
-        <div style={{ flexShrink: 0, padding: "16px 20px", borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className="chat-panel-header" style={{ flexShrink: 0, borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }} aria-hidden="true">⚖</div>
             <div>
@@ -348,7 +350,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         </div>
 
         {/* Input */}
-        <div style={{ flexShrink: 0, padding: "12px 16px", borderTop: `1px solid ${COLORS.borderDefault}`, background: COLORS.white }}>
+        <div className="chat-panel-footer" style={{ flexShrink: 0, borderTop: `1px solid ${COLORS.borderDefault}`, background: COLORS.white }}>
           <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
             <textarea
               ref={inputRef}

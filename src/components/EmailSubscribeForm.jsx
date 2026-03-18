@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
+import { SANS, SERIF, COLORS, RADIUS, API_BASE } from "../constants.js";
 
 export default function EmailSubscribeForm({
   heading,
@@ -26,7 +26,7 @@ export default function EmailSubscribeForm({
     }
     setStatus("loading");
     try {
-      const res = await fetch("/api/subscribe", {
+      const res = await fetch(`${API_BASE}/api/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
