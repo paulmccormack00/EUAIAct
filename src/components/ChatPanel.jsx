@@ -13,8 +13,6 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(() => "s_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36));
-  const [questionCount, setQuestionCount] = useState(0);
-  const FREE_LIMIT = 5;
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const trapRef = useFocusTrap(isOpen);
@@ -36,20 +34,9 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
   useEffect(() => { if (isOpen && inputRef.current) setTimeout(() => inputRef.current.focus(), 300); }, [isOpen]);
 
-  const isLimited = questionCount >= FREE_LIMIT;
-
   const sendMessage = async () => {
     const q = input.trim();
     if (!q || loading) return;
-
-    if (isLimited) {
-      setMessages(prev => [...prev,
-        { role: "user", content: q },
-        { role: "assistant", content: "You've used your " + FREE_LIMIT + " complimentary questions for this session. To continue using the AI Act Advisor, get in touch at paul@kormoon.ai to discuss access options.\n\nIn the meantime, you can still browse all 113 articles, plain English summaries, and thematic groupings in the navigator." }
-      ]);
-      setInput("");
-      return;
-    }
 
     setInput("");
     const userMsg = { role: "user", content: q };
@@ -126,13 +113,13 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
           }
         }
         readerRef.current = null;
-        setQuestionCount(prev => prev + 1);
+
         return; // loading already set to false above
       } else {
         // Non-streaming fallback (JSON response)
         const data = await resp.json();
         setMessages(prev => [...prev, { role: "assistant", content: data.response }]);
-        setQuestionCount(prev => prev + 1);
+
       }
     } catch (e) {
       console.error("Chat error:", e);
@@ -281,16 +268,9 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Gemini</p>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            {questionCount > 0 && (
-              <span style={{ fontSize: 11, color: isLimited ? "#dc2626" : "#4a5f74", fontFamily: SANS, fontWeight: 500 }}>
-                {questionCount}/{FREE_LIMIT}
-              </span>
-            )}
           <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#4a5f74" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
-          </div>
         </div>
 
         {/* Disclaimer */}
