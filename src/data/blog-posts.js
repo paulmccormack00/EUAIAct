@@ -9,7 +9,7 @@ export const BLOG_POSTS = [
     readTime: "12 min read",
     category: "Deep Dive",
     tags: ["FRIA", "Article 27", "High-Risk AI", "Deployer Obligations"],
-    metaDescription: "Comprehensive guide to Article 27 of the EU AI Act — FRIA requirements, who must comply, the 2 August 2026 deadline, and how to prepare your fundamental rights impact assessment.",
+    metaDescription: "Who must do a FRIA under Article 27? Public bodies, public service providers, and credit/insurance deployers. Deadline: 2 Aug 2026. Full requirements and prep guide.",
     metaKeywords: "FRIA EU AI Act, Article 27 AI Act, fundamental rights impact assessment, FRIA template, EU AI Act deployer obligations",
     content: [
       { type: "lead", text: "Article 27 of the EU AI Act introduces the fundamental rights impact assessment (FRIA) — a mandatory obligation for certain deployers of high-risk AI systems. With the 2 August 2026 deadline approaching, this article explains exactly who must comply, what a FRIA involves, and how to prepare." },
@@ -88,7 +88,7 @@ export const BLOG_POSTS = [
     readTime: "10 min read",
     category: "Comparison",
     tags: ["FRIA", "DPIA", "Article 27(4)", "GDPR", "Integration"],
-    metaDescription: "FRIA vs DPIA comparison — how the EU AI Act's fundamental rights impact assessment differs from the GDPR's data protection impact assessment, and how Article 27(4) connects them.",
+    metaDescription: "FRIA vs DPIA: what each covers, where they overlap, and how Article 27(4) lets you reuse your existing DPIA. Side-by-side comparison with practical guidance.",
     metaKeywords: "FRIA vs DPIA, Article 27(4), DPIA AI Act, fundamental rights impact assessment vs data protection impact assessment",
     content: [
       { type: "lead", text: "If you're a DPO or compliance officer preparing for the EU AI Act, you've likely asked: how does the new FRIA relate to the DPIA I already do under GDPR? This article breaks down the differences, overlaps, and the critical Article 27(4) bridge provision." },
@@ -183,7 +183,7 @@ export const BLOG_POSTS = [
     readTime: "11 min read",
     category: "Deep Dive",
     tags: ["Article 5", "Prohibited Practices", "AI Literacy", "Compliance"],
-    metaDescription: "Complete guide to the 8 prohibited AI practices under Article 5 of the EU AI Act — subliminal manipulation, social scoring, predictive policing, and more. In force since February 2025.",
+    metaDescription: "All 8 banned AI practices under Article 5 — in force since Feb 2025. Fines up to EUR 35M. Subliminal manipulation, social scoring, facial scraping, and 5 more explained.",
     metaKeywords: "prohibited AI practices EU AI Act, Article 5 AI Act, banned AI systems Europe, social scoring AI ban, subliminal manipulation AI",
     content: [
       { type: "lead", text: "Article 5 is the sharpest edge of the EU AI Act. It bans eight categories of AI practice outright — no risk mitigation, no conformity assessment, no exceptions. These prohibitions have been in force since 2 February 2025, making them the first provisions of the AI Act to apply. If your AI system falls into any of these categories, it must be discontinued immediately." },
@@ -250,7 +250,7 @@ export const BLOG_POSTS = [
     readTime: "14 min read",
     category: "Guide",
     tags: ["High-Risk AI", "Article 6", "Annex III", "Classification", "Compliance"],
-    metaDescription: "Practical guide to high-risk AI classification under Article 6 and Annex III of the EU AI Act. Includes the two classification pathways, all 8 Annex III categories, and compliance implications.",
+    metaDescription: "Is your AI system high-risk? Two pathways under Article 6, all 8 Annex III categories explained, plus the Article 6(3) exception. Step-by-step classification guide.",
     metaKeywords: "high-risk AI EU AI Act, Article 6 classification, Annex III AI systems, EU AI Act high-risk requirements, AI risk classification",
     content: [
       { type: "lead", text: "The classification of your AI system as 'high-risk' is the single most consequential determination under the EU AI Act. High-risk systems face the full weight of the Act's requirements — risk management, data governance, technical documentation, human oversight, accuracy, robustness, and cybersecurity. Getting this classification right is the foundation of EU AI Act compliance." },
@@ -328,7 +328,7 @@ export const BLOG_POSTS = [
     readTime: "10 min read",
     category: "Guide",
     tags: ["GPAI", "Article 53", "Article 55", "Systemic Risk", "Provider Obligations"],
-    metaDescription: "Guide to GPAI obligations under Articles 53 and 55 of the EU AI Act. Covers technical documentation, copyright compliance, transparency, systemic risk requirements, and the August 2025 deadline.",
+    metaDescription: "What Articles 53–55 require from GPAI providers — technical docs, copyright policy, training data summaries, and systemic risk rules. Effective since Aug 2025.",
     metaKeywords: "GPAI EU AI Act, general purpose AI obligations, Article 53, Article 55 systemic risk, GPAI model compliance",
     content: [
       { type: "lead", text: "General-purpose AI models — think foundation models, large language models, and multimodal systems — have their own dedicated compliance framework under the EU AI Act. Articles 53 and 55 establish what providers of these models must do, with obligations that have applied since 2 August 2025. This guide breaks down the requirements for both standard GPAI models and those with systemic risk." },
@@ -395,7 +395,7 @@ export const BLOG_POSTS = [
     readTime: "9 min read",
     category: "Guide",
     tags: ["Timeline", "Compliance Deadlines", "Phased Application", "Article 113"],
-    metaDescription: "Complete EU AI Act compliance timeline from August 2024 to August 2027. Every deadline explained — prohibited practices, GPAI, high-risk AI systems, FRIA, and product safety alignment.",
+    metaDescription: "Every EU AI Act deadline from 2024–2027 in one guide. Prohibited practices and GPAI are already live. High-risk obligations hit Aug 2026. Phase-by-phase breakdown.",
     metaKeywords: "EU AI Act timeline, AI Act compliance deadlines, when does EU AI Act apply, AI Act 2026 deadline, EU AI Act phased application",
     content: [
       { type: "lead", text: "The EU AI Act doesn't switch on all at once. Regulation (EU) 2024/1689 entered into force on 1 August 2024, but its provisions apply in phases over three years. This article maps every key deadline, explains what becomes applicable at each stage, and helps you prioritise your compliance effort." },

@@ -223,6 +223,23 @@ export default function App() {
     return () => window.removeEventListener("keydown", handler);
   }, [isMobileOpen]);
 
+  // --- SEO override maps for high-impression pages ---
+  const ARTICLE_META_OVERRIDES = {
+    99: { title: "EU AI Act Fines: Up to EUR 35M or 7% Turnover (Art. 99)", description: "Full penalty framework — EUR 35M for prohibited practices, EUR 15M for other violations. Exact thresholds, calculation rules, and enforcement explained in plain English." },
+    101: { title: "GPAI Model Fines: Up to EUR 15M or 3% Turnover (Art. 101)", description: "How the Commission fines general-purpose AI model providers. Penalty caps, periodic payments, and what triggers enforcement action under Article 101." },
+    43: { title: "EU AI Act Conformity Assessment Explained (Art. 43)", description: "Two conformity assessment paths for high-risk AI: self-assessment vs notified body. When each applies, the procedure, and how to prepare. Full article text with plain English summary." },
+    11: { title: "Technical Documentation for High-Risk AI (Art. 11)", description: "What technical documentation high-risk AI providers must create before market placement. Required content, Annex IV cross-reference, and plain English summary." },
+    5: { title: "8 Prohibited AI Practices — Banned Since Feb 2025 (Art. 5)", description: "The complete list of banned AI systems under Article 5: social scoring, subliminal manipulation, facial scraping, and more. Fines up to EUR 35M. In force now." },
+    27: { title: "FRIA Requirements: Who Must Comply by Aug 2026 (Art. 27)", description: "Fundamental Rights Impact Assessment obligations for deployers of high-risk AI. Who must comply, the 2 Aug 2026 deadline, and what to assess. Full article text." },
+  };
+  const ANNEX_META_OVERRIDES = {
+    3: { title: "Annex III: All 8 High-Risk AI Categories (EU AI Act)", description: "Complete list of high-risk AI use cases — biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, and justice. Full text." },
+    11: { title: "Annex XI: GPAI Technical Documentation Requirements", description: "What GPAI providers must document — model architecture, training data, compute, evaluation results, and risk mitigation. Required by Article 53. Full text." },
+    13: { title: "Annex XIII: Systemic Risk Criteria for GPAI Models", description: "How the Commission determines systemic risk beyond the 10^25 FLOPs threshold. Evaluation criteria for capabilities, reach, and impact under Article 51." },
+    8: { title: "Annex VIII: High-Risk AI Registration Requirements", description: "Information providers and deployers must submit to the EU database. Three sections covering provider details, non-high-risk designations, and deployer registration." },
+    1: { title: "Annex I: EU Harmonisation Legislation & AI Act Scope", description: "Which existing EU product safety laws trigger high-risk AI classification under Article 6(1). New Legislative Framework and other harmonisation legislation listed." },
+  };
+
   // --- Dynamic document.title, meta description, canonical, JSON-LD ---
   useEffect(() => {
     const BASE_URL = "https://euai.app";
@@ -231,8 +248,9 @@ export default function App() {
     if (view === "article" && selectedArticle) {
       const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
       const artTitle = art?.title || `Article ${selectedArticle}`;
-      title = `Article ${selectedArticle}: ${artTitle} — EU AI Act Navigator`;
-      description = art ? `Read Article ${selectedArticle} (${artTitle}) of the EU AI Act (Regulation (EU) 2024/1689). Full text, plain English summary, related recitals, and cross-references.` : "";
+      const override = ARTICLE_META_OVERRIDES[selectedArticle];
+      title = override ? override.title : `Article ${selectedArticle}: ${artTitle} — EU AI Act`;
+      description = override ? override.description : (art ? `Article ${selectedArticle} (${artTitle}) of the EU AI Act — full official text with plain English summary, related recitals, and cross-references. Free reference.` : "");
       path = `/article/${selectedArticle}`;
     } else if (view === "theme" && selectedTheme) {
       const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
@@ -245,20 +263,22 @@ export default function App() {
       description = "All 180 recitals of the EU AI Act (Regulation (EU) 2024/1689). Searchable, cross-referenced with articles.";
       path = "/recitals";
     } else if (view === "fria") {
-      title = "FRIA Screening Tool — Am I Required to Do a FRIA? | EU AI Act Navigator";
-      description = "Free interactive screening tool to determine if you need a Fundamental Rights Impact Assessment (FRIA) under Article 27 of the EU AI Act. Answer 7 questions to find out.";
+      title = "Do I Need a FRIA? Free Screening Tool | EU AI Act";
+      description = "Answer 7 questions to find out if you need a Fundamental Rights Impact Assessment under Article 27. Free tool — takes 2 minutes. Results and next steps included.";
       path = "/fria";
     } else if (view === "timeline") {
-      title = "EU AI Act Compliance Timeline — Every Deadline You Need to Know";
-      description = "Interactive timeline of all EU AI Act deadlines from February 2025 to August 2027. Track the FRIA deadline, GPAI obligations, and Digital Omnibus updates.";
+      const fullEnforcement = new Date("2026-08-02");
+      const daysLeft = Math.ceil((fullEnforcement - new Date()) / 86400000);
+      title = daysLeft > 0 ? `EU AI Act Deadlines 2025–2027: ${daysLeft} Days to Full Enforcement` : "EU AI Act Deadlines 2025–2027: Full Enforcement Now Live";
+      description = "7 critical deadlines mapped out. Prohibited practices and AI literacy: live. GPAI obligations: live. High-risk AI and FRIA: 2 Aug 2026. Know exactly what applies when.";
       path = "/timeline";
     } else if (view === "role-identifier") {
-      title = "Role Identifier — What's My Role Under the EU AI Act?";
-      description = "Free interactive tool to identify your role under the EU AI Act. Answer a few questions to discover whether you are a provider, deployer, importer, distributor, authorised representative, or affected person.";
+      title = "What's My Role Under the EU AI Act? Free Identifier Tool";
+      description = "Free tool to identify your obligations — provider, deployer, importer, distributor, or affected person. Answer a few questions to find out which articles apply to you.";
       path = "/role-identifier";
     } else if (view === "blog") {
-      title = "EU AI Act Insights — Practitioner Commentary | EU AI Act Navigator";
-      description = "Practitioner-led analysis of the EU AI Act. FRIA deep dives, DPIA comparisons, risk classification guides, and compliance timelines from an experienced AI governance lawyer.";
+      title = "EU AI Act Blog — Practitioner Guides & Deep Dives";
+      description = "Expert guides on FRIA requirements, GPAI obligations, high-risk classification, prohibited practices, and compliance deadlines. Written by an AI governance lawyer.";
       path = "/blog";
     } else if (view === "blogpost" && blogSlug) {
       const post = BLOG_POSTS.find(p => p.slug === blogSlug);
@@ -271,16 +291,17 @@ export default function App() {
       path = "/annexes";
     } else if (view === "annex" && selectedAnnex) {
       const annex = ANNEXES.find(a => a.id === selectedAnnex);
-      title = annex ? `Annex ${annex.number}: ${annex.title} — EU AI Act Navigator` : "Annex — EU AI Act Navigator";
-      description = annex?.summary || "";
+      const annexOverride = ANNEX_META_OVERRIDES[selectedAnnex];
+      title = annexOverride ? annexOverride.title : (annex ? `Annex ${annex.number}: ${annex.title} — EU AI Act` : "Annex — EU AI Act");
+      description = annexOverride ? annexOverride.description : (annex?.summary || "");
       path = `/annex/${selectedAnnex}`;
     } else if (view === "notfound") {
       title = "Page Not Found — EU AI Act Navigator";
       description = "The page you're looking for doesn't exist.";
       path = window.location.pathname;
     } else {
-      title = "EU AI Act Navigator — Interactive Guide to Regulation (EU) 2024/1689";
-      description = "Navigate the EU AI Act — 113 articles, 180 recitals, 13 annexes, 19 thematic groupings, role-based filtering, and an AI-powered advisor. Free interactive reference.";
+      title = "EU AI Act Navigator — Free Interactive Reference Guide";
+      description = "Browse all 113 articles, 180 recitals, and 13 annexes of the EU AI Act. Plain English summaries, compliance tools, and AI-powered advisor. 100% free.";
       path = "/";
     }
 
@@ -411,10 +432,22 @@ export default function App() {
     if (view === "article" && selectedArticle) {
       const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: `Article ${selectedArticle}: ${art?.title || ""}`, item: BASE_URL + path });
-      jsonLdEl.textContent = JSON.stringify([
+      const articleJsonLd = [
         { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": art ? (() => { const t = art.text.replace(/\n/g, " "); const idx = t.lastIndexOf(".", 300); return idx > 100 ? t.substring(0, idx + 1) : t.substring(0, 300); })() : "", "url": BASE_URL + path },
         { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
-      ]);
+      ];
+      if (selectedArticle === 99) {
+        articleJsonLd.push({
+          ...jsonLd,
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "What is the maximum fine under the EU AI Act?", "acceptedAnswer": { "@type": "Answer", "text": "The maximum fine is EUR 35 million or 7% of total worldwide annual turnover, whichever is higher. This applies to violations of the prohibited AI practices under Article 5." } },
+            { "@type": "Question", "name": "How are EU AI Act fines calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Fines are calculated based on the nature, gravity, and duration of the infringement, the size and market share of the operator, the number of persons affected, the level of intent or negligence, and any mitigating actions taken." } },
+            { "@type": "Question", "name": "Are EU AI Act fines lower for SMEs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Article 99(6) requires that when imposing fines on SMEs and start-ups, the economic viability of the undertaking and its size compared to large enterprises must be taken into account. Fines must be effective, proportionate, and dissuasive while considering the specific needs and interests of SMEs." } },
+          ]
+        });
+      }
+      jsonLdEl.textContent = JSON.stringify(articleJsonLd);
     } else if (view === "theme" && selectedTheme) {
       const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: theme?.name || selectedTheme, item: BASE_URL + path });

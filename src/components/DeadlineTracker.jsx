@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SANS, SERIF, COLORS, RADIUS, SHADOWS } from "../constants.js";
 import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
@@ -160,6 +160,55 @@ export default function DeadlineTracker({ onArticleClick }) {
 
   const friaDeadline = DEADLINES.find(d => d.highlight);
   const daysToFria = friaDeadline ? daysUntil(friaDeadline.isoDate) : 0;
+
+  // FAQPage structured data for timeline questions
+  useEffect(() => {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When does the EU AI Act fully apply?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The EU AI Act fully applies on 2 August 2026 for high-risk AI systems, FRIA requirements, and most remaining provisions. Prohibited AI practices have been in force since February 2025, and GPAI model obligations since August 2025." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the FRIA deadline under the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The Fundamental Rights Impact Assessment (FRIA) deadline is 2 August 2026. It applies to public bodies, public service providers, and credit or insurance deployers using high-risk AI systems listed in Annex III." }
+        },
+        {
+          "@type": "Question",
+          "name": "When do GPAI obligations apply?",
+          "acceptedAnswer": { "@type": "Answer", "text": "General-purpose AI model obligations under Articles 53-55 have applied since 2 August 2025. All GPAI model providers placing models on the EU market must comply with technical documentation, copyright policy, and training data summary requirements." }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the penalties for non-compliance with the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Penalties reach up to EUR 35 million or 7% of global annual turnover for prohibited practice violations under Article 5. Other infringements carry fines up to EUR 15 million or 3% of turnover. SME economic viability must be considered." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which AI practices are already banned under the EU AI Act?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Eight AI practices have been banned since 2 February 2025 under Article 5: subliminal manipulation, exploitation of vulnerabilities, social scoring, predictive policing based on profiling, untargeted facial image scraping, workplace and education emotion recognition, biometric categorisation for sensitive attributes, and real-time remote biometric identification in public spaces." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will the Digital Omnibus change EU AI Act deadlines?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The European Commission's Digital Omnibus proposal is under legislative negotiation and may simplify certain obligations for SMEs or adjust timelines. However, nothing is confirmed. Organisations should prepare for the existing August 2026 deadline regardless of the outcome." }
+        }
+      ]
+    };
+    let el = document.getElementById("timeline-faq-jsonld");
+    if (!el) {
+      el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.id = "timeline-faq-jsonld";
+      document.head.appendChild(el);
+    }
+    el.textContent = JSON.stringify(faqSchema);
+    return () => { el.remove(); };
+  }, []);
 
   return (
     <div style={{ maxWidth: 820, margin: "0 auto", padding: "40px 0" }}>

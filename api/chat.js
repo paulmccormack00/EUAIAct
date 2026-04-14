@@ -1,5 +1,5 @@
 // /api/chat.js — Vercel Serverless Function (streaming)
-// Streams responses from Anthropic API and logs questions to Supabase
+// Streams responses from Google Gemini API and logs questions to Supabase
 import rateLimit from "./_rate-limit.js";
 
 export default async function handler(req, res) {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   if (sessionId && (typeof sessionId !== "string" || sessionId.length > 50 || !/^[a-z0-9_]+$/i.test(sessionId))) {
     return res.status(400).json({ error: "Invalid session ID" });
   }
-  if (!process.env.ANTHROPIC_API_KEY) return res.status(500).json({ error: "API key not configured" });
+  if (!process.env.GEMINI_API_KEY) return res.status(500).json({ error: "API key not configured" });
 
   // Input validation: limit message count and length
   if (!Array.isArray(messages) || messages.length > 20) return res.status(400).json({ error: "Too many messages" });
@@ -62,26 +62,32 @@ ${context || ""}
 
 Respond in clear, structured prose suitable for a chat interface. Reference specific articles by number.`;
 
-  try {
-    const anthropicResp = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-5-20250929",
-        max_tokens: 1000,
-        stream: true,
-        system: systemPrompt,
-        messages: messages.map(m => ({ role: m.role, content: m.content })),
-      }),
-    });
+  // Convert messages from our format (role: user/assistant) to Gemini format (role: user/model)
+  const geminiContents = messages.map(m => ({
+    role: m.role === "assistant" ? "model" : "user",
+    parts: [{ text: m.content }],
+  }));
 
-    if (!anthropicResp.ok) {
-      const errText = await anthropicResp.text();
-      console.error("Anthropic API error:", anthropicResp.status, errText);
+  try {
+    const geminiResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: geminiContents,
+          generationConfig: {
+            maxOutputTokens: 1000,
+            temperature: 0.7,
+          },
+        }),
+      }
+    );
+
+    if (!geminiResp.ok) {
+      const errText = await geminiResp.text();
+      console.error("Gemini API error:", geminiResp.status, errText);
       return res.status(502).json({ error: "AI service temporarily unavailable" });
     }
 
@@ -91,7 +97,7 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
     res.setHeader("Connection", "keep-alive");
 
     let fullResponse = "";
-    const reader = anthropicResp.body.getReader();
+    const reader = geminiResp.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
 
@@ -111,14 +117,17 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
         try {
           const event = JSON.parse(data);
 
-          if (event.type === "content_block_delta" && event.delta?.type === "text_delta") {
-            const text = event.delta.text;
+          // Gemini SSE format: { candidates: [{ content: { parts: [{ text: "..." }] } }] }
+          const text = event.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
             fullResponse += text;
             res.write("data: " + JSON.stringify({ text }) + "\n\n");
           }
 
-          if (event.type === "message_stop") {
-            res.write("data: [DONE]\n\n");
+          // Check for finish reason
+          const finishReason = event.candidates?.[0]?.finishReason;
+          if (finishReason && finishReason !== "STOP" && finishReason !== "MAX_TOKENS") {
+            // Safety filter or other stop — still end gracefully
           }
         } catch (e) {
           // Skip malformed JSON chunks
@@ -126,6 +135,7 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
       }
     }
 
+    res.write("data: [DONE]\n\n");
     res.end();
 
     // Log to Supabase after stream completes

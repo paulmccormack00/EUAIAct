@@ -156,7 +156,7 @@ export default function HomeView({ onArticleClick, onChatOpen, onFRIAClick, onTi
             <div>
               <h2 style={{ fontSize: 22, fontWeight: 500, margin: "0 0 10px", fontFamily: SANS }}>Still have questions?</h2>
               <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.65, maxWidth: 520, margin: 0, fontFamily: SANS }}>
-                Ask the AI Advisor — get plain-English answers about obligations, classification, timelines, and compliance requirements. Powered by Claude.
+                Ask the AI Advisor — get plain-English answers about obligations, classification, timelines, and compliance requirements. Powered by Gemini.
               </p>
             </div>
             <button onClick={onChatOpen}

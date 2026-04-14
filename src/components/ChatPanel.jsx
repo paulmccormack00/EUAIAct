@@ -278,7 +278,7 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }} aria-hidden="true">⚖</div>
             <div>
               <h2 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: COLORS.textPrimary, fontFamily: SANS }}>AI Act Advisor</h2>
-              <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Claude</p>
+              <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Gemini</p>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
