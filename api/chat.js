@@ -70,7 +70,7 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
 
   try {
     const geminiResp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
     if (!geminiResp.ok) {
       const errText = await geminiResp.text();
       console.error("Gemini API error:", geminiResp.status, errText);
-      return res.status(502).json({ error: "AI service temporarily unavailable", debug: `${geminiResp.status}: ${errText.substring(0, 500)}` });
+      return res.status(502).json({ error: "AI service temporarily unavailable" });
     }
 
     // Set up SSE streaming to client
