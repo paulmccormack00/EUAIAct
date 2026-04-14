@@ -88,7 +88,7 @@ Respond in clear, structured prose suitable for a chat interface. Reference spec
     if (!geminiResp.ok) {
       const errText = await geminiResp.text();
       console.error("Gemini API error:", geminiResp.status, errText);
-      return res.status(502).json({ error: "AI service temporarily unavailable" });
+      return res.status(502).json({ error: "AI service temporarily unavailable", debug: `${geminiResp.status}: ${errText.substring(0, 500)}` });
     }
 
     // Set up SSE streaming to client
