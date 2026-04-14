@@ -6,18 +6,34 @@ import useFocusTrap from "../hooks/useFocusTrap.js";
 
 const CHAT_BOUNCE_STYLE = `@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
 .chat-panel-header { padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top, 16px)); }
-.chat-panel-footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }`;
+.chat-panel-footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }
+.chat-panel { height: 100vh; height: 100dvh; }`;
 
 export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(() => "s_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36));
+  const [panelHeight, setPanelHeight] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const trapRef = useFocusTrap(isOpen);
   const readerRef = useRef(null);
   const controllerRef = useRef(null);
+
+  // Adjust panel height when iOS keyboard opens/closes
+  useEffect(() => {
+    if (!isOpen) { setPanelHeight(null); return; }
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const onResize = () => setPanelHeight(vv.height);
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+    };
+  }, [isOpen]);
 
   // Cancel any active stream when panel closes or unmounts
   useEffect(() => {
@@ -253,11 +269,13 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
       <div ref={trapRef} className="chat-panel" role="dialog" aria-modal="true" aria-label="AI Act Advisor chat"
         onKeyDown={e => { if (e.key === "Escape") onClose(); }}
         style={{
-        position: "fixed", top: 0, right: 0, bottom: 0, width: 420, maxWidth: "100vw",
+        position: "fixed", top: 0, right: 0, width: 420, maxWidth: "100vw",
+        height: panelHeight ? `${panelHeight}px` : undefined,
         background: COLORS.white, zIndex: 50, display: "flex", flexDirection: "column",
         boxShadow: SHADOWS.modal,
         transform: isOpen ? "translateX(0)" : "translateX(100%)",
         transition: "transform 0.3s ease",
+        overflow: "hidden",
       }}>
         {/* Header */}
         <div className="chat-panel-header" style={{ flexShrink: 0, borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -335,17 +353,26 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
             <textarea
               ref={inputRef}
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={e => {
+                setInput(e.target.value);
+                // Auto-resize textarea height
+                e.target.style.height = "auto";
+                e.target.style.height = Math.min(e.target.scrollHeight, 100) + "px";
+              }}
               onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
               aria-label="Ask a question about the EU AI Act"
               placeholder="Ask about the EU AI Act…"
               rows={1}
               style={{
-                flex: 1, padding: "10px 14px", border: `1.5px solid ${COLORS.borderLight}`, borderRadius: RADIUS.xl, fontSize: 14, fontFamily: SANS,
-                resize: "none", lineHeight: 1.5, maxHeight: 120, minHeight: 40,
+                flex: 1, padding: "10px 14px", border: `1.5px solid ${COLORS.borderLight}`, borderRadius: RADIUS.xl, fontSize: 16, fontFamily: SANS,
+                resize: "none", lineHeight: 1.5, maxHeight: 100, minHeight: 40,
                 transition: "border-color 0.15s",
               }}
-              onFocus={e => e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline}
+              onFocus={e => {
+                e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline;
+                // Scroll input into view on iOS when keyboard opens
+                setTimeout(() => e.currentTarget.scrollIntoView({ block: "nearest", behavior: "smooth" }), 300);
+              }}
               onBlur={e => e.currentTarget.style.borderColor = COLORS.borderLight}
             />
             <button onClick={sendMessage} disabled={!input.trim() || loading} aria-label="Send message"
