@@ -115,7 +115,22 @@ async function main() {
   console.log(`Prerendering ${routes.length} routes...`);
 
   const server = await serve();
-  const browser = await chromium.launch({ headless: true });
+
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true });
+  } catch (err) {
+    // On some CI build images (e.g. Vercel's current Amazon Linux) Chromium's
+    // system dependencies can't be installed without apt/sudo, so the browser
+    // won't launch. Don't fail the deploy: ship the client-rendered SPA. The
+    // catch-all rewrite in vercel.json serves index.html for every route, and
+    // React sets per-route <title>/meta on load, so routes still work — they
+    // just aren't statically prerendered for non-JS crawlers.
+    console.warn(`\n⚠️  Prerender skipped: could not launch Chromium — ${String(err.message).split("\n")[0]}`);
+    console.warn("    Deploying the client-rendered SPA. Per-route static HTML/meta will NOT be generated.");
+    server.close();
+    return;
+  }
 
   let completed = 0;
   const errors = [];
@@ -155,8 +170,10 @@ async function main() {
 
 main().catch((err) => {
   if (err.message && err.message.includes("Executable doesn't exist")) {
-    console.error("Prerender FAILED: Playwright browsers not installed. Run 'npx playwright install chromium'.");
-    process.exit(1);
+    // Browser binary missing (install was best-effort). Don't fail the deploy —
+    // ship the client-rendered SPA instead of blocking the release.
+    console.warn("⚠️  Prerender skipped: Playwright browser not installed. Deploying client-rendered SPA.");
+    process.exit(0);
   }
   console.error("Prerender failed:", err);
   process.exit(1);
