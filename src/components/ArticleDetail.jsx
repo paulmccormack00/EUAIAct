@@ -41,13 +41,13 @@ export default function ArticleDetail({ articleNum, onThemeClick, onArticleClick
         </h1>
         {articleNum === 27 && (
           <div style={{ marginTop: 12 }}>
-            <span className="fria-countdown" style={{
+            <span className="fria-countdown" suppressHydrationWarning style={{
               display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 14px",
               background: "#1e3a5f", color: "#d4c5a9", borderRadius: 20, fontSize: 12, fontWeight: 600,
               fontFamily: SANS, letterSpacing: "0.02em",
             }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              {Math.ceil((new Date("2026-08-02") - new Date()) / 86400000)} days until the FRIA deadline
+              {Math.ceil((new Date("2027-12-02") - new Date()) / 86400000)} days until the FRIA deadline (pending OJ)
             </span>
           </div>
         )}

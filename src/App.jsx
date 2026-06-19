@@ -64,6 +64,9 @@ function parseRoute(pathname) {
   return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
 }
 
+// Views where the sidebar starts collapsed (home/tools); content views start expanded.
+const TOOL_VIEWS = ["home", "fria", "timeline", "role-identifier", "blog", "blogpost"];
+
 export default function App() {
   const initRoute = useMemo(() => parseRoute(window.location.pathname), []);
   const [view, setView] = useState(initRoute.view);
@@ -84,7 +87,7 @@ export default function App() {
   const [selectedRecital, setSelectedRecital] = useState(null);
   const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
   const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => TOOL_VIEWS.includes(initRoute.view));
   const mainRef = useRef(null);
   const menuBtnRef = useRef(null);
   const savedScrollRef = useRef(0);
@@ -114,8 +117,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Auto-collapse sidebar on home & tool pages, expand on content pages
-  const TOOL_VIEWS = ["home", "fria", "timeline", "role-identifier", "blog", "blogpost"];
+  // Auto-collapse sidebar on home & tool pages, expand on content pages (on navigation)
   useEffect(() => {
     setSidebarCollapsed(TOOL_VIEWS.includes(view));
   }, [view]);

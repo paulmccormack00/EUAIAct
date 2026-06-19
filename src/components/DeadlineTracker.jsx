@@ -247,7 +247,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
       <div style={{ textAlign: "center", marginBottom: 28 }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {daysToTransparency > 0 ? `${daysToTransparency} days until transparency obligations apply` : "Transparency obligations now in force"}
+          <span suppressHydrationWarning>{daysToTransparency > 0 ? `${daysToTransparency} days until transparency obligations apply` : "Transparency obligations now in force"}</span>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           EU AI Act Compliance Timeline
@@ -295,7 +295,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
           <p style={{ fontSize: 12, opacity: 0.7, margin: "0 0 4px", fontFamily: SANS, textTransform: "uppercase", letterSpacing: "0.1em" }}>Transparency Obligations</p>
           <p style={{ fontSize: 28, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF }}>2 August 2026</p>
           <p style={{ fontSize: 13, opacity: 0.85, margin: "0 0 10px", fontFamily: SANS }}>Article 50 — disclose AI; mark synthetic content</p>
-          <p style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
+          <p suppressHydrationWarning style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
             {daysToTransparency > 0 ? daysToTransparency : "—"} <span style={{ fontSize: 13, opacity: 0.7, fontFamily: SANS, color: "white" }}>{daysToTransparency > 0 ? "days remaining" : "in force"}</span>
           </p>
         </div>
@@ -309,7 +309,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
           </div>
           <p style={{ fontSize: 28, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF }}>2 December 2027</p>
           <p style={{ fontSize: 13, opacity: 0.8, margin: "0 0 10px", fontFamily: SANS }}>Article 27 — Annex III high-risk &amp; FRIA</p>
-          <p style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
+          <p suppressHydrationWarning style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
             {daysToFria > 0 ? daysToFria : "—"} <span style={{ fontSize: 13, opacity: 0.7, fontFamily: SANS, color: COLORS.primary }}>{daysToFria > 0 ? "days remaining" : "in force"}</span>
           </p>
         </div>
@@ -376,7 +376,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
                           </span>
                         )}
                         {!isPast && status !== "passed" && (
-                          <span style={{ fontSize: 11, color: "#4a5f74" }}>
+                          <span suppressHydrationWarning style={{ fontSize: 11, color: "#4a5f74" }}>
                             {days} days
                           </span>
                         )}
