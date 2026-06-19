@@ -37,3 +37,6 @@ ios/App/DerivedData/
 
 # Google Search Console data exports (analytics dumps, not source)
 Google/
+
+# Local font comparison mockups (not source)
+font-mockups/
