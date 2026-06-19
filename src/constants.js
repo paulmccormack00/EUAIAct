@@ -136,6 +136,12 @@ const SHADOWS = {
 };
 
 const FOCUS_CSS = `
+/* Prevent iOS Safari from auto-zooming when a form control with <16px text is
+   focused (it zooms in and never zooms back, stranding the user on a shifted
+   page). Force 16px on phones only; desktop keeps each control's inline size. */
+@media (max-width: 767px) {
+  input, textarea, select { font-size: 16px !important; }
+}
 button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible {
   outline: 2px solid #1e3a5f;
   outline-offset: 2px;

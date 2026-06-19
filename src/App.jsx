@@ -1,11 +1,10 @@
 import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from "react";
 import { SANS, SERIF, COLORS, RADIUS, SHADOWS, FOCUS_CSS } from "./constants.js";
-import { EU_AI_ACT_DATA } from "./data/eu-ai-act-data.js";
+import { ARTICLE_INDEX, THEMES, ANNEX_INDEX } from "./data/eu-ai-act-index.js";
 import { ROLES } from "./data/roles.js";
 import SearchBar from "./components/SearchBar.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import { BLOG_POSTS } from "./data/blog-posts.js";
-import { ANNEXES } from "./data/annexes.js";
 
 // Lazy-loaded route components
 const SearchResults = lazy(() => import("./components/SearchResults.jsx"));
@@ -33,13 +32,13 @@ function parseRoute(pathname) {
   const articleMatch = p.match(/^\/article\/(\d+)$/);
   if (articleMatch) {
     const num = Number(articleMatch[1]);
-    if (EU_AI_ACT_DATA.articles[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null, annexId: null };
+    if (ARTICLE_INDEX[String(num)]) return { view: "article", selectedArticle: num, selectedTheme: null, blogSlug: null, annexId: null };
     return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   const themeMatch = p.match(/^\/theme\/([a-z-]+)$/);
   if (themeMatch) {
     const tid = themeMatch[1];
-    if (EU_AI_ACT_DATA.themes.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null, annexId: null };
+    if (THEMES.find(t => t.id === tid)) return { view: "theme", selectedArticle: null, selectedTheme: tid, blogSlug: null, annexId: null };
     return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   if (p === "/definitions") return { view: "article", selectedArticle: 3, selectedTheme: null, blogSlug: null, annexId: null };
@@ -58,7 +57,7 @@ function parseRoute(pathname) {
   const annexMatch = p.match(/^\/annex\/(\d+)$/);
   if (annexMatch) {
     const aid = Number(annexMatch[1]);
-    if (ANNEXES.find(a => a.id === aid)) return { view: "annex", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: aid };
+    if (ANNEX_INDEX.find(a => a.id === aid)) return { view: "annex", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: aid };
     return { view: "notfound", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
   }
   if (p === "/") return { view: "home", selectedArticle: null, selectedTheme: null, blogSlug: null, annexId: null };
@@ -78,6 +77,10 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [activeRole, setActiveRole] = useState("all");
   const [chatOpen, setChatOpen] = useState(false);
+  // Defer mounting the ChatPanel (and its ~600KB data + recital-map deps) until
+  // the user first opens it, so the chat chunk stays off the initial-load path.
+  const [chatLoaded, setChatLoaded] = useState(false);
+  const openChat = useCallback(() => { setChatLoaded(true); setChatOpen(true); }, []);
   const [selectedRecital, setSelectedRecital] = useState(null);
   const [blogSlug, setBlogSlug] = useState(initRoute.blogSlug);
   const [selectedAnnex, setSelectedAnnex] = useState(initRoute.annexId);
@@ -265,17 +268,17 @@ export default function App() {
     let title, description, path;
 
     if (view === "article" && selectedArticle) {
-      const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
+      const art = ARTICLE_INDEX[String(selectedArticle)];
       const artTitle = art?.title || `Article ${selectedArticle}`;
       const override = ARTICLE_META_OVERRIDES[selectedArticle];
-      title = override ? override.title : `Article ${selectedArticle}: ${artTitle} — EU AI Act`;
-      description = override ? override.description : (art ? `Article ${selectedArticle} (${artTitle}) of the EU AI Act — full official text with plain English summary, related recitals, and cross-references. Free reference.` : "");
+      title = override ? override.title : `Article ${selectedArticle}: ${artTitle} — EU AI Act Explained`;
+      description = override ? override.description : (art ? `Article ${selectedArticle} of the EU AI Act explained in plain English — with the full official text, related recitals, and cross-references. Free, no sign-up, no legalese.` : "");
       path = `/article/${selectedArticle}`;
     } else if (view === "theme" && selectedTheme) {
-      const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
+      const theme = THEMES.find(t => t.id === selectedTheme);
       const themeName = theme?.name || selectedTheme;
-      title = `${themeName} — EU AI Act Navigator`;
-      description = theme ? `${themeName}: ${theme.articles.length} articles from the EU AI Act (Regulation (EU) 2024/1689). Browse articles grouped by theme.` : "";
+      title = `${themeName} — EU AI Act Explained by Theme`;
+      description = theme ? `${themeName}: the ${theme.articles.length} EU AI Act articles that matter, grouped by theme — with plain-English summaries and the full official text. Free, no sign-up.` : "";
       path = `/theme/${selectedTheme}`;
     } else if (view === "recitals") {
       title = "Recitals — EU AI Act Navigator";
@@ -307,7 +310,7 @@ export default function App() {
       description = "All 13 annexes of the EU AI Act (Regulation (EU) 2024/1689). High-risk classifications, technical documentation requirements, conformity assessment procedures, and GPAI model criteria.";
       path = "/annexes";
     } else if (view === "annex" && selectedAnnex) {
-      const annex = ANNEXES.find(a => a.id === selectedAnnex);
+      const annex = ANNEX_INDEX.find(a => a.id === selectedAnnex);
       const annexOverride = ANNEX_META_OVERRIDES[selectedAnnex];
       title = annexOverride ? annexOverride.title : (annex ? `Annex ${annex.number}: ${annex.title} — EU AI Act` : "Annex — EU AI Act");
       description = annexOverride ? annexOverride.description : (annex?.summary || "");
@@ -317,8 +320,8 @@ export default function App() {
       description = "The page you're looking for doesn't exist.";
       path = window.location.pathname;
     } else {
-      title = "EU AI Act Navigator — Free Interactive Reference Guide";
-      description = "Browse all 113 articles, 180 recitals, and 13 annexes of the EU AI Act. Plain English summaries, compliance tools, and AI-powered advisor. 100% free.";
+      title = "EU AI Act in Plain English — Free Interactive Navigator";
+      description = "Understand the EU AI Act without the legalese. All 113 articles, 180 recitals, and 13 annexes with plain-English summaries — plus free tools to check your role, FRIA, and deadlines. No sign-up.";
       path = "/";
     }
 
@@ -382,8 +385,8 @@ export default function App() {
         if (post?.metaKeywords) keywords = post.metaKeywords;
         else if (post?.tags) keywords = post.tags.join(", ");
       } else if (view === "article" && selectedArticle) {
-        const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
-        const themes = (art?.themes || []).map(tid => EU_AI_ACT_DATA.themes.find(t => t.id === tid)?.name).filter(Boolean);
+        const art = ARTICLE_INDEX[String(selectedArticle)];
+        const themes = (art?.themes || []).map(tid => THEMES.find(t => t.id === tid)?.name).filter(Boolean);
         keywords = [`Article ${selectedArticle}`, art?.title, ...themes, "EU AI Act"].filter(Boolean).join(", ");
       } else if (view === "fria") {
         keywords = "FRIA, fundamental rights impact assessment, Article 27, EU AI Act, high-risk AI, screening tool";
@@ -392,7 +395,7 @@ export default function App() {
       } else if (view === "role-identifier") {
         keywords = "EU AI Act roles, provider, deployer, importer, distributor, authorised representative, role identifier";
       } else if (view === "annex" && selectedAnnex) {
-        const annex = ANNEXES.find(a => a.id === selectedAnnex);
+        const annex = ANNEX_INDEX.find(a => a.id === selectedAnnex);
         keywords = annex ? `Annex ${annex.number}, ${annex.title}, EU AI Act` : keywords;
       }
       metaKeywords.setAttribute("content", keywords);
@@ -447,10 +450,10 @@ export default function App() {
     const jsonLd = { "@context": "https://schema.org" };
 
     if (view === "article" && selectedArticle) {
-      const art = EU_AI_ACT_DATA.articles[String(selectedArticle)];
+      const art = ARTICLE_INDEX[String(selectedArticle)];
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: `Article ${selectedArticle}: ${art?.title || ""}`, item: BASE_URL + path });
       const articleJsonLd = [
-        { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": art ? (() => { const t = art.text.replace(/\n/g, " "); const idx = t.lastIndexOf(".", 300); return idx > 100 ? t.substring(0, idx + 1) : t.substring(0, 300); })() : "", "url": BASE_URL + path },
+        { ...jsonLd, "@type": "Legislation", "name": `Article ${selectedArticle}: ${art?.title || ""}`, "legislationIdentifier": "Regulation (EU) 2024/1689", "description": description, "url": BASE_URL + path },
         { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
       ];
       if (selectedArticle === 99) {
@@ -466,7 +469,7 @@ export default function App() {
       }
       jsonLdEl.textContent = JSON.stringify(articleJsonLd);
     } else if (view === "theme" && selectedTheme) {
-      const theme = EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme);
+      const theme = THEMES.find(t => t.id === selectedTheme);
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: theme?.name || selectedTheme, item: BASE_URL + path });
       jsonLdEl.textContent = JSON.stringify([
         { ...jsonLd, "@type": "CollectionPage", "name": theme?.name || selectedTheme, "description": `${theme?.articles.length || 0} articles from the EU AI Act`, "url": BASE_URL + path },
@@ -546,7 +549,7 @@ export default function App() {
         { ...jsonLd, "@type": "BreadcrumbList", "itemListElement": breadcrumbItems }
       ]);
     } else if (view === "annex" && selectedAnnex) {
-      const annex = ANNEXES.find(a => a.id === selectedAnnex);
+      const annex = ANNEX_INDEX.find(a => a.id === selectedAnnex);
       breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Annexes", item: BASE_URL + "/annexes" });
       if (annex) breadcrumbItems.push({ "@type": "ListItem", position: 3, name: `Annex ${annex.number}: ${annex.title}`, item: BASE_URL + path });
       jsonLdEl.textContent = JSON.stringify([
@@ -562,12 +565,21 @@ export default function App() {
   }, [view, selectedArticle, selectedTheme, blogSlug, selectedAnnex]);
 
   const isSearching = debouncedQuery.length >= 2;
+  // The full Act text lives in a ~600KB module that is NOT in the initial
+  // bundle. Pull it in lazily the first time the user searches (SearchResults,
+  // also lazy, shares the same chunk so there's no double download).
+  const [fullData, setFullData] = useState(null);
+  useEffect(() => {
+    if (isSearching && !fullData) {
+      import("./data/eu-ai-act-data.js").then((m) => setFullData(m.EU_AI_ACT_DATA));
+    }
+  }, [isSearching, fullData]);
   const searchResultCount = useMemo(() => {
-    if (!isSearching) return 0;
+    if (!isSearching || !fullData) return 0;
     const q = debouncedQuery.toLowerCase();
-    return Object.values(EU_AI_ACT_DATA.articles).filter(a => a.title.toLowerCase().includes(q) || a.text.toLowerCase().includes(q)).length
-      + Object.values(EU_AI_ACT_DATA.recitals).filter(r => r.text.toLowerCase().includes(q)).length;
-  }, [debouncedQuery, isSearching]);
+    return Object.values(fullData.articles).filter(a => a.title.toLowerCase().includes(q) || a.text.toLowerCase().includes(q)).length
+      + Object.values(fullData.recitals).filter(r => r.text.toLowerCase().includes(q)).length;
+  }, [debouncedQuery, isSearching, fullData]);
 
   return (
     <div style={{ height: "100vh", display: "flex", background: COLORS.pageBg, fontFamily: SANS }}>
@@ -583,7 +595,7 @@ export default function App() {
         @media (max-width: 1023px) {
           .mobile-menu-btn { display: block !important; }
           .role-bar { padding: 8px 14px !important; gap: 6px !important; }
-          .role-bar button { padding: 8px 12px !important; font-size: 12px !important; min-height: 36px !important; }
+          .role-bar button { padding: 10px 14px !important; font-size: 12px !important; min-height: 44px !important; }
           .role-bar .role-label { display: none !important; }
           .role-desc { padding: 8px 14px !important; }
           .role-desc p { font-size: 12px !important; }
@@ -657,7 +669,7 @@ export default function App() {
           .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
           .stats-grid .stat-value { font-size: 16px !important; }
           .role-bar { display: flex !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
-          .role-bar button { font-size: 11px !important; padding: 7px 10px !important; min-height: 36px !important; white-space: nowrap !important; }
+          .role-bar button { font-size: 11px !important; padding: 10px 12px !important; min-height: 44px !important; white-space: nowrap !important; }
           .main-content { padding: 16px 12px 32px !important; }
           .recitals-controls input { font-size: 13px !important; }
           .recitals-controls select { font-size: 13px !important; }
@@ -681,7 +693,7 @@ export default function App() {
           .fria-heading { font-size: 18px !important; }
           .fria-sub { font-size: 12px !important; }
           .fria-countdown { font-size: 11px !important; padding: 3px 10px !important; }
-          .fria-step-tabs button { min-width: 70px !important; font-size: 10px !important; padding: 6px 2px !important; }
+          .fria-step-tabs button { min-width: 70px !important; min-height: 44px !important; font-size: 10px !important; padding: 8px 2px !important; }
           .fria-card-inner { padding: 20px 12px !important; }
           .fria-results-title { font-size: 18px !important; }
         }
@@ -731,7 +743,7 @@ export default function App() {
             </>}
             {view === "theme" && selectedTheme && <>
               <span style={{ color: "#d1d5db" }}>/</span>
-              <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{EU_AI_ACT_DATA.themes.find(t => t.id === selectedTheme)?.name}</span>
+              <span style={{ color: "#1a1a1a", fontWeight: 600 }}>{THEMES.find(t => t.id === selectedTheme)?.name}</span>
             </>}
             {view === "recitals" && <>
               <span style={{ color: "#d1d5db" }}>/</span>
@@ -762,7 +774,7 @@ export default function App() {
               <button onClick={handleAnnexesClick} style={{ background: "none", border: "none", cursor: "pointer", color: view === "annex" ? "#4a5f74" : "#1a1a1a", fontFamily: SANS, fontSize: 14, fontWeight: view === "annex" ? 400 : 600, padding: 0 }}>Annexes</button>
               {view === "annex" && selectedAnnex && <>
                 <span style={{ color: "#d1d5db" }}>/</span>
-                <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEXES.find(a => a.id === selectedAnnex)?.number}</span>
+                <span style={{ color: "#1a1a1a", fontWeight: 600 }}>Annex {ANNEX_INDEX.find(a => a.id === selectedAnnex)?.number}</span>
               </>}
             </>}
           </nav>
@@ -772,7 +784,7 @@ export default function App() {
           </div>
 
           {/* AI Advisor button */}
-          <button aria-label="AI Advisor" onClick={() => setChatOpen(true)}
+          <button aria-label="AI Advisor" onClick={openChat}
             style={{ flexShrink: 0, padding: "8px 14px", background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, border: "none", borderRadius: RADIUS.md, cursor: "pointer", fontSize: 13, color: "white", fontFamily: SANS, display: "flex", alignItems: "center", gap: 6, fontWeight: 500, transition: "all 0.15s" }}
             onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}
@@ -794,16 +806,16 @@ export default function App() {
           {/* Nav arrows */}
           {view === "article" && selectedArticle && (
             <div className="nav-arrows" style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-              <button onClick={() => { const p = selectedArticle - 1; if (EU_AI_ACT_DATA.articles[String(p)]) handleArticleClick(p); }}
-                disabled={!EU_AI_ACT_DATA.articles[String(selectedArticle - 1)]}
+              <button onClick={() => { const p = selectedArticle - 1; if (ARTICLE_INDEX[String(p)]) handleArticleClick(p); }}
+                disabled={!ARTICLE_INDEX[String(selectedArticle - 1)]}
                 aria-label="Previous article"
-                style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: EU_AI_ACT_DATA.articles[String(selectedArticle - 1)] ? 1 : 0.3 }}>
+                style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: ARTICLE_INDEX[String(selectedArticle - 1)] ? 1 : 0.3 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
               </button>
-              <button onClick={() => { const n = selectedArticle + 1; if (EU_AI_ACT_DATA.articles[String(n)]) handleArticleClick(n); }}
-                disabled={!EU_AI_ACT_DATA.articles[String(selectedArticle + 1)]}
+              <button onClick={() => { const n = selectedArticle + 1; if (ARTICLE_INDEX[String(n)]) handleArticleClick(n); }}
+                disabled={!ARTICLE_INDEX[String(selectedArticle + 1)]}
                 aria-label="Next article"
-                style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: EU_AI_ACT_DATA.articles[String(selectedArticle + 1)] ? 1 : 0.3 }}>
+                style={{ padding: 8, borderRadius: 8, border: "none", background: "none", cursor: "pointer", opacity: ARTICLE_INDEX[String(selectedArticle + 1)] ? 1 : 0.3 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
               </button>
             </div>
@@ -860,7 +872,7 @@ export default function App() {
                   <p style={{ margin: 0, fontSize: 14, color: "#92400e" }}>This article may not be directly applicable to <strong>{ROLES[activeRole].label.toLowerCase()}s</strong>. <button onClick={() => setActiveRole("all")} style={{ color: "#92400e", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: SANS, fontSize: 14 }}>View as all provisions</button></p>
                 </div>
               )}
-              <ProhibitedPracticesView article={EU_AI_ACT_DATA.articles["5"] || {}}
+              <ProhibitedPracticesView
                 onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} />
             </>
           ) : view === "article" && selectedArticle ? (
@@ -871,7 +883,7 @@ export default function App() {
                   <p style={{ margin: 0, fontSize: 14, color: "#92400e" }}>This article may not be directly applicable to <strong>{ROLES[activeRole].label.toLowerCase()}s</strong>. <button onClick={() => setActiveRole("all")} style={{ color: "#92400e", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: SANS, fontSize: 14 }}>View as all provisions</button></p>
                 </div>
               )}
-              <ArticleDetail articleNum={selectedArticle} article={EU_AI_ACT_DATA.articles[String(selectedArticle)] || {}}
+              <ArticleDetail articleNum={selectedArticle}
                 onThemeClick={handleThemeClick} onArticleClick={handleArticleClick} searchQuery={searchQuery} />
             </>
           ) : view === "theme" && selectedTheme ? (
@@ -905,7 +917,7 @@ export default function App() {
               </a>
             </div>
           ) : (
-            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={() => setChatOpen(true)} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onBlogPostClick={handleBlogPostClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
+            <HomeView onArticleClick={handleArticleClick} onThemeClick={handleThemeClick} activeRole={activeRole} setActiveRole={setActiveRole} onChatOpen={openChat} onFRIAClick={handleFRIAClick} onTimelineClick={handleTimelineClick} onBlogClick={handleBlogClick} onBlogPostClick={handleBlogPostClick} onRoleIdentifierClick={handleRoleIdentifierClick} onRecitalsClick={handleRecitalsClick} onAnnexesClick={handleAnnexesClick} />
           )}
 
           {/* Footer */}
@@ -975,7 +987,7 @@ export default function App() {
       {!chatOpen && (
         <button
           className="fab-advisor"
-          onClick={() => setChatOpen(true)}
+          onClick={openChat}
           aria-label="Open AI Advisor chat"
           title="Ask the AI Advisor"
           style={{
@@ -990,9 +1002,11 @@ export default function App() {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
         </button>
       )}
-      <Suspense fallback={null}>
-        <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { handleRecitalsClick(); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
-      </Suspense>
+      {chatLoaded && (
+        <Suspense fallback={null}>
+          <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} onArticleClick={(num) => { handleArticleClick(num); setChatOpen(false); }} onRecitalClick={() => { handleRecitalsClick(); setChatOpen(false); }} currentArticle={view === "article" ? selectedArticle : null} />
+        </Suspense>
+      )}
     </div>
   );
 }

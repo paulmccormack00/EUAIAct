@@ -4,8 +4,9 @@ import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
 import ThemeBadge from "./ThemeBadge.jsx";
 import InlineRecitals from "./InlineRecitals.jsx";
 
-export default function ProhibitedPracticesView({ article, onThemeClick, onArticleClick }) {
+export default function ProhibitedPracticesView({ onThemeClick, onArticleClick }) {
   const [expandedItems, setExpandedItems] = useState(new Set());
+  const article = EU_AI_ACT_DATA.articles["5"] || {};
 
   // Parse Article 5's prohibited practices into structured items
   const practices = useMemo(() => {

@@ -6,9 +6,10 @@ import { PLAIN_SUMMARIES } from "../data/plain-summaries.js";
 import ThemeBadge from "./ThemeBadge.jsx";
 import InlineRecitals from "./InlineRecitals.jsx";
 
-export default function ArticleDetail({ articleNum, article, onThemeClick, onArticleClick, searchQuery }) {
+export default function ArticleDetail({ articleNum, onThemeClick, onArticleClick, searchQuery }) {
   const [showPlainLanguage, setShowPlainLanguage] = useState(true);
 
+  const article = EU_AI_ACT_DATA.articles[String(articleNum)] || {};
   const formattedText = formatArticleText(article.text);
   const paragraphs = formattedText.split(/\n\n+/).filter(Boolean);
 
@@ -17,15 +18,16 @@ export default function ArticleDetail({ articleNum, article, onThemeClick, onArt
     .filter(Boolean);
 
   const referencedArticles = useMemo(() => {
+    const text = EU_AI_ACT_DATA.articles[String(articleNum)]?.text || "";
     const refs = new Set();
     const regex = /Article\s+(\d+)/g;
     let match;
-    while ((match = regex.exec(article.text)) !== null) {
+    while ((match = regex.exec(text)) !== null) {
       const num = parseInt(match[1]);
       if (num !== articleNum && EU_AI_ACT_DATA.articles[String(num)]) refs.add(num);
     }
     return [...refs].sort((a, b) => a - b);
-  }, [article.text, articleNum]);
+  }, [articleNum]);
 
   return (
     <div style={{ maxWidth: "100%" }}>

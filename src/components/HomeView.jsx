@@ -28,6 +28,26 @@ export default function HomeView({ onArticleClick, onChatOpen, onFRIAClick, onTi
         <p className="hero-desc" style={{ fontSize: 17, color: COLORS.textMuted, lineHeight: 1.7, maxWidth: 560, margin: "0 auto", fontFamily: SANS }}>
           113 articles. 180 recitals. 13 annexes. One interactive reference — with plain-English summaries, role-based filtering, and compliance tools.
         </p>
+        <div className="hero-cta-row" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 28 }}>
+          {onRoleIdentifierClick && (
+            <a href="/role-identifier" onClick={(e) => { e.preventDefault(); onRoleIdentifierClick(); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 24px", minHeight: 48, background: COLORS.primary, color: COLORS.white, borderRadius: RADIUS.md, fontSize: 15, fontWeight: 600, fontFamily: SANS, textDecoration: "none", boxSizing: "border-box" }}
+              onMouseEnter={e => { e.currentTarget.style.background = COLORS.primaryHover; }}
+              onMouseLeave={e => { e.currentTarget.style.background = COLORS.primary; }}
+            >
+              Find your obligations →
+            </a>
+          )}
+          {onTimelineClick && (
+            <a href="/timeline" onClick={(e) => { e.preventDefault(); onTimelineClick(); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 24px", minHeight: 48, background: COLORS.white, color: COLORS.primary, border: `1px solid ${COLORS.primaryLightBorder}`, borderRadius: RADIUS.md, fontSize: 15, fontWeight: 600, fontFamily: SANS, textDecoration: "none", boxSizing: "border-box" }}
+              onMouseEnter={e => { e.currentTarget.style.background = COLORS.primaryLight; }}
+              onMouseLeave={e => { e.currentTarget.style.background = COLORS.white; }}
+            >
+              See the compliance timeline
+            </a>
+          )}
+        </div>
       </div>
 
       {/* ── EMPATHY + QUESTION CARDS ────────────────── */}

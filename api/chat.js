@@ -1,13 +1,16 @@
 // /api/chat.js — Vercel Serverless Function (streaming)
 // Streams responses from Google Gemini API and logs questions to Supabase
 import rateLimit from "./_rate-limit.js";
+import { checkChatLimits, hasDurableStore } from "./_durable-limit.js";
 
 export default async function handler(req, res) {
-  if (!rateLimit(req, res, { limit: 20, windowMs: 60_000 })) return;
   const allowedOrigins = ["https://euai.app", "https://eu-ai-act-navigator.vercel.app", "capacitor://localhost"];
   const origin = req.headers.origin || "";
   const isAllowed = allowedOrigins.includes(origin) || /^https:\/\/euai-app-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/.test(origin);
-  res.setHeader("Access-Control-Allow-Origin", isAllowed ? origin : allowedOrigins[0]);
+  // Only echo the caller's origin if it's actually allowed; never hand a
+  // disallowed caller a real ACAO header. (CORS is browser hygiene only — the
+  // real abuse control is the rate/quota limits below.)
+  if (isAllowed) res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -20,6 +23,20 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid session ID" });
   }
   if (!process.env.GEMINI_API_KEY) return res.status(500).json({ error: "API key not configured" });
+
+  // Abuse control. Prefer the durable, session-aware Upstash limiter; fall back
+  // to the per-instance in-memory limiter only when Upstash isn't configured.
+  if (hasDurableStore) {
+    const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim()
+      || req.headers["x-real-ip"] || req.socket?.remoteAddress || "unknown";
+    const limit = await checkChatLimits({ ip, sessionId });
+    if (!limit.ok) {
+      if (limit.retryAfter) res.setHeader("Retry-After", String(limit.retryAfter));
+      return res.status(limit.status || 429).json({ error: limit.error || "Too many requests." });
+    }
+  } else if (!rateLimit(req, res, { limit: 20, windowMs: 60_000 })) {
+    return;
+  }
 
   // Input validation: limit message count and length
   if (!Array.isArray(messages) || messages.length > 20) return res.status(400).json({ error: "Too many messages" });

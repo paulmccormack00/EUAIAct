@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SANS, SERIF, COLORS, RADIUS } from "../constants.js";
 import { truncateText } from "../utils.jsx";
-import { EU_AI_ACT_DATA } from "../data/eu-ai-act-data.js";
+import { ARTICLE_INDEX, CHAPTERS, THEMES, RECITAL_NUMBERS, ANNEX_INDEX } from "../data/eu-ai-act-index.js";
 import { ROLES } from "../data/roles.js";
-import { ANNEXES } from "../data/annexes.js";
 import useFocusTrap from "../hooks/useFocusTrap.js";
 
 const COLLAPSED_WIDTH = 56;
@@ -60,11 +59,21 @@ const TOOL_ITEMS = [
 const TOOL_VIEWS = ["home", "fria", "timeline", "role-identifier", "blog", "blogpost"];
 
 export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme, selectedArticle, setSelectedArticle, isMobileOpen, setIsMobileOpen, activeRole, setSelectedRecital, onAboutClick, onArticleClick, onThemeClick, onRecitalsClick, onAnnexesClick, onAnnexClick, selectedAnnex, onFRIAClick, onTimelineClick, onBlogClick, onRoleIdentifierClick, collapsed, onExpand, onCollapse }) {
-  const chapters = EU_AI_ACT_DATA.chapters;
-  const themes = EU_AI_ACT_DATA.themes;
+  const chapters = CHAPTERS;
+  const themes = THEMES;
   const [expandedChapters, setExpandedChapters] = useState(new Set(["CHAPTER I"]));
   const [expandedSections, setExpandedSections] = useState(new Set());
   const mobileTrapRef = useFocusTrap(isMobileOpen);
+
+  // The recital list shows truncated body text, which lives in the ~600KB data
+  // module. Pull it in only when the recitals view is active (where that chunk
+  // is loaded anyway), so the sidebar stays out of the initial-load path.
+  const [recitalsData, setRecitalsData] = useState(null);
+  useEffect(() => {
+    if (view === "recitals" && !recitalsData) {
+      import("../data/eu-ai-act-data.js").then((m) => setRecitalsData(m.EU_AI_ACT_DATA.recitals));
+    }
+  }, [view, recitalsData]);
 
   const toggleChapter = (id) => setExpandedChapters((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleSection = (id) => setExpandedSections((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -350,13 +359,13 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                             return (
                               <div key={sKey}>
                                 <button onClick={() => toggleSection(sKey)} aria-expanded={secExp}
-                                  style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "8px 10px", minHeight: 36, textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
+                                  style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "8px 10px", minHeight: 40, textAlign: "left", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontFamily: SANS }}>
                                   <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4a5f74" strokeWidth="3" style={{ transform: secExp ? "rotate(90deg)" : "none" }}><path d="M9 5l7 7-7 7" /></svg>
                                   <span style={{ fontSize: 12, color: "#4d5d71" }}>{sec.title}</span>
                                 </button>
                                 {secExp && <div style={{ marginLeft: 16 }}>
                                   {sec.articles.map((num) => {
-                                    const art = EU_AI_ACT_DATA.articles[String(num)];
+                                    const art = ARTICLE_INDEX[String(num)];
                                     if (!art) return null;
                                     const isActive = selectedArticle === num;
                                     const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
@@ -365,7 +374,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                                       <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                                         aria-current={isActive ? "page" : undefined}
                                         style={{
-                                          display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 36, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                                          display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 40, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                                           background: isActive ? "#1e3a5f" : "transparent",
                                           color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                                           fontWeight: isActive ? 600 : 400,
@@ -381,7 +390,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                               </div>
                             );
                           }) : chapter.articles?.map((num) => {
-                            const art = EU_AI_ACT_DATA.articles[String(num)];
+                            const art = ARTICLE_INDEX[String(num)];
                             if (!art) return null;
                             const isActive = selectedArticle === num;
                             const roleArticles = activeRole !== "all" ? ROLES[activeRole].articles : null;
@@ -390,7 +399,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
                               <a key={num} href={`/article/${num}`} onClick={(e) => { e.preventDefault(); handleArticleClick(num); }}
                                 aria-current={isActive ? "page" : undefined}
                                 style={{
-                                  display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 36, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
+                                  display: "block", width: "100%", textAlign: "left", padding: "8px 10px", minHeight: 40, borderRadius: 8, textDecoration: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12,
                                   background: isActive ? "#1e3a5f" : "transparent",
                                   color: isActive ? "white" : isRelevant ? "#374151" : "#c8c8c8",
                                   fontWeight: isActive ? 600 : 400,
@@ -445,12 +454,15 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
             {view === "recitals" && (
               <div>
                 <p style={{ fontSize: 10, fontWeight: 600, color: "#5c4d38", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Recitals (1–180)</p>
-                {Object.values(EU_AI_ACT_DATA.recitals).sort((a, b) => a.number - b.number).map((r) => (
+                {(recitalsData
+                  ? Object.values(recitalsData).sort((a, b) => a.number - b.number)
+                  : RECITAL_NUMBERS.map((n) => ({ number: n, text: "" }))
+                ).map((r) => (
                   <button key={r.number} onClick={() => { setSelectedRecital(r.number); setView("recitals"); }}
                     style={{ width: "100%", textAlign: "left", padding: "5px 10px", borderRadius: 6, border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 12, background: "transparent", color: "#4a5568" }}
                     onMouseEnter={(e) => e.currentTarget.style.background = "#f5ede3"}
                     onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
-                    <span style={{ fontWeight: 600, color: "#1a1a1a" }}>({r.number})</span> <span>{truncateText(r.text, 70)}</span>
+                    <span style={{ fontWeight: 600, color: "#1a1a1a" }}>({r.number})</span> {r.text && <span>{truncateText(r.text, 70)}</span>}
                   </button>
                 ))}
               </div>
@@ -459,7 +471,7 @@ export default function Sidebar({ view, setView, selectedTheme, setSelectedTheme
             {(view === "annexes" || view === "annex") && (
               <div>
                 <p style={{ fontSize: 10, fontWeight: 600, color: "#5c4d38", textTransform: "uppercase", letterSpacing: "0.1em", margin: "0 0 8px 10px", fontFamily: SANS }}>All Annexes (I–XIII)</p>
-                {ANNEXES.map((annex) => {
+                {ANNEX_INDEX.map((annex) => {
                   const isActive = selectedAnnex === annex.id;
                   return (
                     <a key={annex.id} href={`/annex/${annex.id}`} onClick={(e) => { e.preventDefault(); onAnnexClick(annex.id); setIsMobileOpen(false); }}

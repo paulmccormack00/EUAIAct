@@ -87,20 +87,5 @@ html, body {
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script>
-      // Prevent horizontal scrolling on iOS
-      document.addEventListener('touchstart', function(e) {
-        this._startX = e.touches[0].pageX;
-        this._startY = e.touches[0].pageY;
-      }, { passive: true });
-      document.addEventListener('touchmove', function(e) {
-        var dx = Math.abs(e.touches[0].pageX - this._startX);
-        var dy = Math.abs(e.touches[0].pageY - this._startY);
-        if (dx > dy) { e.preventDefault(); }
-      }, { passive: false });
-      window.addEventListener('scroll', function() {
-        if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
-      });
-    </script>
   </body>
 </html>

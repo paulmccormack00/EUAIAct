@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.js && vite build && (npx playwright install chromium || true) && node scripts/prerender.mjs",
-    "build:no-prerender": "node scripts/generate-sitemap.js && vite build",
+    "gen:index": "node scripts/gen-index.mjs",
+    "build": "node scripts/gen-index.mjs && node scripts/generate-sitemap.js && vite build && (npx playwright install chromium || true) && node scripts/prerender.mjs",
+    "build:no-prerender": "node scripts/gen-index.mjs && node scripts/generate-sitemap.js && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

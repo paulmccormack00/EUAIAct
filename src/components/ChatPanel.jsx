@@ -355,9 +355,11 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
                 transition: "border-color 0.15s",
               }}
               onFocus={e => {
-                e.currentTarget.style.borderColor = COLORS.primaryLinkUnderline;
-                // Scroll input into view on iOS when keyboard opens
-                setTimeout(() => e.currentTarget.scrollIntoView({ block: "nearest", behavior: "smooth" }), 300);
+                const el = e.currentTarget;
+                el.style.borderColor = COLORS.primaryLinkUnderline;
+                // Scroll input into view on iOS when keyboard opens (capture el —
+                // React nulls e.currentTarget after the handler returns)
+                setTimeout(() => el?.scrollIntoView({ block: "nearest", behavior: "smooth" }), 300);
               }}
               onBlur={e => e.currentTarget.style.borderColor = COLORS.borderLight}
             />
