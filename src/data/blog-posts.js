@@ -1,5 +1,103 @@
 export const BLOG_POSTS = [
   {
+    slug: "digital-omnibus-new-eu-ai-act-deadlines",
+    title: "The Digital Omnibus: The New EU AI Act Deadlines Explained",
+    subtitle: "High-risk obligations and FRIA are deferred to 2027–2028, a new ban on 'nudifier' apps is added, and several duties are simplified — what changed, and what's still pending.",
+    author: "Paul McCormack",
+    authorRole: "AI Governance & Compliance",
+    date: "2026-06-19",
+    readTime: "10 min read",
+    category: "Analysis",
+    tags: ["Digital Omnibus", "Timeline", "High-Risk AI", "FRIA", "Article 50"],
+    metaDescription: "The Digital Omnibus on AI, approved by the European Parliament on 16 June 2026, defers high-risk obligations and FRIA to 2 Dec 2027 and 2 Aug 2028, adds a 'nudifier' ban, and simplifies several duties. The new EU AI Act timeline explained — and why the old dates still bind until OJ publication.",
+    metaKeywords: "Digital Omnibus AI, EU AI Act amendment, AI Act deadline delay, high-risk AI deferral, FRIA new deadline, nudifier ban EU AI Act, AI Act 2027 2028",
+    content: [
+      { type: "lead", text: "The EU AI Act's headline deadlines have moved. The Digital Omnibus on AI — provisionally agreed on 7 May 2026 and approved by the European Parliament in plenary on 16 June 2026 — defers the high-risk obligations and the fundamental rights impact assessment (FRIA) from 2 August 2026 to 2 December 2027 and 2 August 2028, adds a new prohibition on 'nudifier' and CSAM-generating tools, and simplifies several obligations. This guide explains what changed, what is still pending, and why the original dates remain the binding law for now." },
+
+      { type: "callout", text: "\"Two things are true at once: until the amendment is published in the Official Journal, the original AI Act dates remain the binding law; once it is published, the high-risk dates move to 2 December 2027 and 2 August 2028. Prepare for both.\"" },
+
+      { type: "heading", text: "How We Got Here" },
+      { type: "paragraph", text: "The Digital Omnibus is an amending regulation, not a new act. The European Commission tabled it on 19 November 2025 as part of a wider simplification package. Parliament and Council reached a provisional trilogue agreement on 7 May 2026, Coreper confirmed it on 13 May 2026, and the IMCO and LIBE committees cleared it on 2 June 2026. On 16 June 2026 the European Parliament approved the text at first reading by 423 votes to 57, with 174 abstentions." },
+      { type: "table", headers: ["Step", "Date", "Status"], rows: [
+        ["Commission tables Digital Omnibus on AI", "19 Nov 2025", "Done"],
+        ["Provisional trilogue agreement", "7 May 2026", "Done"],
+        ["Coreper (Council) confirms", "13 May 2026", "Done"],
+        ["IMCO + LIBE committees green-light", "2 June 2026", "Done"],
+        ["European Parliament plenary approval (1st reading)", "16 June 2026", "Done — 423 / 57 / 174"],
+        ["Formal Council adoption", "Before 2 Aug 2026 (expected)", "Pending"],
+        ["Publication in Official Journal (in force +3 days)", "~July 2026 (expected)", "Pending"],
+      ]},
+      { type: "paragraph", text: "The only open variable now is the exact Official Journal publication date. Until that publication, the original AI Act dates remain in force as a matter of law." },
+
+      { type: "heading", text: "The Corrected Timeline" },
+      { type: "paragraph", text: "Here is the full phased timeline as it stands after the Digital Omnibus. The dates marked 'pending OJ' take legal effect only once the amendment is published." },
+      { type: "table", headers: ["Date", "What applies"], rows: [
+        ["1 Aug 2024", "Entry into force"],
+        ["2 Feb 2025", "Prohibited practices (Article 5); AI literacy (Article 4)"],
+        ["2 Aug 2025", "GPAI model obligations; governance; penalties; notified bodies"],
+        ["2 Aug 2026", "Article 50 transparency obligations — disclose AI interaction; mark synthetic content"],
+        ["2 Dec 2026", "New Article 5 ban on 'nudifier'/CSAM tools; Article 50(2) watermarking grace ends (pending OJ)"],
+        ["2 Aug 2027", "Legacy GPAI compliance (Article 111); national regulatory sandboxes"],
+        ["2 Dec 2027", "Annex III high-risk obligations, incl. FRIA (Article 27) — pending OJ"],
+        ["2 Aug 2028", "Annex I product-embedded high-risk obligations — pending OJ"],
+      ]},
+
+      { type: "heading", text: "What 2 August 2026 Now Means" },
+      { type: "paragraph", text: "This is the most important correction. The 2 August 2026 date was widely billed as 'full application' for high-risk AI. It is not. After the Digital Omnibus, 2 August 2026 is essentially the transparency date: Article 50 obligations apply, meaning people must be told when they are interacting with an AI system, and AI-generated or manipulated content (deepfakes, synthetic audio, images and text) must be marked as artificially generated." },
+      { type: "paragraph", text: "The high-risk system obligations under Articles 8-15, the operator duties, conformity assessment, and the FRIA under Article 27 all move to the deferred dates below — they are no longer due in August 2026." },
+
+      { type: "heading", text: "The New Prohibition: 'Nudifier' and CSAM Tools" },
+      { type: "paragraph", text: "The Digital Omnibus adds a new Article 5 prohibition, effective 2 December 2026, targeting AI systems designed to generate non-consensual intimate imagery ('nudifier' apps) and child sexual abuse material. The same date marks the end of the Article 50(2) grace period — the machine-readable marking of AI-generated content must be in place even for systems that were already on the market before 2 August 2026." },
+
+      { type: "heading", text: "High-Risk and FRIA: Deferred to 2027–2028" },
+      { type: "paragraph", text: "The high-risk framework now applies on two new fixed dates. Stand-alone high-risk systems listed in Annex III — the use-case pathway, covering recruitment, credit, insurance, education, essential services and more — apply from 2 December 2027, a 16-month deferral. This is also the new FRIA deadline under Article 27. High-risk AI embedded in products covered by EU harmonised safety legislation (Annex I) — medical devices, machinery, vehicles, toys, lifts and similar — apply from 2 August 2028, a 12-month deferral." },
+      { type: "callout", text: "\"The FRIA tracks the Annex III high-risk applicability date. With that date now 2 December 2027, the FRIA deadline moves with it — but only once the amendment is published. Until then, 2 August 2026 remains the date in law.\"" },
+
+      { type: "heading", text: "Beyond the Dates: Other Substantive Changes" },
+      { type: "paragraph", text: "The Digital Omnibus is more than a timeline shift. The provisionally agreed text also makes several substantive changes:" },
+      { type: "list", items: [
+        "AI literacy (Article 4) is softened from a duty to 'ensure' literacy to one to 'take measures to support the development of' literacy",
+        "The AI Office gains exclusive competence over AI systems built on a provider's own general-purpose AI model and over AI in very large online platforms and search engines, plus inspection, binding-commitment and fining powers",
+        "The 'safety component' concept is narrowed — AI used only for assistance, optimisation, efficiency or convenience is not high-risk unless its failure endangers health or safety",
+        "The Machinery Regulation moves to Annex I Section B, so sectoral safety rules take precedence over dual compliance",
+        "A new Article 4a opens a narrow pathway to use special-category data for bias detection and correction, under strict safeguards",
+        "Article 25 value-chain information duties are sharpened; breaches now sit in the 3% of worldwide turnover / EUR 15M fine band under Article 99(4)",
+      ]},
+
+      { type: "heading", text: "What You Should Do Now" },
+      { type: "numbered-action", items: [
+        { action: "Don't down tools", detail: "Until the amendment is published in the Official Journal, the original dates remain the binding law. Treat the deferral as breathing room, not a reset." },
+        { action: "Prioritise Article 50 for August 2026", detail: "Transparency is the next live obligation: build AI-interaction disclosures and synthetic-content marking into your products now." },
+        { action: "Keep high-risk programmes running", detail: "Use the extra 16 months on Annex III to mature classification, conformity assessment and FRIA work rather than pausing it." },
+        { action: "Check for 'nudifier' exposure", detail: "If any system could generate intimate imagery, confirm it cannot produce non-consensual or CSAM output ahead of the 2 December 2026 ban." },
+        { action: "Re-baseline your roadmap", detail: "Update internal compliance calendars to 2 Dec 2027 (Annex III) and 2 Aug 2028 (Annex I), flagged as pending OJ publication." },
+        { action: "Watch the Official Journal", detail: "When the amendment is published, the deferred dates become law. That is the moment to flip your plans from 'pending' to 'confirmed'." },
+      ]},
+
+      { type: "heading", text: "Sources" },
+      { type: "list", items: [
+        "European Commission press release IP/26/1024, 'EU agrees to simplify AI rules… ban nudification apps', 7 May 2026",
+        "Council of the EU, 'Artificial Intelligence: Council and Parliament agree to simplify and streamline rules', 7 May 2026",
+        "European Parliament, 'AI Act: deal on simplification measures, ban on nudifier apps'; plenary approval 16 June 2026",
+        "Commission draft guidelines on classification of high-risk AI systems (Article 6), 19 May 2026",
+        "Gibson Dunn, 'EU AI Act Omnibus Agreement — Postponed High-Risk Deadlines', 27 May 2026",
+        "Covington / Global Policy Watch, 'EU AI Act Update: Timeline Relief, Targeted Simplification, and New Prohibitions', 2 June 2026",
+        "White & Case, 'EU agrees Digital Omnibus deal to simplify AI rules', 14 May 2026",
+        "Council document ST 9247/2026 (final package); Bird & Bird consolidated AI Act + Digital Omnibus text",
+      ]},
+
+      { type: "heading", text: "Key Takeaways" },
+      { type: "takeaways", items: [
+        "The Digital Omnibus was approved by the European Parliament on 16 June 2026; Council adoption and OJ publication are pending",
+        "High-risk obligations and FRIA move to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)",
+        "2 August 2026 is now the Article 50 transparency date, not 'full application'",
+        "A new Article 5 ban on 'nudifier' and CSAM tools takes effect 2 December 2026",
+        "GPAI obligations and the prohibited practices already in force are unchanged",
+        "Until the amendment is published in the Official Journal, the original dates remain the binding law — keep preparing",
+      ]},
+    ],
+  },
+  {
     slug: "article-27-fria-requirements-explained",
     title: "Article 27 Deep Dive: FRIA Requirements Explained",
     subtitle: "What deployers of high-risk AI systems need to know about fundamental rights impact assessments",
@@ -9,16 +107,18 @@ export const BLOG_POSTS = [
     readTime: "12 min read",
     category: "Deep Dive",
     tags: ["FRIA", "Article 27", "High-Risk AI", "Deployer Obligations"],
-    metaDescription: "Who must do a FRIA under Article 27? Public bodies, public service providers, and credit/insurance deployers. Deadline: 2 Aug 2026. Full requirements and prep guide.",
+    metaDescription: "Who must do a FRIA under Article 27? Public bodies, public service providers, and credit/insurance deployers. Deadline deferred to 2 Dec 2027 under the Digital Omnibus (pending OJ). Full requirements and prep guide.",
     metaKeywords: "FRIA EU AI Act, Article 27 AI Act, fundamental rights impact assessment, FRIA template, EU AI Act deployer obligations",
     content: [
-      { type: "lead", text: "Article 27 of the EU AI Act introduces the fundamental rights impact assessment (FRIA) — a mandatory obligation for certain deployers of high-risk AI systems. With the 2 August 2026 deadline approaching, this article explains exactly who must comply, what a FRIA involves, and how to prepare." },
+      { type: "lead", text: "Article 27 of the EU AI Act introduces the fundamental rights impact assessment (FRIA) — a mandatory obligation for certain deployers of high-risk AI systems. This article explains exactly who must comply, what a FRIA involves, and how to prepare." },
+
+      { type: "callout", text: "\"Editor's update (19 June 2026): the Digital Omnibus on AI — approved by the European Parliament on 16 June 2026 — defers the high-risk obligations and the FRIA from 2 August 2026 to 2 December 2027 (Annex III). Until the amendment is published in the Official Journal, the original 2 August 2026 date remains the binding law. The dates below have been updated to the new schedule; see 'The Digital Omnibus: The New EU AI Act Deadlines Explained' for the full picture.\"" },
 
       { type: "diagram", title: "FRIA Decision Flow — Am I Required to Do a FRIA?", caption: "Simplified decision tree based on Article 27(1) and Annex III. Use the FRIA Screening Tool for a full interactive assessment.", steps: [
         { type: "start", text: "Is your system an AI system under Article 3(1)?" },
         { type: "diamond", text: "Does it fall under a high-risk use case in Annex III?", ref: "Article 6(2)" },
         { type: "diamond", text: "Are you a public body, public service provider, or credit/insurance deployer?", ref: "Article 27(1)" },
-        { type: "yes", text: "FRIA is required before putting the system into use", badge: "YES", ref: "Deadline: 2 August 2026" },
+        { type: "yes", text: "FRIA is required before putting the system into use", badge: "YES", ref: "Deadline: 2 December 2027 (pending OJ)" },
         { type: "no", text: "FRIA not legally required — but voluntary assessment recommended", badge: "NO", ref: "Best practice under Article 27" },
       ]},
 
@@ -49,7 +149,7 @@ export const BLOG_POSTS = [
       { type: "paragraph", text: "This means that if you have already conducted a DPIA for the same AI system, you can reuse relevant sections of that assessment. In practice, a comprehensive DPIA may cover 30-40% of what a FRIA requires, particularly around data processing, privacy risks, and data subject impacts." },
 
       { type: "heading", text: "Timeline and Deadline" },
-      { type: "paragraph", text: "The FRIA obligation applies from 2 August 2026 — the date when the full provisions on high-risk AI systems become applicable. Deployers who are already using high-risk AI systems on that date must conduct their FRIA as soon as possible and no later than the application deadline." },
+      { type: "paragraph", text: "The FRIA obligation tracks the applicability of the Annex III high-risk provisions. Under the Digital Omnibus that date moves from 2 August 2026 to 2 December 2027 (pending Official Journal publication of the amendment; until then 2 August 2026 remains the date in law). Deployers who are already using high-risk AI systems on the applicable date must conduct their FRIA as soon as possible and no later than the application deadline." },
       { type: "paragraph", text: "The EU AI Office is expected to publish a FRIA template questionnaire under Article 27(5), but this has not yet been released. Organisations should not wait for this template before starting their preparation — the substantive requirements in Article 27(1) are already clear enough to begin." },
 
       { type: "heading", text: "Market Surveillance Notification" },
@@ -72,7 +172,7 @@ export const BLOG_POSTS = [
         "The FRIA is mandatory for public bodies, public service providers, and credit/insurance deployers of high-risk AI",
         "It must be conducted before the AI system is put into use",
         "Existing DPIAs can be reused under Article 27(4) to reduce effort",
-        "The August 2026 deadline is approaching — preparation should begin now",
+        "The FRIA deadline moves to 2 December 2027 under the Digital Omnibus (pending OJ publication) — preparation should continue now",
         "Market surveillance authorities must be notified of FRIA results",
         "The EU AI Office template is not yet published but the requirements are clear"
       ]},
@@ -188,8 +288,10 @@ export const BLOG_POSTS = [
     content: [
       { type: "lead", text: "Article 5 is the sharpest edge of the EU AI Act. It bans eight categories of AI practice outright — no risk mitigation, no conformity assessment, no exceptions. These prohibitions have been in force since 2 February 2025, making them the first provisions of the AI Act to apply. If your AI system falls into any of these categories, it must be discontinued immediately." },
 
+      { type: "callout", text: "\"Editor's update (19 June 2026): the Digital Omnibus on AI — approved by the European Parliament on 16 June 2026 — adds a new Article 5 prohibition on AI tools designed to generate non-consensual intimate imagery ('nudifier' apps) and child sexual abuse material, effective 2 December 2026 (pending Official Journal publication). The eight bans below remain in force; this will be the ninth.\"" },
+
       { type: "heading", text: "Why Article 5 Matters Now" },
-      { type: "paragraph", text: "While most of the EU AI Act phases in over time — high-risk obligations in August 2026, product safety rules in 2027 — the prohibited practices took effect on 2 February 2025. This means enforcement is already live. Any organisation deploying AI in the EU should have already audited its systems against these categories." },
+      { type: "paragraph", text: "While most of the EU AI Act phases in over time — transparency obligations in August 2026, and high-risk obligations deferred to December 2027 and August 2028 under the Digital Omnibus — the prohibited practices took effect on 2 February 2025. This means enforcement is already live. Any organisation deploying AI in the EU should have already audited its systems against these categories." },
       { type: "paragraph", text: "Penalties for violating Article 5 are the highest in the Act: up to EUR 35 million or 7% of global annual turnover, whichever is higher (Article 99(3)). For context, this exceeds GDPR's maximum fine framework." },
 
       { type: "heading", text: "The 8 Prohibited Practices" },
@@ -255,6 +357,8 @@ export const BLOG_POSTS = [
     content: [
       { type: "lead", text: "The classification of your AI system as 'high-risk' is the single most consequential determination under the EU AI Act. High-risk systems face the full weight of the Act's requirements — risk management, data governance, technical documentation, human oversight, accuracy, robustness, and cybersecurity. Getting this classification right is the foundation of EU AI Act compliance." },
 
+      { type: "callout", text: "\"Editor's update (19 June 2026): the Digital Omnibus on AI — approved by the European Parliament on 16 June 2026 — defers the high-risk obligations from 2 August 2026 to 2 December 2027 (Annex III) and 2 August 2028 (Annex I). The classification rules themselves are unchanged, but the Commission published draft Article 6 classification guidelines on 19 May 2026, and the 'safety component' concept is being narrowed. Until the amendment is published in the Official Journal the original dates remain the binding law. See 'The Digital Omnibus: The New EU AI Act Deadlines Explained' for detail.\"" },
+
       { type: "diagram", title: "High-Risk Classification — Two Pathways", caption: "Article 6 establishes two routes to high-risk classification. Both lead to the same compliance obligations.", steps: [
         { type: "start", text: "Is your AI system a safety component of, or itself, a product covered by EU harmonisation legislation listed in Annex I?" },
         { type: "yes", text: "High-risk via Article 6(1) — product safety pathway", badge: "PATH 1", ref: "Annex I legislation" },
@@ -265,7 +369,7 @@ export const BLOG_POSTS = [
       { type: "heading", text: "Pathway 1: Product Safety (Article 6(1) + Annex I)" },
       { type: "paragraph", text: "The first pathway catches AI systems that are safety components of products already regulated under EU harmonisation legislation. If the product requires a third-party conformity assessment under its sector-specific legislation, and the AI component is a safety-relevant element, the system is classified as high-risk." },
       { type: "paragraph", text: "Annex I lists the relevant EU legislation — including the Machinery Regulation, Medical Devices Regulation, Civil Aviation Regulation, and others covering toys, lifts, pressure equipment, radio equipment, and vehicles. If your AI system operates within any of these regulated product categories and has safety relevance, it is high-risk." },
-      { type: "paragraph", text: "The compliance deadline for Annex I product systems is 2 August 2027 — one year later than the general high-risk deadline." },
+      { type: "paragraph", text: "The compliance deadline for Annex I product systems is 2 August 2028 under the Digital Omnibus (deferred from 2 August 2027) — eight months later than the 2 December 2027 deadline for stand-alone Annex III high-risk systems. Both dates are pending Official Journal publication of the amendment." },
 
       { type: "heading", text: "Pathway 2: Use-Case Categories (Article 6(2) + Annex III)" },
       { type: "paragraph", text: "The second pathway is broader and catches most AI systems that practitioners are concerned about. Annex III lists eight categories of high-risk use cases:" },
@@ -314,7 +418,7 @@ export const BLOG_POSTS = [
         "Annex III covers 8 categories: biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, and justice",
         "Article 6(3) allows exemption for narrow procedural or preparatory AI tasks — but requires documentation and database registration",
         "High-risk classification triggers the full compliance framework: Articles 8-15 requirements plus operator obligations",
-        "The compliance deadline for Annex III systems is 2 August 2026; for Annex I product systems, 2 August 2027",
+        "Under the Digital Omnibus the compliance deadline for Annex III systems moves to 2 December 2027, and for Annex I product systems to 2 August 2028 (both pending OJ publication)",
       ]},
     ],
   },
@@ -387,7 +491,7 @@ export const BLOG_POSTS = [
   },
   {
     slug: "eu-ai-act-compliance-timeline-2024-2027",
-    title: "EU AI Act Compliance Timeline: Every Deadline from 2024 to 2027",
+    title: "EU AI Act Compliance Timeline: Every Deadline from 2024 to 2028",
     subtitle: "A complete breakdown of the phased application dates — what applies when, and what you should be doing right now",
     author: "Paul McCormack",
     authorRole: "AI Governance & Compliance",
@@ -395,17 +499,20 @@ export const BLOG_POSTS = [
     readTime: "9 min read",
     category: "Guide",
     tags: ["Timeline", "Compliance Deadlines", "Phased Application", "Article 113"],
-    metaDescription: "Every EU AI Act deadline from 2024–2027 in one guide. Prohibited practices and GPAI are already live. High-risk obligations hit Aug 2026. Phase-by-phase breakdown.",
-    metaKeywords: "EU AI Act timeline, AI Act compliance deadlines, when does EU AI Act apply, AI Act 2026 deadline, EU AI Act phased application",
+    metaDescription: "Every EU AI Act deadline from 2024–2028 in one guide. Prohibited practices and GPAI are live. Transparency hits Aug 2026; high-risk and FRIA deferred to Dec 2027 and Aug 2028 under the Digital Omnibus. Phase-by-phase breakdown.",
+    metaKeywords: "EU AI Act timeline, AI Act compliance deadlines, when does EU AI Act apply, AI Act 2027 2028 deadline, Digital Omnibus, EU AI Act phased application",
     content: [
-      { type: "lead", text: "The EU AI Act doesn't switch on all at once. Regulation (EU) 2024/1689 entered into force on 1 August 2024, but its provisions apply in phases over three years. This article maps every key deadline, explains what becomes applicable at each stage, and helps you prioritise your compliance effort." },
+      { type: "lead", text: "The EU AI Act doesn't switch on all at once. Regulation (EU) 2024/1689 entered into force on 1 August 2024, but its provisions apply in phases. This article maps every key deadline, explains what becomes applicable at each stage, and helps you prioritise your compliance effort — including the major deferral of the high-risk obligations under the Digital Omnibus." },
 
-      { type: "diagram", title: "EU AI Act — Phased Application Timeline", caption: "Five key dates from entry into force to full application of product safety requirements.", steps: [
+      { type: "callout", text: "\"Editor's update (19 June 2026): the Digital Omnibus on AI — approved by the European Parliament on 16 June 2026 — defers the high-risk obligations and FRIA from 2 August 2026 to 2 December 2027 (Annex III) and 2 August 2028 (Annex I), and adds a new Article 5 ban on 'nudifier'/CSAM tools from 2 December 2026. Until the amendment is published in the Official Journal, the original dates remain the binding law. This guide reflects the post-Omnibus timeline; see our dedicated guide, 'The Digital Omnibus: The New EU AI Act Deadlines Explained', for the full picture.\"" },
+
+      { type: "diagram", title: "EU AI Act — Phased Application Timeline (post-Digital Omnibus)", caption: "From entry into force to full application of product safety requirements. High-risk dates are pending Official Journal publication of the Digital Omnibus.", steps: [
         { type: "start", text: "1 August 2024 — Entry into force" },
         { type: "yes", text: "2 February 2025 — Prohibited practices (Art. 5) and AI literacy (Art. 4)", badge: "LIVE", ref: "Already in effect" },
         { type: "yes", text: "2 August 2025 — GPAI (Arts. 51-55), governance (Arts. 64-70), notified bodies", badge: "LIVE", ref: "Already in effect" },
-        { type: "diamond", text: "2 August 2026 — Full application: high-risk AI systems (Arts. 6-49), FRIA (Art. 27), all remaining provisions", ref: "Upcoming" },
-        { type: "no", text: "2 August 2027 — Annex I product safety legislation alignment", badge: "2027", ref: "Article 6(1) systems" },
+        { type: "diamond", text: "2 August 2026 — Transparency obligations (Art. 50): disclose AI; mark synthetic content", ref: "Upcoming" },
+        { type: "diamond", text: "2 December 2027 — Annex III high-risk obligations and FRIA (Art. 27)", ref: "Pending OJ — deferred from Aug 2026" },
+        { type: "no", text: "2 August 2028 — Annex I product-embedded high-risk (Art. 6(1))", badge: "2028", ref: "Pending OJ — deferred from Aug 2027" },
       ]},
 
       { type: "heading", text: "Phase 1: 2 February 2025 — Prohibited Practices and AI Literacy" },
@@ -423,41 +530,56 @@ export const BLOG_POSTS = [
         "Article 101: Fines for GPAI providers who violate their obligations",
       ]},
 
-      { type: "heading", text: "Phase 3: 2 August 2026 — Full Application (The Big Deadline)" },
-      { type: "paragraph", text: "This is the date that matters most for the majority of organisations. On 2 August 2026, all remaining provisions become applicable, including:" },
+      { type: "heading", text: "Phase 3: 2 August 2026 — Transparency Obligations (Article 50)" },
+      { type: "paragraph", text: "This date was originally billed as 'full application' for high-risk AI. Under the Digital Omnibus that is no longer correct: 2 August 2026 is now essentially the transparency date. The provisions that apply are Article 50 obligations:" },
+      { type: "list", items: [
+        "Article 50: providers must disclose when content is AI-generated and ensure synthetic output is machine-readable as artificially generated",
+        "Article 50: deployers must inform people when they interact with AI (e.g. chatbots) and label deepfakes and AI-generated text on matters of public interest",
+      ]},
+      { type: "paragraph", text: "The high-risk system obligations (Articles 8-15), the operator duties (Articles 16-27), conformity assessment, the FRIA under Article 27, and the broader enforcement framework do not apply on this date. The Digital Omnibus moves them to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)." },
+      { type: "callout", text: "\"Important: until the Digital Omnibus is published in the Official Journal, the original AI Act dates remain the binding law. The deferral is approved by the European Parliament but not yet legally in force — so continue preparing to the original schedule while planning to the new one.\"" },
+
+      { type: "heading", text: "Phase 4: 2 December 2026 — New Prohibition & Watermarking Grace Ends" },
+      { type: "paragraph", text: "The Digital Omnibus adds a new Article 5 prohibition, effective 2 December 2026, on AI systems designed to generate non-consensual intimate imagery ('nudifier' apps) and child sexual abuse material. The same date ends the Article 50(2) grace period: machine-readable marking of AI-generated content must be in place even for systems placed on the market before 2 August 2026." },
+
+      { type: "heading", text: "Phase 5: 2 August 2027 — Legacy GPAI & National Sandboxes" },
+      { type: "paragraph", text: "Two obligations land here. GPAI models placed on the market before 2 August 2025 must be brought into compliance by this date under Article 111 — this is unchanged by the Digital Omnibus. And each Member State must have at least one operational AI regulatory sandbox under Article 57 (moved here from the original 2 August 2026 deadline)." },
+
+      { type: "heading", text: "Phase 6: 2 December 2027 — High-Risk (Annex III) & FRIA" },
+      { type: "paragraph", text: "This is the date that now matters most for the majority of organisations using AI. Stand-alone high-risk systems listed in Annex III — recruitment, credit, insurance, education, essential services and more — must comply from 2 December 2027 (pending Official Journal publication). The obligations that apply include:" },
       { type: "list", items: [
         "Articles 6-7: High-risk AI classification rules (Annex III use-case pathway)",
         "Articles 8-15: All requirements for high-risk AI systems — risk management, data governance, documentation, logging, transparency, human oversight, accuracy, robustness, cybersecurity",
         "Articles 16-27: All operator obligations — providers, deployers, importers, distributors, and authorised representatives",
         "Article 27: Fundamental rights impact assessment (FRIA) for public bodies, public service providers, and credit/insurance deployers",
-        "Article 50: Transparency obligations for providers and deployers of certain AI systems (chatbots, deepfakes, emotion recognition)",
         "Articles 71-84: The full market surveillance framework, including post-market monitoring, incident reporting, and the EU database",
         "Articles 85-87: Rights provisions — right to complaint, right to explanation, whistleblower protection",
         "Article 99: Full penalty framework — up to EUR 35M or 7% turnover for prohibited practice violations, EUR 15M or 3% for other infringements",
       ]},
 
-      { type: "heading", text: "Phase 4: 2 August 2027 — Product Safety Alignment" },
-      { type: "paragraph", text: "The final phase applies to AI systems classified as high-risk under Article 6(1) — those that are safety components of products covered by EU harmonisation legislation listed in Annex I. These systems get an extra year to comply because their conformity assessment procedures need to be integrated with existing sector-specific processes." },
-      { type: "paragraph", text: "This affects AI in medical devices, machinery, vehicles, toys, lifts, radio equipment, civil aviation, and other regulated product categories. If your AI system is embedded in a physical product covered by Annex I legislation, your deadline is August 2027, not August 2026." },
+      { type: "heading", text: "Phase 7: 2 August 2028 — Product Safety Alignment (Annex I)" },
+      { type: "paragraph", text: "The final phase applies to AI systems classified as high-risk under Article 6(1) — those that are safety components of products covered by EU harmonisation legislation listed in Annex I. The Digital Omnibus defers this from the original 2 August 2027 to 2 August 2028 (pending Official Journal publication)." },
+      { type: "paragraph", text: "This affects AI in medical devices, machinery, vehicles, toys, lifts, radio equipment, civil aviation, and other regulated product categories. If your AI system is embedded in a physical product covered by Annex I legislation, your deadline is August 2028, not 2026." },
 
-      { type: "heading", text: "What You Should Be Doing Right Now (March 2026)" },
+      { type: "heading", text: "What You Should Be Doing Right Now (June 2026)" },
       { type: "numbered-action", items: [
-        { action: "Confirm Article 5 compliance", detail: "The prohibited practices have been in force for over a year. If you haven't audited your AI systems against the eight banned categories, do it immediately." },
-        { action: "Verify AI literacy measures", detail: "Article 4 is also live. Ensure your staff have received adequate training on AI literacy relevant to their roles." },
-        { action: "Classify your AI systems", detail: "With five months until the August 2026 deadline, you need to have classified every AI system as prohibited, high-risk, limited-risk, or minimal-risk. Use Article 6 and Annex III as your guide." },
-        { action: "Begin FRIA preparation", detail: "If you're a public body, public service provider, or credit/insurance deployer using high-risk AI, start your Article 27 FRIA preparation now. Don't wait for the official template." },
-        { action: "Engage your supply chain", detail: "If you're a deployer relying on a provider for high-risk AI systems, confirm that your provider is preparing for Article 16 obligations — documentation, conformity assessment, CE marking." },
-        { action: "Set up monitoring processes", detail: "Post-market monitoring (Article 72) and incident reporting (Article 73) need operational processes in place by August 2026." },
+        { action: "Confirm Article 5 compliance", detail: "The prohibited practices have been in force since February 2025. If you haven't audited your AI systems against the banned categories, do it immediately — and check exposure to the new 'nudifier'/CSAM ban arriving December 2026." },
+        { action: "Verify AI literacy measures", detail: "Article 4 is live. Ensure staff have adequate AI literacy training relevant to their roles (the Digital Omnibus softens but does not remove this duty)." },
+        { action: "Prepare for Article 50 transparency", detail: "Transparency is the next live deadline (2 August 2026). Build AI-interaction disclosures and synthetic-content marking into your products now." },
+        { action: "Keep classifying your AI systems", detail: "Use the deferral to mature your work: classify every AI system as prohibited, high-risk, limited-risk, or minimal-risk using Article 6 and Annex III." },
+        { action: "Continue FRIA preparation", detail: "If you're a public body, public service provider, or credit/insurance deployer using high-risk AI, keep your Article 27 FRIA preparation moving toward the new 2 December 2027 date — don't pause it." },
+        { action: "Engage your supply chain", detail: "If you're a deployer relying on a provider for high-risk AI, confirm that your provider is preparing for Article 16 obligations — documentation, conformity assessment, CE marking." },
+        { action: "Watch the Official Journal", detail: "When the Digital Omnibus is published, the deferred dates become law. Re-baseline your roadmap from 'pending' to 'confirmed' at that point." },
       ]},
 
       { type: "heading", text: "Key Takeaways" },
       { type: "takeaways", items: [
-        "The EU AI Act applies in four phases: February 2025, August 2025, August 2026, and August 2027",
-        "Prohibited practices (Article 5) and AI literacy (Article 4) are already in force since February 2025",
-        "GPAI obligations have applied since August 2025 — model providers must already comply",
-        "2 August 2026 is the critical deadline for high-risk AI systems, FRIA, transparency, and the full enforcement framework",
-        "Product safety AI systems (Annex I) have until August 2027",
-        "With five months to go, organisations should be deep into classification, FRIA preparation, and compliance planning",
+        "Prohibited practices (Article 5) and AI literacy (Article 4) are in force since February 2025; GPAI obligations since August 2025",
+        "2 August 2026 is now the Article 50 transparency date — not 'full application'",
+        "A new Article 5 ban on 'nudifier'/CSAM tools takes effect 2 December 2026",
+        "Under the Digital Omnibus, high-risk obligations and FRIA move to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)",
+        "These deferrals are pending Official Journal publication; until then the original dates remain the binding law",
+        "Don't pause — use the extra time to mature classification, transparency and FRIA work",
       ]},
     ],
   },

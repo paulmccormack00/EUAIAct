@@ -6,34 +6,18 @@ import useFocusTrap from "../hooks/useFocusTrap.js";
 
 const CHAT_BOUNCE_STYLE = `@keyframes chatBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
 .chat-panel-header { padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top, 16px)); }
-.chat-panel-footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }
-.chat-panel { height: 100vh; height: 100dvh; }`;
+.chat-panel-footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }`;
 
 export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalClick, currentArticle }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(() => "s_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36));
-  const [panelHeight, setPanelHeight] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const trapRef = useFocusTrap(isOpen);
   const readerRef = useRef(null);
   const controllerRef = useRef(null);
-
-  // Adjust panel height when iOS keyboard opens/closes
-  useEffect(() => {
-    if (!isOpen) { setPanelHeight(null); return; }
-    const vv = window.visualViewport;
-    if (!vv) return;
-    const onResize = () => setPanelHeight(vv.height);
-    vv.addEventListener("resize", onResize);
-    vv.addEventListener("scroll", onResize);
-    return () => {
-      vv.removeEventListener("resize", onResize);
-      vv.removeEventListener("scroll", onResize);
-    };
-  }, [isOpen]);
 
   // Cancel any active stream when panel closes or unmounts
   useEffect(() => {
@@ -263,22 +247,24 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
   return (
     <>
       {/* Backdrop */}
-      {isOpen && <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.15)", zIndex: 40 }} />}
+      {isOpen && <div onClick={() => { inputRef.current?.blur(); onClose(); }} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.15)", zIndex: 40 }} />}
+
+      <style>{CHAT_BOUNCE_STYLE}</style>
 
       {/* Panel */}
       <div ref={trapRef} className="chat-panel" role="dialog" aria-modal="true" aria-label="AI Act Advisor chat"
         onKeyDown={e => { if (e.key === "Escape") onClose(); }}
         style={{
-        position: "fixed", top: 0, right: 0, width: 420, maxWidth: "100vw",
-        height: panelHeight ? `${panelHeight}px` : undefined,
+        position: "fixed", top: 0, right: 0, bottom: 0, width: 420, maxWidth: "100vw",
         background: COLORS.white, zIndex: 50, display: "flex", flexDirection: "column",
         boxShadow: SHADOWS.modal,
         transform: isOpen ? "translateX(0)" : "translateX(100%)",
         transition: "transform 0.3s ease",
-        overflow: "hidden",
+        overflow: "hidden", overscrollBehavior: "contain",
       }}>
         {/* Header */}
-        <div className="chat-panel-header" style={{ flexShrink: 0, borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className="chat-panel-header" style={{ flexShrink: 0, borderBottom: `1px solid ${COLORS.borderDefault}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}
+          onTouchStart={() => inputRef.current?.blur()}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: RADIUS.lg, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryHover})`, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16 }} aria-hidden="true">⚖</div>
             <div>
@@ -286,8 +272,8 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
               <p style={{ margin: 0, fontSize: 11, color: COLORS.warmText, fontFamily: SANS }}>Powered by Gemini</p>
             </div>
           </div>
-          <button onClick={onClose} aria-label="Close chat panel" style={{ padding: 6, background: "none", border: "none", cursor: "pointer", color: "#4a5f74" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          <button onClick={() => { inputRef.current?.blur(); onClose(); }} aria-label="Close chat panel" style={{ padding: 12, margin: -6, background: "none", border: "none", cursor: "pointer", color: "#4a5f74" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         </div>
 
@@ -297,7 +283,8 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
         </div>
 
         {/* Messages */}
-        <div aria-live="polite" aria-relevant="additions" style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
+        <div aria-live="polite" aria-relevant="additions" onTouchStart={() => inputRef.current?.blur()}
+          style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16, overscrollBehavior: "contain" }}>
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
               <div style={{ width: 48, height: 48, borderRadius: RADIUS.xl, background: COLORS.primaryLight, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>💬</div>
@@ -341,7 +328,6 @@ export default function ChatPanel({ isOpen, onClose, onArticleClick, onRecitalCl
                 ))}
               </div>
               <span style={{ fontSize: 12, color: "#4a5f74", fontFamily: SANS }}>Analysing…</span>
-              <style>{CHAT_BOUNCE_STYLE}</style>
             </div>
           )}
           <div ref={messagesEndRef} />

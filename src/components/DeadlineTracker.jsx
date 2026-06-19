@@ -25,6 +25,7 @@ const DEADLINES = [
       "Ban on social scoring, manipulative AI, emotion recognition in workplaces/schools, real-time biometric identification (with exceptions)",
       "Organisations must ensure staff have sufficient AI literacy",
       "6-month transition from entry into force",
+      "Pending Digital Omnibus change: the AI literacy duty (Art 4) is being softened from \"ensure\" to \"take measures to support the development of\" literacy; a new Art 5 prohibition on \"nudifier\"/CSAM tools is being added (see 2 December 2026)",
     ],
   },
   {
@@ -41,22 +42,23 @@ const DEADLINES = [
       "Notified bodies perform third-party conformity assessments for certain high-risk AI systems",
       "Penalties: up to EUR 35M / 7% turnover for prohibited practices; EUR 15M / 3% for other violations",
       "12-month transition from entry into force",
+      "Pending Digital Omnibus change: the AI Office gains exclusive competence over AI built on a provider's own GPAI model and over AI in VLOPs/VLOSEs, plus inspection, binding-commitment and fining powers",
     ],
   },
   {
     date: "2 February 2026",
     isoDate: "2026-02-02",
     title: "Commission Guidelines & Templates",
-    description: "The European Commission was required to publish guidelines on high-risk AI classification rules (Article 6) and the post-market monitoring plan template (Article 72). Both deadlines were missed — final adoption expected March/April 2026.",
+    description: "The European Commission was required to publish guidelines on high-risk AI classification rules (Article 6) and the post-market monitoring plan template (Article 72). The Article 6 guidelines were published in draft on 19 May 2026; the Article 72 template remains outstanding.",
     articles: ["Article 6", "Article 72"],
     details: [
-      "Commission guidelines on Article 6 classification rules for high-risk AI — deadline missed, draft expected late Feb 2026, final adoption Mar/Apr 2026",
-      "Post-market monitoring plan template (Article 72 implementing act) — not yet published as of deadline",
-      "These support providers preparing for the August 2026 full application deadline",
+      "Draft Commission guidelines on Article 6 classification rules for high-risk AI published 19 May 2026 — public consultation open until 23 July 2026",
+      "Post-market monitoring plan template (Article 72 implementing act) — still not published",
+      "These support providers preparing for the high-risk obligations (now deferred to 2 December 2027 / 2 August 2028 under the Digital Omnibus)",
       "18-month transition from entry into force",
     ],
     links: [
-      { label: "IAPP: Commission misses deadline", url: "https://iapp.org/news/a/european-commission-misses-deadline-for-ai-act-guidance-on-high-risk-systems" },
+      { label: "Draft Commission guidelines — Article 6 high-risk classification (19 May 2026)", url: "https://digital-strategy.ec.europa.eu/en/library/draft-commission-guidelines-classification-high-risk-ai-systems" },
       { label: "Commission AI Act guidance page", url: "https://digital-strategy.ec.europa.eu/en/news/supporting-implementation-ai-act-clear-guidelines" },
       { label: "Article 6 — AI Act Service Desk", url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-6" },
       { label: "Article 72 — AI Act Service Desk", url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-72" },
@@ -65,46 +67,73 @@ const DEADLINES = [
   {
     date: "2 August 2026",
     isoDate: "2026-08-02",
-    title: "Full Application — High-Risk AI Systems",
-    description: "All remaining provisions apply, including high-risk AI system obligations, FRIA requirements, conformity assessments, and the full deployer/provider obligation framework.",
-    articles: ["Article 6-7", "Articles 8-15", "Article 26-27", "Article 43", "Article 50"],
+    title: "Transparency Obligations (Article 50)",
+    description: "Article 50 transparency duties apply: people must be told when they are interacting with an AI system, and AI-generated or manipulated content (deepfakes, synthetic audio/images/text) must be marked as such. Under the Digital Omnibus, high-risk obligations and FRIA are NO LONGER due on this date — they are deferred to December 2027 / August 2028.",
+    articles: ["Article 50"],
     details: [
-      "High-risk AI systems must comply with Articles 8-15 (data governance, documentation, transparency, human oversight, accuracy, robustness, cybersecurity)",
-      "Deployers of high-risk AI must conduct FRIAs under Article 27",
-      "Provider obligations: quality management, conformity assessment, CE marking, registration",
-      "Deployer obligations: human oversight, monitoring, incident reporting",
-      "Transparency obligations for limited-risk AI (deepfakes, chatbots, emotion recognition)",
-      "At least one AI regulatory sandbox per Member State must be operational",
+      "Providers must disclose when content is AI-generated and ensure synthetic output is machine-readable as artificially generated",
+      "Deployers must inform people when they interact with AI (e.g. chatbots) and label deepfakes and AI-generated text on matters of public interest",
+      "Important: this was previously billed as \"full application / high-risk\" — that is no longer correct. High-risk system obligations, conformity assessment and FRIA move to 2 December 2027 (Annex III) and 2 August 2028 (Annex I)",
       "24-month transition from entry into force",
+      "Note: until the Digital Omnibus is published in the Official Journal, the original AI Act dates remain the binding law — see status banner above",
     ],
     highlight: true,
   },
   {
+    date: "2 December 2026",
+    isoDate: "2026-12-02",
+    title: "New Prohibition & Watermarking Grace Ends",
+    description: "A new Article 5 prohibition takes effect targeting AI that generates non-consensual intimate imagery (\"nudifier\" apps) and child sexual abuse material. The Article 50(2) watermarking grace period also ends for systems placed on the market before 2 August 2026.",
+    articles: ["Article 5", "Article 50"],
+    details: [
+      "New Art 5 ban on AI tools designed to produce non-consensual intimate images and CSAM",
+      "Art 50(2) machine-readable marking of AI-generated content must be in place even for systems that were already on the market before 2 August 2026",
+      "Introduced by the Digital Omnibus (agreed 7 May 2026, Parliament-approved 16 June 2026)",
+    ],
+    pending: true,
+  },
+  {
     date: "2 August 2027",
     isoDate: "2027-08-02",
-    title: "Annex I Products — EU Safety Legislation",
-    description: "High-risk AI systems embedded in products covered by EU harmonised safety legislation (Annex I) must comply. GPAI models placed on the market before 2 August 2025 must also comply by this date.",
-    articles: ["Article 6(1)", "Annex I"],
+    title: "Legacy GPAI Compliance & National Sandboxes",
+    description: "GPAI models placed on the market before 2 August 2025 must be brought into compliance (Article 111). Member States must have at least one AI regulatory sandbox operational by this date.",
+    articles: ["Article 111", "Article 57"],
     details: [
-      "Covers AI in: machinery, toys, lifts, medical devices, civil aviation, motor vehicles, marine equipment, rail systems",
-      "These AI systems follow the Article 6(1) route — classified as high-risk through existing product safety frameworks",
-      "GPAI models placed on market before 2 August 2025 must have completed compliance steps",
+      "GPAI models placed on market before 2 August 2025 must have completed compliance steps (Art 111) — unchanged by the Digital Omnibus",
+      "Each Member State must establish at least one operational AI regulatory sandbox (Art 57) — moved here from 2 August 2026",
+      "Annex I product-embedded high-risk obligations are NOT due here — they move to 2 August 2028",
       "36-month transition from entry into force",
     ],
   },
   {
-    date: "31 December 2027",
-    isoDate: "2027-12-31",
-    title: "Digital Omnibus Proposal — Potential Long-Stop",
-    tentative: true,
-    description: "The European Commission's Digital Omnibus proposal may extend certain deadlines. This is under legislative negotiation and not yet confirmed.",
-    articles: ["Digital Omnibus Regulation (proposed)"],
+    date: "2 December 2027",
+    isoDate: "2027-12-02",
+    title: "High-Risk (Annex III) & FRIA",
+    description: "Stand-alone (Annex III) high-risk AI obligations apply, including the full provider and deployer framework, conformity assessment, and Fundamental Rights Impact Assessments (FRIA) under Article 27. Deferred 16 months from the original 2 August 2026 date by the Digital Omnibus.",
+    articles: ["Article 6", "Articles 8-15", "Article 26", "Article 27", "Article 43"],
     details: [
-      "Proposed simplification of obligations for SMEs",
-      "May extend the high-risk application deadline for certain categories",
-      "Currently in trilogue negotiations — outcome uncertain",
-      "Organisations should prepare for the August 2026 deadline regardless",
+      "High-risk AI systems must comply with Articles 8-15 (risk management, data governance, documentation, transparency, human oversight, accuracy, robustness, cybersecurity)",
+      "Deployers of Annex III high-risk AI must conduct FRIAs under Article 27 (public bodies, public-service providers, and credit/insurance deployers)",
+      "Provider obligations: quality management, conformity assessment, CE marking, EU database registration",
+      "Deployer obligations under Article 26: human oversight, monitoring, logging, incident reporting",
+      "New fixed date set by the Digital Omnibus — replaces the original 2 August 2026 high-risk deadline",
     ],
+    pending: true,
+    friaPrimary: true,
+  },
+  {
+    date: "2 August 2028",
+    isoDate: "2028-08-02",
+    title: "High-Risk Embedded in Products (Annex I)",
+    description: "High-risk AI systems embedded in products covered by EU harmonised safety legislation (Annex I) must comply. Deferred 12 months from the original 2 August 2027 date by the Digital Omnibus.",
+    articles: ["Article 6(1)", "Annex I"],
+    details: [
+      "Covers AI in: machinery, toys, lifts, medical devices, civil aviation, motor vehicles, marine equipment, rail systems",
+      "These AI systems follow the Article 6(1) route — classified as high-risk through existing product safety frameworks",
+      "Under the Digital Omnibus, the Machinery Regulation moves to Annex I Section B (sectoral safety rules take precedence over dual compliance)",
+      "New fixed date set by the Digital Omnibus — replaces the original 2 August 2027 Annex I deadline",
+    ],
+    pending: true,
   },
 ];
 
@@ -155,10 +184,12 @@ function getStatusLabel(status) {
   }
 }
 
-export default function DeadlineTracker({ onArticleClick }) {
+export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
   const [expandedIdx, setExpandedIdx] = useState(null);
 
-  const friaDeadline = DEADLINES.find(d => d.highlight);
+  const transparencyDeadline = DEADLINES.find(d => d.highlight);
+  const daysToTransparency = transparencyDeadline ? daysUntil(transparencyDeadline.isoDate) : 0;
+  const friaDeadline = DEADLINES.find(d => d.friaPrimary);
   const daysToFria = friaDeadline ? daysUntil(friaDeadline.isoDate) : 0;
 
   // FAQPage structured data for timeline questions
@@ -170,12 +201,12 @@ export default function DeadlineTracker({ onArticleClick }) {
         {
           "@type": "Question",
           "name": "When does the EU AI Act fully apply?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The EU AI Act fully applies on 2 August 2026 for high-risk AI systems, FRIA requirements, and most remaining provisions. Prohibited AI practices have been in force since February 2025, and GPAI model obligations since August 2025." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Application is phased. Prohibited practices have applied since February 2025 and GPAI model obligations since August 2025. Article 50 transparency obligations apply from 2 August 2026. Under the Digital Omnibus amendment (agreed 7 May 2026, European Parliament-approved 16 June 2026), high-risk obligations are deferred: stand-alone Annex III systems and FRIA to 2 December 2027, and product-embedded Annex I systems to 2 August 2028. These deferrals take legal effect once the amendment is published in the Official Journal; until then the original dates remain the binding law." }
         },
         {
           "@type": "Question",
           "name": "What is the FRIA deadline under the EU AI Act?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The Fundamental Rights Impact Assessment (FRIA) deadline is 2 August 2026. It applies to public bodies, public service providers, and credit or insurance deployers using high-risk AI systems listed in Annex III." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Under the Digital Omnibus amendment the Fundamental Rights Impact Assessment (FRIA) deadline moves to 2 December 2027, tracking the deferred Annex III high-risk obligations. It applies to public bodies, public service providers, and credit or insurance deployers using high-risk AI systems listed in Annex III. The change takes legal effect on publication of the amendment in the Official Journal; until then the original 2 August 2026 date remains in law." }
         },
         {
           "@type": "Question",
@@ -195,7 +226,7 @@ export default function DeadlineTracker({ onArticleClick }) {
         {
           "@type": "Question",
           "name": "Will the Digital Omnibus change EU AI Act deadlines?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The European Commission's Digital Omnibus proposal is under legislative negotiation and may simplify certain obligations for SMEs or adjust timelines. However, nothing is confirmed. Organisations should prepare for the existing August 2026 deadline regardless of the outcome." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Digital Omnibus on AI was provisionally agreed on 7 May 2026 and approved by the European Parliament in plenary on 16 June 2026 (423 in favour). It defers the high-risk obligations to 2 December 2027 (Annex III, including FRIA) and 2 August 2028 (Annex I), adds a new Article 5 ban on nudifier and CSAM tools, and simplifies several obligations. Formal Council adoption and publication in the Official Journal are still pending; until publication the original AI Act dates remain the binding law, so organisations should continue preparing." }
         }
       ]
     };
@@ -213,33 +244,74 @@ export default function DeadlineTracker({ onArticleClick }) {
   return (
     <div style={{ maxWidth: 820, margin: "0 auto", padding: "40px 0" }}>
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 20, fontSize: 12, color: "#991b1b", fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
+      <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 16px", background: "#f0f4ff", border: "1px solid #c7d6ec", borderRadius: 20, fontSize: 12, color: "#1e3a5f", fontWeight: 600, marginBottom: 16, fontFamily: SANS }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {daysToFria} days until full application
+          {daysToTransparency > 0 ? `${daysToTransparency} days until transparency obligations apply` : "Transparency obligations now in force"}
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 400, color: "#1a1a1a", margin: "0 0 8px", fontFamily: SERIF }}>
           EU AI Act Compliance Timeline
         </h1>
         <p style={{ fontSize: 15, color: "#4d5d71", lineHeight: 1.6, maxWidth: 600, margin: "0 auto", fontFamily: SANS }}>
-          Every deadline you need to know — from prohibited practices to full application. Track milestones, understand obligations, and prepare your organisation.
+          Every deadline you need to know — from prohibited practices to the high-risk framework. Track milestones, understand obligations, and prepare your organisation.
         </p>
       </div>
 
-      {/* Countdown hero */}
+      {/* Digital Omnibus status banner */}
       <div style={{
-        background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 50%, ${COLORS.primary} 100%)`,
-        borderRadius: RADIUS.round, padding: "32px 40px", marginBottom: 36, color: "white",
-        display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap",
+        marginBottom: 28, padding: "18px 22px", background: "#fffbeb", borderRadius: 12,
+        border: "1px solid #fde68a", borderLeft: "4px solid #d97706",
       }}>
-        <div>
-          <p style={{ fontSize: 13, opacity: 0.7, margin: "0 0 4px", fontFamily: SANS, textTransform: "uppercase", letterSpacing: "0.1em" }}>FRIA Deadline</p>
-          <p style={{ fontSize: 36, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF }}>2 August 2026</p>
-          <p style={{ fontSize: 14, opacity: 0.8, margin: 0, fontFamily: SANS }}>Article 27 — Fundamental Rights Impact Assessment</p>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#92400e", fontFamily: SANS }}>High-risk deadlines deferred — amendment agreed, not yet published</span>
         </div>
-        <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: 48, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF, color: COLORS.warmGold }}>{daysToFria}</p>
-          <p style={{ fontSize: 13, opacity: 0.7, margin: 0, fontFamily: SANS }}>days remaining</p>
+        <p style={{ fontSize: 13, color: "#92400e", lineHeight: 1.6, margin: "0 0 8px", fontFamily: SANS }}>
+          The <strong>Digital Omnibus on AI</strong> was provisionally agreed on <strong>7 May 2026</strong> and approved by the European Parliament in plenary on <strong>16 June 2026</strong> (423 / 57 / 174). It moves the high-risk obligations to <strong>2 December 2027</strong> (Annex III, including FRIA) and <strong>2 August 2028</strong> (Annex I), and adds a new Article 5 ban on “nudifier”/CSAM tools.
+        </p>
+        <p style={{ fontSize: 13, color: "#92400e", lineHeight: 1.6, margin: "0 0 10px", fontFamily: SANS }}>
+          Formal Council adoption and publication in the <strong>Official Journal</strong> are still pending. <strong>Until publication, the original AI Act dates remain the binding law</strong> — so keep preparing. Deadlines marked “Pending OJ” below take legal effect on publication.
+        </p>
+        <button
+          onClick={() => onBlogClick?.("digital-omnibus-new-eu-ai-act-deadlines")}
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 6, padding: 0, background: "none",
+            border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 13, fontWeight: 600,
+            color: "#92400e", textDecoration: "underline",
+          }}
+        >
+          Read the full analysis: The Digital Omnibus and the new deadlines →
+        </button>
+      </div>
+
+      {/* Countdown hero — two figures */}
+      <div style={{
+        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 36,
+      }}>
+        <div style={{
+          background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryHover} 50%, ${COLORS.primary} 100%)`,
+          borderRadius: RADIUS.round, padding: "26px 28px", color: "white",
+        }}>
+          <p style={{ fontSize: 12, opacity: 0.7, margin: "0 0 4px", fontFamily: SANS, textTransform: "uppercase", letterSpacing: "0.1em" }}>Transparency Obligations</p>
+          <p style={{ fontSize: 28, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF }}>2 August 2026</p>
+          <p style={{ fontSize: 13, opacity: 0.85, margin: "0 0 10px", fontFamily: SANS }}>Article 50 — disclose AI; mark synthetic content</p>
+          <p style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
+            {daysToTransparency > 0 ? daysToTransparency : "—"} <span style={{ fontSize: 13, opacity: 0.7, fontFamily: SANS, color: "white" }}>{daysToTransparency > 0 ? "days remaining" : "in force"}</span>
+          </p>
+        </div>
+        <div style={{
+          background: COLORS.white, border: `1px solid ${COLORS.borderDefault}`, borderLeft: `4px solid ${COLORS.primary}`,
+          borderRadius: RADIUS.round, padding: "26px 28px", color: COLORS.primary,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <p style={{ fontSize: 12, opacity: 0.7, margin: 0, fontFamily: SANS, textTransform: "uppercase", letterSpacing: "0.1em" }}>High-Risk &amp; FRIA</p>
+            <span style={{ fontSize: 10, fontWeight: 700, padding: "1px 8px", borderRadius: 20, background: "#faf5ff", color: "#5b21b6", border: "1px solid #e9d5ff" }}>Pending OJ</span>
+          </div>
+          <p style={{ fontSize: 28, fontWeight: 400, margin: "0 0 4px", fontFamily: SERIF }}>2 December 2027</p>
+          <p style={{ fontSize: 13, opacity: 0.8, margin: "0 0 10px", fontFamily: SANS }}>Article 27 — Annex III high-risk &amp; FRIA</p>
+          <p style={{ fontSize: 36, fontWeight: 400, margin: 0, fontFamily: SERIF, color: COLORS.warmGold }}>
+            {daysToFria > 0 ? daysToFria : "—"} <span style={{ fontSize: 13, opacity: 0.7, fontFamily: SANS, color: COLORS.primary }}>{daysToFria > 0 ? "days remaining" : "in force"}</span>
+          </p>
         </div>
       </div>
 
@@ -295,6 +367,14 @@ export default function DeadlineTracker({ onArticleClick }) {
                         }}>
                           {getStatusLabel(status)}
                         </span>
+                        {deadline.pending && (
+                          <span style={{
+                            fontSize: 11, fontWeight: 600, padding: "2px 10px", borderRadius: 20,
+                            background: "#faf5ff", color: "#5b21b6", border: "1px solid #e9d5ff",
+                          }}>
+                            Pending OJ
+                          </span>
+                        )}
                         {!isPast && status !== "passed" && (
                           <span style={{ fontSize: 11, color: "#4a5f74" }}>
                             {days} days
@@ -391,11 +471,18 @@ export default function DeadlineTracker({ onArticleClick }) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
           <span style={{ fontSize: 13, fontWeight: 600, color: "#5b21b6", fontFamily: SANS }}>Digital Omnibus Watch</span>
         </div>
+        <p style={{ fontSize: 13, color: "#6b21a8", lineHeight: 1.6, margin: "0 0 8px", fontFamily: SANS }}>
+          The Digital Omnibus on AI was provisionally agreed on <strong>7 May 2026</strong>, confirmed by Coreper on 13 May 2026, cleared the IMCO and LIBE committees on 2 June 2026, and was approved by the European Parliament in plenary on <strong>16 June 2026</strong>. It defers the high-risk obligations (Annex III to 2 December 2027; Annex I to 2 August 2028), adds an Article 5 ban on “nudifier”/CSAM tools, softens the AI literacy duty, and expands the AI Office's competence and enforcement powers.
+        </p>
         <p style={{ fontSize: 13, color: "#6b21a8", lineHeight: 1.6, margin: 0, fontFamily: SANS }}>
-          The European Commission's Digital Omnibus Regulation proposal may modify certain deadlines and simplify obligations for SMEs.
-          This is currently in legislative negotiation. <strong>We recommend preparing for the existing August 2026 deadline</strong> regardless of the outcome — deadline uncertainty is not a reason to delay.
+          Formal Council adoption and publication in the Official Journal are still pending. <strong>Until publication, the original AI Act dates remain the binding law</strong> — deadline relief is not a reason to delay preparation.
         </p>
       </div>
+
+      {/* Last reviewed stamp */}
+      <p style={{ marginTop: 20, textAlign: "center", fontSize: 12, color: "#94a3b8", fontFamily: SANS }}>
+        Last reviewed: 19 June 2026 · Reflects the Digital Omnibus as approved by the European Parliament on 16 June 2026 (publication in the Official Journal pending).
+      </p>
     </div>
   );
 }

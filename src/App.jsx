@@ -84,6 +84,25 @@ export default function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const mainRef = useRef(null);
   const menuBtnRef = useRef(null);
+  const savedScrollRef = useRef(0);
+
+  // Lock ALL scrolling outside chat panel when open
+  useEffect(() => {
+    if (!chatOpen) return;
+    const el = mainRef.current;
+    if (el) savedScrollRef.current = el.scrollTop;
+
+    // Block touch scrolling on anything outside the chat panel
+    const prevent = (e) => {
+      if (!e.target.closest('.chat-panel')) e.preventDefault();
+    };
+    document.addEventListener('touchmove', prevent, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', prevent);
+      if (el) el.scrollTop = savedScrollRef.current;
+    };
+  }, [chatOpen]);
 
   // Debounce search query by 200ms
   useEffect(() => {
@@ -267,10 +286,8 @@ export default function App() {
       description = "Answer 7 questions to find out if you need a Fundamental Rights Impact Assessment under Article 27. Free tool — takes 2 minutes. Results and next steps included.";
       path = "/fria";
     } else if (view === "timeline") {
-      const fullEnforcement = new Date("2026-08-02");
-      const daysLeft = Math.ceil((fullEnforcement - new Date()) / 86400000);
-      title = daysLeft > 0 ? `EU AI Act Deadlines 2025–2027: ${daysLeft} Days to Full Enforcement` : "EU AI Act Deadlines 2025–2027: Full Enforcement Now Live";
-      description = "7 critical deadlines mapped out. Prohibited practices and AI literacy: live. GPAI obligations: live. High-risk AI and FRIA: 2 Aug 2026. Know exactly what applies when.";
+      title = "EU AI Act Deadlines 2024–2028: What Applies When";
+      description = "Every EU AI Act deadline mapped. Prohibited practices and GPAI: live. Transparency (Art 50): 2 Aug 2026. High-risk and FRIA deferred to 2 Dec 2027 / 2 Aug 2028 under the Digital Omnibus (pending OJ publication).";
       path = "/timeline";
     } else if (view === "role-identifier") {
       title = "What's My Role Under the EU AI Act? Free Identifier Tool";
@@ -864,7 +881,7 @@ export default function App() {
           ) : view === "fria" ? (
             <FRIAScreeningTool onArticleClick={handleArticleClick} />
           ) : view === "timeline" ? (
-            <DeadlineTracker onArticleClick={handleArticleClick} />
+            <DeadlineTracker onArticleClick={handleArticleClick} onBlogClick={handleBlogPostClick} />
           ) : view === "role-identifier" ? (
             <RoleIdentifier onArticleClick={handleArticleClick} onApplyRole={handleApplyRole} onFRIAClick={handleFRIAClick} />
           ) : view === "blog" ? (
