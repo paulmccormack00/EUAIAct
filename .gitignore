@@ -34,3 +34,6 @@ ios/App/Pods/
 ios/App/build/
 ios/App/DerivedData/
 .env*.local
+
+# Google Search Console data exports (analytics dumps, not source)
+Google/
