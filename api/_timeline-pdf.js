@@ -35,9 +35,9 @@ const LINE = "#e6e2db";
 
 const styles = StyleSheet.create({
   page: { paddingTop: 54, paddingBottom: 56, paddingHorizontal: 50, fontFamily: "Helvetica", fontSize: 9.5, color: BODY, lineHeight: 1.5 },
-  eyebrow: { fontFamily: "Helvetica-Bold", fontSize: 8, letterSpacing: 2, color: GOLD, textTransform: "uppercase" },
-  title: { fontFamily: "Spectral", fontWeight: 600, fontSize: 26, color: INK, marginTop: 6 },
-  subtitle: { fontSize: 10.5, color: MUTED, marginTop: 6, maxWidth: 420, lineHeight: 1.5 },
+  eyebrow: { fontFamily: "Helvetica-Bold", fontSize: 8, letterSpacing: 2, color: GOLD, textTransform: "uppercase", marginBottom: 10 },
+  title: { fontFamily: "Spectral", fontWeight: 600, fontSize: 24, color: INK, lineHeight: 1.2, marginBottom: 10 },
+  subtitle: { fontSize: 10.5, color: MUTED, marginTop: 0, maxWidth: 430, lineHeight: 1.45 },
   meta: { fontSize: 8.5, color: MUTED, marginTop: 8 },
   rule: { borderBottomWidth: 1, borderBottomColor: LINE, marginVertical: 16 },
 
