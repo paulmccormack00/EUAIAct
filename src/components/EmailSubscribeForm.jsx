@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SANS, SERIF, COLORS, RADIUS, API_BASE } from "../constants.js";
+import { track } from "../lib/metrics.js";
 
 export default function EmailSubscribeForm({
   heading,
@@ -34,6 +35,7 @@ export default function EmailSubscribeForm({
       const data = await res.json();
       if (res.ok) {
         setStatus("success");
+        track("signup", { source: "deadline_alerts" });
         onSuccess?.();
       } else if (res.status === 409 || data.error === "duplicate") {
         setStatus("duplicate");

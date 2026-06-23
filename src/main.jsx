@@ -3,6 +3,14 @@ import { createRoot, hydrateRoot } from 'react-dom/client'
 import { Analytics } from '@vercel/analytics/react'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import { initMetrics } from './lib/metrics.js'
+
+// Cross-app metrics beacon (no-ops until VITE_METRICS_URL/KEY are set in Vercel).
+initMetrics({
+  url: import.meta.env.VITE_METRICS_URL,
+  key: import.meta.env.VITE_METRICS_KEY,
+  app: 'euai',
+})
 
 const container = document.getElementById('root')
 const app = (

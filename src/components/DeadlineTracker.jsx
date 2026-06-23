@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { SANS, SERIF, COLORS, RADIUS, SHADOWS, API_BASE } from "../constants.js";
 import { DEADLINES } from "../data/timeline.js";
+import { track } from "../lib/metrics.js";
 import EmailSubscribeForm from "./EmailSubscribeForm.jsx";
 
 // Compute status dynamically based on current date
@@ -81,6 +82,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
         throw new Error(data.error || "Something went wrong. Please try again.");
       }
       setCopyStatus("sent");
+      track("signup", { source: "timeline_pdf", role: copyRole || undefined });
     } catch (err) {
       setCopyStatus("error"); setCopyError(err.message || "Something went wrong. Please try again.");
     }
@@ -227,6 +229,7 @@ export default function DeadlineTracker({ onArticleClick, onBlogClick }) {
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <a
               href="/api/timeline-pdf"
+              onClick={() => track("download", { kind: "timeline_pdf" })}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 18px", minHeight: 44,
                 background: COLORS.primary, color: COLORS.white, borderRadius: RADIUS.md,
